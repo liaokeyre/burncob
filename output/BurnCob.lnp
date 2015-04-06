@@ -1,0 +1,8 @@
+".\output\main.obj",
+".\output\24c02.obj",
+".\output\oled.obj",
+".\output\Uart.obj",
+".\output\_595.obj",
+".\output\cd4052.obj" 
+TO ".\output\BurnCob" 
+PRINT(".\list\BurnCob.m51") RAMSIZE(256) 
