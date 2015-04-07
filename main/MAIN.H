@@ -14,29 +14,37 @@
 #define ENABLE595()   	EN_595 = 0
 #define DSENABLE595()   EN_595 = 1
 /*******************************************************///74HC595 IO DEFINE
-#define A1_4052          P11		   
-#define B1_4052          P10
+#define A1_4052          P01		   
+#define B1_4052          P00
 #define A2_4052          P46		   
 #define B2_4052          P45		   
 /*******************************************************///CD4052 IO DEFINE
-
-//#define MF522_NSS   P12 //RC500CS
-//#define MF522_SCK   P15	//RC500CLK
-//#define MF522_SI    P14	//RC500SI
-//#define MF522_SO    P13	//RC500SO
-//#define MF522_RST   P04	//RC500RST
-//#define MF522_EA    P03	//RC500EA
-//
-///*******************************************************///RC522 SPI IO DEFINE
-#define OLED_CS   P37  //片选
-#define OLED_RST  P36  //复位
-#define OLED_DC   P34  //数据/命令控制
-#define OLED_SCL  P33  //时钟 D0（SCLK)
-#define OLED_SDIN P32  //D1（MOSI） 数据
+#define BUS_1            P34
+#define BUS_2            P35
+#define BUS_3            P36
+#define BUS_4            P37
+#define BUS_5            P40
+#define BUS_6            P47
+#define START            P33
+/*******************************************************/// TEST MACHINE BUS
+#define IR_IN            P32	//检测遥控码
+#define VMOS_EN          P25	//控制割码电源
+#define K1_OUT           P55	//控制模拟测试芯片按键1被按下
+#define EN_VSOC          P54    //控制给测试芯片供电
+/*******************************************************/// TESTER CONTROL
+#define KEY1             P41	//按键1
+#define KEY2             P42	//按键2
+#define KEY3             P43	//按键3
+#define KEY4             P44	//按键4
+/*******************************************************/// IO KEY DEFINE
+#define OLED_CS  		 P37    //片选
+#define OLED_RST 		 P36    //复位
+#define OLED_DC   	  	 P34    //数据/命令控制
+#define OLED_SCL  		 P33    //时钟 D0（SCLK)
+#define OLED_SDIN 		 P32    //D1（MOSI） 数据
 /*******************************************************///OLED SPI IO DEFINE
-#define SPEAKER   P02
-#define LED0      P24
-#define VMOS_EN   P25
+#define SPEAKER  		 P02	//异常报警蜂鸣器
+#define LED0      		 P24	//工作指示灯
 /*******************************************************///LED SPK IO DEFINE
 #define OLED_CS_Clr()  OLED_CS=0
 #define OLED_CS_Set()  OLED_CS=1
@@ -54,33 +62,6 @@
 #define OLED_SDIN_Set() OLED_SDIN=1  
 
 /****************位域定义*********************///注意大小端
-/*
-typedef struct PadNo
-{
-   u8        : 8 ;
-   u8        : 4 ;
-   u8   Pad19 : 1 ,
-        Pad18 : 1 ,
-		Pad17 : 1 ,
-		Pad16 : 1 ,
-		Pad15 : 1 ,
-		Pad14 : 1 ,
-		Pad13 : 1 ,
-		Pad12 : 1 ,
-        Pad11 : 1 ,
-		Pad10: 1 ,
-		Pad9 : 1 ,
-		Pad8 : 1 ,
-		Pad7 : 1 ,
-		Pad6 : 1 ,
-		Pad5 : 1 ,
-        Pad4 : 1 ,
-		Pad3 : 1 ,
-		Pad2 : 1 ,
-		Pad1 : 1 ,
-		Pad0 : 1 ;	  //20bit
-}Pad;
-*/
 typedef struct PadBit
 {
   u8    	Pad0 : 1 ;
@@ -93,16 +74,12 @@ typedef struct PadBit
   u8		Pad7 : 1 ;	  //8bit
 }PB;
 
-typedef struct PadNo
+typedef struct PadNo  //结构体
 {
   u8 NC;
   PB P_HXX ;
   PB P_XHX ;
   PB P_XXH ;
-//  PB P_XXH ;
-//  PB P_XHX ;
-//  PB P_HXX ;
-//  u8 NC;
 }Pad;
 
 typedef union	 //联合体
@@ -111,7 +88,7 @@ typedef union	 //联合体
  u32 PadByte;
 }CobPad;
 
-typedef struct PadRes
+typedef struct PadRes  //结构体，连续的存储单元来存储阻值大小
 {
   u16 Pad0;
   u16 Pad1;
@@ -135,7 +112,7 @@ typedef struct PadRes
   u16 Pad19;
 }Pad_Res;
 
-enum ADC_CH
+enum ADC_CH	  //枚举0-7CH
 {
   CH0,
   CH1,
@@ -146,7 +123,7 @@ enum ADC_CH
   CH6,
   CH7
 };
-enum IC_PAC
+enum IC_PAC	 //枚举 2封装
 {
   Package_1,
   Package_2

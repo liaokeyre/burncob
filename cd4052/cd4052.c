@@ -456,7 +456,6 @@ void compareAdd(void)
 }
 void TestPn(void)
 {
-  u8 i;
   static u8 Done = 0;
   PN_TMP.PadByte = 0;
   PN.PadByte = 0;

@@ -1,0 +1,205 @@
+C51 COMPILER V9.00   ISR                                                                   04/07/2015 17:12:24 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE ISR
+OBJECT MODULE PLACED IN .\output\isr.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE isr\isr.c LARGE BROWSE INCDIR(.\main;.\eeprom;.\oled;.\uart;.\74hc595;.\cd4
+                    -052;.\isr) DEBUG OBJECTEXTEND PRINT(.\list\isr.lst) OBJECT(.\output\isr.obj)
+
+line level    source
+
+   1          #include "main.h"
+   2          //#include "isr.h"
+   3          
+   4          #define GET_FREQ
+   5          #ifdef GET_FREQ
+   6          u16 OscFreq;
+   7          #endif
+   8          #define D_TIMER0   40        //40us
+   9          #define SYNCMAX    750           //30ms---->3000/4=750
+  10          #define SYNCMIN    125           //5ms---->500/4=125
+  11          #define D_HIGHMAX  30            //970us ---->970/40 = 24 
+  12          #define D_IR_BIT_NUMBER   24    //装载位码数
+  13          
+  14          u16 Decodecnt;
+  15          u32 ReIRcode;   //读到的地址码
+  16          void Timer0Init(void)           //40us@11.0592MHz       //用来解码
+  17          {
+  18   1              Timer0_Stop();                  //关定时器0
+  19   1              AUXR |= 0x80;                   //定时器时钟1T模式
+  20   1              TMOD &= 0xF0;                   //设置定时器模式
+  21   1              TL0 = 0x46;                             //设置定时初值
+  22   1              TH0 = 0xFE;                             //设置定时初值
+  23   1              TF0 = 0;                                //清除TF0标志
+  24   1      }
+  25          
+  26          void Timer1Init(void)           //5毫秒@11.0592MHz       用来扫描按键等
+  27          {
+  28   1              Timer1_Stop();                  //关定时器1
+  29   1              AUXR |= 0x40;                   //定时器时钟1T模式
+  30   1              TMOD &= 0x0F;                   //设置定时器模式
+  31   1              TL1 = 0x00;                             //设置定时初值
+  32   1              TH1 = 0x28;                             //设置定时初值
+  33   1              TF1 = 0;                                //清除TF1标志
+  34   1              Timer1_Run();                   //开定时器1
+  35   1      }
+  36          void Int0Init(void)
+  37          {
+  38   1          //配置int0输入模式  P3.2    XXXX,XHXX
+  39   1              P3M1 |= 0x04;
+  40   1              P3M0 &= ~0x04;
+  41   1          INT0 = 0;
+  42   1              IT0 = 0;                // 1：下降沿中断    0：允许上升沿和下降沿中断
+  43   1      }
+  44          
+  45          void timerInit(void)
+  46          {
+  47   1              Timer0Init();          //计数不中断
+  48   1              Timer1Init();              //计数中断
+  49   1              Timer1_InterruptEnable();//开定时器1中断
+  50   1      }
+  51          /****************************************************************************************
+  52          //                 |````|
+  53          //SYNC: ___|    |_____________________________________________________________...
+  54          //          4clk                         124clk
+C51 COMPILER V9.00   ISR                                                                   04/07/2015 17:12:24 PAGE 2   
+
+  55          //
+  56          //
+  57          //           |````|                        |                      |````````````|        |               1clk = 8 osclk
+  58          //0:   __|    |____________|        1:  __|                        |____|
+  59          //        4clk    12clk                     12clk     4clk
+  60          //Datalength:
+  61          //Minlength:1.31ms @300k/13V    Maxlength:3.01ms @430k/4v
+  62          //bit:[0:19] addcode    bit:[20:23] keycode
+  63          ****************************************************************************************/
+  64          void EnDecode(void)
+  65          {
+  66   1         EX0 = 1;                 //开int0中断
+  67   1         Decodecnt = 0;                       //复位计数器
+  68   1         ReIRcode = 0;
+  69   1         Timer0_Run();                        //开定时器
+  70   1         Timer1_InterruptEnable();//开定时器1中断
+  71   1      
+  72   1        //开中断 开定时器 捕获IRcode
+  73   1      }
+  74          void DsDecode(void)
+  75          {
+  76   1         EX0 = 0;
+  77   1         Timer0_Stop();
+  78   1         Decodecnt = 0;                       //复位计数器
+  79   1         ReIRcode = 0;
+  80   1        //关中断 关定时器 节省资源
+  81   1      }
+  82          
+  83          void INT0_isr() interrupt INT0_VECTOR  //外部中断0 用来检测遥控码
+  84          {
+  85   1          static u16 CountL , CountH;
+  86   1              static u8 IR_BitCnt;    
+  87   1              static u8 sync = 0;
+  88   1              static u8 step = 0;
+  89   1              if(!sync)
+  90   1              {
+  91   2                      if(INT0) //上升沿
+  92   2                      {
+  93   3                if(step==0)  //起始位置，第一个上升沿复位计数器
+  94   3                        {
+  95   4                                      Decodecnt = 0;
+  96   4                                      step = 1;          //step = 1;
+  97   4                        }
+  98   3                        else if(step==2)     //检测到了第二个上升沿，可以获取低电平持续时间
+  99   3                        {               
+ 100   4                                 CountL = Decodecnt;   //获取到低电平的时间
+ 101   4                                 Decodecnt = 0;
+ 102   4                                 step = 0;
+ 103   4                                 if(CountL > CountH)   //先判断低电平时间大于高电平时间
+ 104   4                                 {
+ 105   5                                    if((CountL >= SYNCMIN)&&(CountL <= SYNCMAX))//截获同步码
+ 106   5                                        {
+ 107   6                                          sync = 1;
+ 108   6                                              IR_BitCnt = D_IR_BIT_NUMBER;    //装载位码数
+ 109   6      #ifdef GET_FREQ
+ 110   6                                          OscFreq =  1000/(CountL*40/124/8);       //kHz
+ 111   6      #endif
+ 112   6                                        }
+ 113   5                                 }
+ 114   4                        }
+ 115   3      
+ 116   3                      } 
+C51 COMPILER V9.00   ISR                                                                   04/07/2015 17:12:24 PAGE 3   
+
+ 117   2                      if(!INT0) //下降沿
+ 118   2                      {
+ 119   3                        if(step == 1)      //说明已检测到了一个上升沿
+ 120   3                        {
+ 121   4                                CountH = Decodecnt;   //获取到高电平的时间
+ 122   4                                Decodecnt = 0;
+ 123   4                                step = 2;
+ 124   4                        }
+ 125   3                        else                      //第一次检测的是下降沿，复位计数器，步数复位
+ 126   3                        {
+ 127   4                                Decodecnt = 0;
+ 128   4                                step = 0;               
+ 129   4                        }
+ 130   3                      }
+ 131   2              }
+ 132   1              else //已同步，读取数据
+ 133   1              {
+ 134   2                
+ 135   2                  if(!INT0) //下降沿
+ 136   2                  {
+ 137   3                 CountH = Decodecnt;   //获取高电平时间
+ 138   3                         Decodecnt = 0;
+ 139   3                         if(CountH > D_HIGHMAX) //数据超时
+ 140   3                         sync = 0;
+ 141   3                  }
+ 142   2                  else if(INT0) //上升沿
+ 143   2                  {
+ 144   3                 CountL = Decodecnt;   //获取低电平时间
+ 145   3                         Decodecnt = 0;
+ 146   3                         ReIRcode >>= 1; //接收1bit
+ 147   3                         if(CountL < CountH)
+ 148   3                         {
+ 149   4                               ReIRcode |= 0x00800000;
+ 150   4                         } 
+ 151   3                         if(--IR_BitCnt == 0)                         //判断接收是否完成
+ 152   3                         {
+ 153   4                               sync= 0;                       //清除同步码                
+ 154   4                         }                                               
+ 155   3                  }
+ 156   2              }
+ 157   1                                       
+ 158   1      }
+ 159          
+ 160          
+ 161          void T0_isr() interrupt TIMER0_VECTOR //定时器0中断     40us
+ 162          {
+ 163   1         Decodecnt++;               
+ 164   1      }
+ 165          
+ 166          
+ 167          void T1_isr() interrupt TIMER1_VECTOR  //定时器1中断用来做实时事件处理  5ms扫描一次
+ 168          {
+ 169   1              static u8 cnt;
+ 170   1              cnt++;
+ 171   1              if(cnt >= 100)//半秒
+ 172   1              {
+ 173   2                LED0^=LED0;
+ 174   2              }                  
+ 175   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+C51 COMPILER V9.00   ISR                                                                   04/07/2015 17:12:24 PAGE 4   
+
+   CODE SIZE        =    571    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =     16    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   CD4052                                                                04/04/2015 23:44:44 PAGE 1   
+C51 COMPILER V9.00   CD4052                                                                04/07/2015 17:12:24 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE CD4052
@@ -62,7 +62,7 @@ line level    source
   52          //A2            0                 0                1             1
   53          //B2            0                 1                0             1
   54          //--------------------------------------------------------------------------------------------
-C51 COMPILER V9.00   CD4052                                                                04/04/2015 23:44:44 PAGE 2   
+C51 COMPILER V9.00   CD4052                                                                04/07/2015 17:12:24 PAGE 2   
 
   55          //AD0      PAD0          PAD1     PAD2          PAD3
   56          //AD1      PAD4          PAD5     PAD6          PAD7
@@ -126,7 +126,7 @@ line level    source
  114   1      
  115   1        A1_4052 = 1;
  116   1        A2_4052 = 1;
-C51 COMPILER V9.00   CD4052                                                                04/04/2015 23:44:44 PAGE 3   
+C51 COMPILER V9.00   CD4052                                                                04/07/2015 17:12:24 PAGE 3   
 
  117   1        B1_4052 = 1;
  118   1        B2_4052 = 1;
@@ -190,7 +190,7 @@ line level    source
  176   2      //      PN.Px.Pad17 = PN_TMP.Px.Pad8; 
  177   2      //      PN.Px.Pad18 = PN_TMP.Px.Pad9;
  178   2      //      PN.Px.Pad19 = PN_TMP.Px.Pad10;  
-C51 COMPILER V9.00   CD4052                                                                04/04/2015 23:44:44 PAGE 4   
+C51 COMPILER V9.00   CD4052                                                                04/07/2015 17:12:24 PAGE 4   
 
  179   2        }
  180   1        else
@@ -254,7 +254,7 @@ line level    source
  238   1              {
  239   1           ret = 0;                                       //需要直接返回吗
  240   1              }
-C51 COMPILER V9.00   CD4052                                                                04/04/2015 23:44:44 PAGE 5   
+C51 COMPILER V9.00   CD4052                                                                04/07/2015 17:12:24 PAGE 5   
 
  241   1        }
  242   1      
@@ -318,7 +318,7 @@ line level    source
  300   1              }
  301   1        }
  302   1      
-C51 COMPILER V9.00   CD4052                                                                04/04/2015 23:44:44 PAGE 6   
+C51 COMPILER V9.00   CD4052                                                                04/07/2015 17:12:24 PAGE 6   
 
  303   1        if(PN.Px.Pad9 == 0)
  304   1        {
@@ -382,7 +382,7 @@ line level    source
  362   1      
  363   1        if(PN.Px.Pad14 == 0)
  364   1        {
-C51 COMPILER V9.00   CD4052                                                                04/04/2015 23:44:44 PAGE 7   
+C51 COMPILER V9.00   CD4052                                                                04/07/2015 17:12:24 PAGE 7   
 
  365   1          if(RES.Pad14 >= Res_OK)                    //烧码成功
  366   1          {
@@ -446,7 +446,7 @@ line level    source
  424   1        {
  425   1          if(RES.Pad19 >= Res_OK)                    //烧码成功
  426   1          {
-C51 COMPILER V9.00   CD4052                                                                04/04/2015 23:44:44 PAGE 8   
+C51 COMPILER V9.00   CD4052                                                                04/07/2015 17:12:24 PAGE 8   
 
  427   1           PN_CUT.Px.Pad19 = 1;
  428   1              }
@@ -480,86 +480,84 @@ line level    source
  456   1      }
  457          void TestPn(void)
  458          {
- 459   1        u8 i;
- 460   1        static u8 Done = 0;
- 461   1        PN_TMP.PadByte = 0;
- 462   1        PN.PadByte = 0;
- 463   1        send_string("\nstart mask: package type 1 , PACK_ADD = 0 , IC_ADD = 0\n\n");
- 464   1      //  PN_TMP.Px.Pad0 = 1;
- 465   1      //  PN.Px.Pad1 = 1;
- 466   1      //  printf_u8(PN_TMP.PadByte);
- 467   1      //  printf_u8(PN.PadByte);
- 468   1      //      send_string("   ===>masking...\n");
- 469   1        while(!Done)
- 470   1        {
- 471   2              PnMask(0);
- 472   2      //      send_string("start mask: ");
- 473   2      //      send_string("PACK_ADD=:");
- 474   2      //      printf_u8(PN_TMP.PadByte>>24);
- 475   2      //      printf_u8(PN_TMP.PadByte>>16);
- 476   2      //      printf_u8(PN_TMP.PadByte>>8);
- 477   2      //      printf_u8(PN_TMP.PadByte);
- 478   2      //      send_string("   IC_ADD=:");
- 479   2      //      printf_u8(PN.PadByte>>24);
- 480   2      //      printf_u8(PN.PadByte>>16);
- 481   2      //      printf_u8(PN.PadByte>>8);
- 482   2      //      printf_u8(PN.PadByte);
- 483   2      //      send_string("   ===>masking...\n");
- 484   2      //      send_string("PACK_ADD.BIT0 = \n");
- 485   2      //      printf_u8(PN_TMP.Px.Pad0);
- 486   2              send_string("\n");
- 487   2              send_string("PN_TMP BIT 15:0\n");
- 488   2              printf_u8(PN_TMP.Px.P_XHX.Pad7);
-C51 COMPILER V9.00   CD4052                                                                04/04/2015 23:44:44 PAGE 9   
+ 459   1        static u8 Done = 0;
+ 460   1        PN_TMP.PadByte = 0;
+ 461   1        PN.PadByte = 0;
+ 462   1        send_string("\nstart mask: package type 1 , PACK_ADD = 0 , IC_ADD = 0\n\n");
+ 463   1      //  PN_TMP.Px.Pad0 = 1;
+ 464   1      //  PN.Px.Pad1 = 1;
+ 465   1      //  printf_u8(PN_TMP.PadByte);
+ 466   1      //  printf_u8(PN.PadByte);
+ 467   1      //      send_string("   ===>masking...\n");
+ 468   1        while(!Done)
+ 469   1        {
+ 470   2              PnMask(0);
+ 471   2      //      send_string("start mask: ");
+ 472   2      //      send_string("PACK_ADD=:");
+ 473   2      //      printf_u8(PN_TMP.PadByte>>24);
+ 474   2      //      printf_u8(PN_TMP.PadByte>>16);
+ 475   2      //      printf_u8(PN_TMP.PadByte>>8);
+ 476   2      //      printf_u8(PN_TMP.PadByte);
+ 477   2      //      send_string("   IC_ADD=:");
+ 478   2      //      printf_u8(PN.PadByte>>24);
+ 479   2      //      printf_u8(PN.PadByte>>16);
+ 480   2      //      printf_u8(PN.PadByte>>8);
+ 481   2      //      printf_u8(PN.PadByte);
+ 482   2      //      send_string("   ===>masking...\n");
+ 483   2      //      send_string("PACK_ADD.BIT0 = \n");
+ 484   2      //      printf_u8(PN_TMP.Px.Pad0);
+ 485   2              send_string("\n");
+ 486   2              send_string("PN_TMP BIT 15:0\n");
+ 487   2              printf_u8(PN_TMP.Px.P_XHX.Pad7);
+ 488   2              printf_u8(PN_TMP.Px.P_XHX.Pad6);
+C51 COMPILER V9.00   CD4052                                                                04/07/2015 17:12:24 PAGE 9   
 
- 489   2              printf_u8(PN_TMP.Px.P_XHX.Pad6);
- 490   2              printf_u8(PN_TMP.Px.P_XHX.Pad5);
- 491   2              printf_u8(PN_TMP.Px.P_XHX.Pad4);
- 492   2              printf_u8(PN_TMP.Px.P_XHX.Pad3);
- 493   2              printf_u8(PN_TMP.Px.P_XHX.Pad2);
- 494   2              printf_u8(PN_TMP.Px.P_XHX.Pad1);
- 495   2              printf_u8(PN_TMP.Px.P_XHX.Pad0);        
- 496   2              
- 497   2              printf_u8(PN_TMP.Px.P_XXH.Pad7);
- 498   2              printf_u8(PN_TMP.Px.P_XXH.Pad6);
- 499   2              printf_u8(PN_TMP.Px.P_XXH.Pad5);
- 500   2              printf_u8(PN_TMP.Px.P_XXH.Pad4);
- 501   2              printf_u8(PN_TMP.Px.P_XXH.Pad3);
- 502   2              printf_u8(PN_TMP.Px.P_XXH.Pad2);
- 503   2              printf_u8(PN_TMP.Px.P_XXH.Pad1);
- 504   2              printf_u8(PN_TMP.Px.P_XXH.Pad0);
- 505   2      //      send_string("\n");
- 506   2              send_string("PN_TMP BIT 15:0\n");
- 507   2              printf_u8(PN.Px.P_XHX.Pad7);
- 508   2              printf_u8(PN.Px.P_XHX.Pad6);
- 509   2              printf_u8(PN.Px.P_XHX.Pad5);
- 510   2              printf_u8(PN.Px.P_XHX.Pad4);
- 511   2              printf_u8(PN.Px.P_XHX.Pad3);
- 512   2              printf_u8(PN.Px.P_XHX.Pad2);
- 513   2              printf_u8(PN.Px.P_XHX.Pad1);
- 514   2              printf_u8(PN.Px.P_XHX.Pad0);    
- 515   2              
- 516   2              printf_u8(PN.Px.P_XXH.Pad7);
- 517   2              printf_u8(PN.Px.P_XXH.Pad6);
- 518   2              printf_u8(PN.Px.P_XXH.Pad5);
- 519   2              printf_u8(PN.Px.P_XXH.Pad4);
- 520   2              printf_u8(PN.Px.P_XXH.Pad3);
- 521   2              printf_u8(PN.Px.P_XXH.Pad2);
- 522   2              printf_u8(PN.Px.P_XXH.Pad1);
- 523   2              printf_u8(PN.Px.P_XXH.Pad0);
- 524   2              send_string("\n");              
- 525   2              if(PN_TMP.PadByte ++ >=0xfff)
- 526   2              Done = 1;
- 527   2        }
- 528   1              send_string("mask over!\n");
- 529   1      }
-*** WARNING C280 IN LINE 459 OF CD4052\CD4052.C: 'i': unreferenced local variable
+ 489   2              printf_u8(PN_TMP.Px.P_XHX.Pad5);
+ 490   2              printf_u8(PN_TMP.Px.P_XHX.Pad4);
+ 491   2              printf_u8(PN_TMP.Px.P_XHX.Pad3);
+ 492   2              printf_u8(PN_TMP.Px.P_XHX.Pad2);
+ 493   2              printf_u8(PN_TMP.Px.P_XHX.Pad1);
+ 494   2              printf_u8(PN_TMP.Px.P_XHX.Pad0);        
+ 495   2              
+ 496   2              printf_u8(PN_TMP.Px.P_XXH.Pad7);
+ 497   2              printf_u8(PN_TMP.Px.P_XXH.Pad6);
+ 498   2              printf_u8(PN_TMP.Px.P_XXH.Pad5);
+ 499   2              printf_u8(PN_TMP.Px.P_XXH.Pad4);
+ 500   2              printf_u8(PN_TMP.Px.P_XXH.Pad3);
+ 501   2              printf_u8(PN_TMP.Px.P_XXH.Pad2);
+ 502   2              printf_u8(PN_TMP.Px.P_XXH.Pad1);
+ 503   2              printf_u8(PN_TMP.Px.P_XXH.Pad0);
+ 504   2      //      send_string("\n");
+ 505   2              send_string("PN_TMP BIT 15:0\n");
+ 506   2              printf_u8(PN.Px.P_XHX.Pad7);
+ 507   2              printf_u8(PN.Px.P_XHX.Pad6);
+ 508   2              printf_u8(PN.Px.P_XHX.Pad5);
+ 509   2              printf_u8(PN.Px.P_XHX.Pad4);
+ 510   2              printf_u8(PN.Px.P_XHX.Pad3);
+ 511   2              printf_u8(PN.Px.P_XHX.Pad2);
+ 512   2              printf_u8(PN.Px.P_XHX.Pad1);
+ 513   2              printf_u8(PN.Px.P_XHX.Pad0);    
+ 514   2              
+ 515   2              printf_u8(PN.Px.P_XXH.Pad7);
+ 516   2              printf_u8(PN.Px.P_XXH.Pad6);
+ 517   2              printf_u8(PN.Px.P_XXH.Pad5);
+ 518   2              printf_u8(PN.Px.P_XXH.Pad4);
+ 519   2              printf_u8(PN.Px.P_XXH.Pad3);
+ 520   2              printf_u8(PN.Px.P_XXH.Pad2);
+ 521   2              printf_u8(PN.Px.P_XXH.Pad1);
+ 522   2              printf_u8(PN.Px.P_XXH.Pad0);
+ 523   2              send_string("\n");              
+ 524   2              if(PN_TMP.PadByte ++ >=0xfff)
+ 525   2              Done = 1;
+ 526   2        }
+ 527   1              send_string("mask over!\n");
+ 528   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =   1326    ----
    CONSTANT SIZE    =     89    ----
-   XDATA SIZE       =     53       5
+   XDATA SIZE       =     53       4
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
@@ -567,4 +565,4 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

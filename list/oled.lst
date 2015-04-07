@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   OLED                                                                  04/04/2015 23:44:43 PAGE 1   
+C51 COMPILER V9.00   OLED                                                                  04/07/2015 17:12:23 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE OLED
@@ -62,7 +62,7 @@ line level    source
   51   1      }
   52          #if OLED_MODE==1
               //向SSD1106写入一个字节。
-C51 COMPILER V9.00   OLED                                                                  04/04/2015 23:44:43 PAGE 2   
+C51 COMPILER V9.00   OLED                                                                  04/07/2015 17:12:23 PAGE 2   
 
               //dat:要写入的数据/命令
               //cmd:数据/命令标志 0,表示命令;1,表示数据;
@@ -126,7 +126,7 @@ line level    source
  113          void OLED_Display_Off(void)
  114          {
  115                  OLED_WR_Byte(0X8D,OLED_CMD);  //SET DCDC命令
-C51 COMPILER V9.00   OLED                                                                  04/04/2015 23:44:43 PAGE 3   
+C51 COMPILER V9.00   OLED                                                                  04/07/2015 17:12:23 PAGE 3   
 
  116                  OLED_WR_Byte(0X10,OLED_CMD);  //DCDC OFF
  117                  OLED_WR_Byte(0XAE,OLED_CMD);  //DISPLAY OFF
@@ -190,7 +190,7 @@ line level    source
  175   1              if(dx<0)
  176   1              {
  177   2                      dx=-dx;
-C51 COMPILER V9.00   OLED                                                                  04/04/2015 23:44:43 PAGE 4   
+C51 COMPILER V9.00   OLED                                                                  04/07/2015 17:12:23 PAGE 4   
 
  178   2                      dirx=-1;
  179   2              }
@@ -254,7 +254,7 @@ line level    source
  237   2          }
  238   1          do
  239   1          {
-C51 COMPILER V9.00   OLED                                                                  04/04/2015 23:44:43 PAGE 5   
+C51 COMPILER V9.00   OLED                                                                  04/07/2015 17:12:23 PAGE 5   
 
  240   2              OLED_DrawPoint(x0, y0, t);   // 逐点显示，描出垂直线
  241   2              x0++;
@@ -318,7 +318,7 @@ line level    source
  299   1      
  300   1         /* 先找出矩形左上角与右下角的两个点，保存在(x0,y0)，(x1,y1) */
  301   1         if(x0>x1)                                            // 若x0>x1，则x0与x1交换
-C51 COMPILER V9.00   OLED                                                                  04/04/2015 23:44:43 PAGE 6   
+C51 COMPILER V9.00   OLED                                                                  04/07/2015 17:12:23 PAGE 6   
 
  302   1         {  i = x0;
  303   2            x0 = x1;
@@ -382,7 +382,7 @@ line level    source
  361          * 入口参数：points  多个点坐标数据的指针，数据排列为(x0,y0)、(x1,y1)、(x2,y2)...
  362          *           no      点数目，至少要大于1
  363          *           t   显示颜色
-C51 COMPILER V9.00   OLED                                                                  04/04/2015 23:44:43 PAGE 7   
+C51 COMPILER V9.00   OLED                                                                  04/07/2015 17:12:23 PAGE 7   
 
  364          * 出口参数：无
  365          * 说明：操作失败原因是指定地址超出有效范围。
@@ -446,7 +446,7 @@ line level    source
  423          * 出口参数：返回0表示操作失败，返回1表示操作成功
  424          ****************************************************************************/
  425          u8  OLED_Draw_WindowsDraw(WINDOWS *win)
-C51 COMPILER V9.00   OLED                                                                  04/04/2015 23:44:43 PAGE 8   
+C51 COMPILER V9.00   OLED                                                                  04/07/2015 17:12:23 PAGE 8   
 
  426          {  u8  *str;
  427   1         int8  bak, bak1, bak2;
@@ -510,7 +510,7 @@ line level    source
  484   2            str = win->state;
  485   2            bak = win->x + 3;
  486   2            bak1 = win->y + win->hight - 9;
-C51 COMPILER V9.00   OLED                                                                  04/04/2015 23:44:43 PAGE 9   
+C51 COMPILER V9.00   OLED                                                                  04/07/2015 17:12:23 PAGE 9   
 
  487   2            bak2 = win->x + win->with -1;
  488   2            
@@ -574,7 +574,7 @@ line level    source
  546   4                              }
  547   3                      }        
  548   2          }          
-C51 COMPILER V9.00   OLED                                                                  04/04/2015 23:44:43 PAGE 10  
+C51 COMPILER V9.00   OLED                                                                  04/07/2015 17:12:23 PAGE 10  
 
  549   1      }
  550          //m^n函数
@@ -638,7 +638,7 @@ line level    source
  608   3                      if(y>32){y=x=0;OLED_Clear();} //换页
  609   3                      OLED_ShowChar(x,y,*p,12,1);      
  610   3                      x+=6;           
-C51 COMPILER V9.00   OLED                                                                  04/04/2015 23:44:43 PAGE 11  
+C51 COMPILER V9.00   OLED                                                                  04/07/2015 17:12:23 PAGE 11  
 
  611   3                      }
  612   2                      else
@@ -702,7 +702,7 @@ line level    source
  670   3                              if(temp&0x80)OLED_DrawPoint(x,y,1); 
  671   3                              else OLED_DrawPoint(x,y,0);                
  672   3                              temp<<=1;
-C51 COMPILER V9.00   OLED                                                                  04/04/2015 23:44:43 PAGE 12  
+C51 COMPILER V9.00   OLED                                                                  04/07/2015 17:12:23 PAGE 12  
 
  673   3                              y++;
  674   3                              if((y-y0)==32)
@@ -766,7 +766,7 @@ line level    source
  731   1              OLED_WR_Byte(0xD8,OLED_CMD);//
  732   1              OLED_WR_Byte(0x05,OLED_CMD);
  733   1      
-C51 COMPILER V9.00   OLED                                                                  04/04/2015 23:44:43 PAGE 13  
+C51 COMPILER V9.00   OLED                                                                  04/07/2015 17:12:23 PAGE 13  
 
  734   1              OLED_WR_Byte(0xDA,OLED_CMD);//设置COM硬件引脚配置
  735   1              OLED_WR_Byte(0x12,OLED_CMD);//默认[5:4]配置
