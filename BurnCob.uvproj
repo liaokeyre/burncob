@@ -294,7 +294,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.\main;.\eeprom;.\oled;.\uart;.\74hc595;.\cd4052;.\isr</IncludePath>
+              <IncludePath>.\main;.\eeprom;.\oled;.\uart;.\74hc595;.\cd4052;.\isr;.\Key</IncludePath>
             </VariousControls>
           </C51>
           <Ax51>
@@ -413,6 +413,16 @@
               <FileName>isr.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\isr\isr.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>key</GroupName>
+          <Files>
+            <File>
+              <FileName>Key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Key\Key.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -4,6 +4,7 @@
 ".\output\Uart.obj",
 ".\output\_595.obj",
 ".\output\cd4052.obj",
-".\output\isr.obj" 
+".\output\isr.obj",
+".\output\Key.obj" 
 TO ".\output\BurnCob" 
 PRINT(".\list\BurnCob.m51") RAMSIZE(256) 

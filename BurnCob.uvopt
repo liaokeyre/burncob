@@ -213,10 +213,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>51</ColumnNumber>
+      <ColumnNumber>68</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>61</TopLine>
-      <CurrentLine>78</CurrentLine>
+      <CurrentLine>80</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\main\main.c</PathWithFileName>
       <FilenameWithoutPath>main.c</FilenameWithoutPath>
@@ -346,6 +346,27 @@
       <bDave2>0</bDave2>
       <PathWithFileName>.\isr\isr.c</PathWithFileName>
       <FilenameWithoutPath>isr.c</FilenameWithoutPath>
+    </File>
+  </Group>
+
+  <Group>
+    <GroupName>key</GroupName>
+    <tvExp>0</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <File>
+      <GroupNumber>0</GroupNumber>
+      <FileNumber>0</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>12</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>1</TopLine>
+      <CurrentLine>2</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\Key\Key.c</PathWithFileName>
+      <FilenameWithoutPath>Key.c</FilenameWithoutPath>
     </File>
   </Group>
 
@@ -533,8 +554,8 @@
 
   <AlienFiles>
     <PathWithFilename>D:\burncob.git\burncob\MAIN\MAIN.H</PathWithFilename>
-    <TopLine>94</TopLine>
-    <CurrentLine>94</CurrentLine>
+    <TopLine>1</TopLine>
+    <CurrentLine>1</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -561,6 +582,32 @@
     <PathWithFilename>D:\burncob.git\burncob\ISR\ISR.H</PathWithFilename>
     <TopLine>1</TopLine>
     <CurrentLine>4</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
+  <AlienFiles>
+    <PathWithFilename>D:\burncob.git\burncob\Key\key.h</PathWithFilename>
+    <TopLine>7</TopLine>
+    <CurrentLine>30</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -1924,8 +1971,20 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>3</ActiveTab>
+      <ActiveTab>6</ActiveTab>
       <Documents>
+        <Doc>
+          <Name>.\Key\Key.c</Name>
+          <ColumnNumber>12</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>2</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>KEY\KEY.H</Name>
+          <ColumnNumber>50</ColumnNumber>
+          <TopLine>7</TopLine>
+          <CurrentLine>30</CurrentLine>
+        </Doc>
         <Doc>
           <Name>.\isr\isr.c</Name>
           <ColumnNumber>29</ColumnNumber>
@@ -1946,15 +2005,15 @@
         </Doc>
         <Doc>
           <Name>.\main\main.c</Name>
-          <ColumnNumber>51</ColumnNumber>
+          <ColumnNumber>68</ColumnNumber>
           <TopLine>61</TopLine>
-          <CurrentLine>78</CurrentLine>
+          <CurrentLine>80</CurrentLine>
         </Doc>
         <Doc>
           <Name>MAIN\MAIN.H</Name>
-          <ColumnNumber>55</ColumnNumber>
-          <TopLine>94</TopLine>
-          <CurrentLine>94</CurrentLine>
+          <ColumnNumber>46</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>1</CurrentLine>
         </Doc>
         <Doc>
           <Name>MAIN\TYPEDEF.H</Name>

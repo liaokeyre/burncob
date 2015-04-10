@@ -2,49 +2,49 @@
 #define __MAIN_H__
 #include "STC15xxxxxx.H"
 #include "TYPEDEF.H"
-
+///////////////////////////////IO CONFIG////////////////////////////////////////////////////////////
 /*******************************************************/
-#define I2C_SDA         P26
-#define I2C_SCL         P27
+#define I2C_SDA         P22
+#define I2C_SCL         P21
 /*******************************************************///EEPROM I2C DEFINE
-#define EN_595          P20		   //OE
-#define SH_595          P21		   //SHcp
-#define ST_595          P22		   //STcp
-#define DS_595          P23		   //Data 
+#define EN_595          P07		   //OE
+#define SH_595          P05		   //SHcp
+#define ST_595          P06		   //STcp
+#define DS_595          P04		   //Data 
 #define ENABLE595()   	EN_595 = 0
 #define DSENABLE595()   EN_595 = 1
 /*******************************************************///74HC595 IO DEFINE
-#define A1_4052          P01		   
-#define B1_4052          P00
-#define A2_4052          P46		   
-#define B2_4052          P45		   
+#define A1_4052          P03		   
+#define B1_4052          P02
+#define A2_4052          P01		   
+#define B2_4052          P00		   
 /*******************************************************///CD4052 IO DEFINE
-#define BUS_1            P34
+#define BUS_1            P36
 #define BUS_2            P35
-#define BUS_3            P36
-#define BUS_4            P37
+#define BUS_3            P34
+#define BUS_4            P33
 #define BUS_5            P40
-#define BUS_6            P47
-#define START            P33
+#define BUS_6            P54
+#define START            P37
 /*******************************************************/// TEST MACHINE BUS
 #define IR_IN            P32	//检测遥控码
-#define VMOS_EN          P25	//控制割码电源
+#define VMOS_EN          P46	//控制割码电源
 #define K1_OUT           P55	//控制模拟测试芯片按键1被按下
-#define EN_VSOC          P54    //控制给测试芯片供电
+#define EN_VSOC          P47    //控制给测试芯片供电
 /*******************************************************/// TESTER CONTROL
-#define KEY1             P41	//按键1
-#define KEY2             P42	//按键2
-#define KEY3             P43	//按键3
-#define KEY4             P44	//按键4
+#define KEY1             P43	//按键1
+#define KEY2             P44	//按键2
+#define KEY3             P20	//按键3
+#define KEY4             P21	//按键4
 /*******************************************************/// IO KEY DEFINE
-#define OLED_CS  		 P37    //片选
-#define OLED_RST 		 P36    //复位
-#define OLED_DC   	  	 P34    //数据/命令控制
-#define OLED_SCL  		 P33    //时钟 D0（SCLK)
-#define OLED_SDIN 		 P32    //D1（MOSI） 数据
+#define OLED_CS  		 P23    //片选
+#define OLED_RST 		 P24    //复位
+#define OLED_DC   	  	 P25    //数据/命令控制
+#define OLED_SCL  		 P26    //时钟 D0（SCLK)
+#define OLED_SDIN 		 P27    //D1（MOSI） 数据
 /*******************************************************///OLED SPI IO DEFINE
-#define SPEAKER  		 P02	//异常报警蜂鸣器
-#define LED0      		 P22//P24	//工作指示灯
+#define SPEAKER  		 P41	//异常报警蜂鸣器
+#define LED0      		 P45    //工作指示灯
 /*******************************************************///LED SPK IO DEFINE  <---------------------TEST LED
 #define OLED_CS_Clr()  OLED_CS=0
 #define OLED_CS_Set()  OLED_CS=1
