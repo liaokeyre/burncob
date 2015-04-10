@@ -1,6 +1,6 @@
 #include "main.h"
-//#include "isr.h"
-
+#include "isr.h"
+#include "uart.h"
 #define GET_FREQ
 #ifdef GET_FREQ
 u16 OscFreq;
@@ -12,7 +12,7 @@ u16 OscFreq;
 #define D_IR_BIT_NUMBER   24	//◊∞‘ÿŒª¬Î ˝
 
 u16 Decodecnt;
-u32 ReIRcode;   //∂¡µΩµƒµÿ÷∑¬Î
+u32 ReIRcode;   //∂¡µΩµƒµÿ÷∑¬
 void Timer0Init(void)		//40us@11.0592MHz	//”√¿¥Ω‚¬Î
 {
 	Timer0_Stop();			//πÿ∂® ±∆˜0
@@ -170,6 +170,7 @@ void T1_isr() interrupt TIMER1_VECTOR  //∂® ±∆˜1÷–∂œ”√¿¥◊ˆ µ ± ¬º˛¥¶¿Ì	5ms…®√Ë“ª
 	cnt++;
 	if(cnt >= 100)//∞Î√Î
 	{
-	  LED0^=LED0;
+	  cnt =0;
+	  LED0=!LED0;
 	}                  
 }

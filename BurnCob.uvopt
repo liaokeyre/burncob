@@ -99,8 +99,8 @@
         <TargetDlgDllArguments>-pAT52</TargetDlgDllArguments>
       </DllOpt>
       <DebugOpt>
-        <uSim>1</uSim>
-        <uTrg>0</uTrg>
+        <uSim>0</uSim>
+        <uTrg>1</uTrg>
         <sLdApp>1</sLdApp>
         <sGomain>1</sGomain>
         <sRbreak>1</sRbreak>
@@ -109,7 +109,7 @@
         <sRfunc>1</sRfunc>
         <sRbox>1</sRbox>
         <tLdApp>1</tLdApp>
-        <tGomain>0</tGomain>
+        <tGomain>1</tGomain>
         <tRbreak>1</tRbreak>
         <tRwatch>1</tRwatch>
         <tRmem>1</tRmem>
@@ -117,7 +117,7 @@
         <tRbox>1</tRbox>
         <sRunDeb>0</sRunDeb>
         <sLrtime>0</sLrtime>
-        <nTsel>-1</nTsel>
+        <nTsel>9</nTsel>
         <sDll></sDll>
         <sDllPa></sDllPa>
         <sDlgDll></sDlgDll>
@@ -128,9 +128,19 @@
         <tDlgDll></tDlgDll>
         <tDlgPa></tDlgPa>
         <tIfile></tIfile>
-        <pMon></pMon>
+        <pMon>BIN\STCMON51.DLL</pMon>
       </DebugOpt>
       <TargetDriverDllRegistry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGTP51</Key>
+          <Name>(98=-1,-1,-1,-1,0)(82=-1,-1,-1,-1,0)(83=-1,-1,-1,-1,0)(84=-1,-1,-1,-1,0)(85=-1,-1,-1,-1,0)(3003=-1,-1,-1,-1,0)(91=-1,-1,-1,-1,0)(92=-1,-1,-1,-1,0)(94=-1,-1,-1,-1,0)(5023=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>STCMON51</Key>
+          <Name>-S3 -B115200 -O0 -U0</Name>
+        </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGDP51</Key>
@@ -203,10 +213,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>37</ColumnNumber>
+      <ColumnNumber>51</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>43</TopLine>
-      <CurrentLine>67</CurrentLine>
+      <TopLine>61</TopLine>
+      <CurrentLine>78</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\main\main.c</PathWithFileName>
       <FilenameWithoutPath>main.c</FilenameWithoutPath>
@@ -236,7 +246,7 @@
 
   <Group>
     <GroupName>oled</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
@@ -266,10 +276,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>23</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>101</TopLine>
-      <CurrentLine>118</CurrentLine>
+      <TopLine>111</TopLine>
+      <CurrentLine>120</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\uart\Uart.c</PathWithFileName>
       <FilenameWithoutPath>Uart.c</FilenameWithoutPath>
@@ -278,7 +288,7 @@
 
   <Group>
     <GroupName>74hc595</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
@@ -308,10 +318,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>43</ColumnNumber>
+      <ColumnNumber>5</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>433</TopLine>
-      <CurrentLine>433</CurrentLine>
+      <TopLine>502</TopLine>
+      <CurrentLine>506</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\cd4052\cd4052.c</PathWithFileName>
       <FilenameWithoutPath>cd4052.c</FilenameWithoutPath>
@@ -320,19 +330,19 @@
 
   <Group>
     <GroupName>isr</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
       <GroupNumber>8</GroupNumber>
-      <FileNumber>0</FileNumber>
+      <FileNumber>7</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>22</ColumnNumber>
+      <ColumnNumber>29</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>73</TopLine>
-      <CurrentLine>92</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>15</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\isr\isr.c</PathWithFileName>
       <FilenameWithoutPath>isr.c</FilenameWithoutPath>
@@ -498,7 +508,7 @@
   <AlienFiles>
     <PathWithFilename>D:\burncob.git\burncob\MAIN\TYPEDEF.H</PathWithFilename>
     <TopLine>1</TopLine>
-    <CurrentLine>1</CurrentLine>
+    <CurrentLine>10</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -523,8 +533,34 @@
 
   <AlienFiles>
     <PathWithFilename>D:\burncob.git\burncob\MAIN\MAIN.H</PathWithFilename>
-    <TopLine>80</TopLine>
-    <CurrentLine>80</CurrentLine>
+    <TopLine>94</TopLine>
+    <CurrentLine>94</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
+  <AlienFiles>
+    <PathWithFilename>D:\burncob.git\burncob\ISR\ISR.H</PathWithFilename>
+    <TopLine>1</TopLine>
+    <CurrentLine>4</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -676,8 +712,8 @@
         <FloatingRect_bottom>250</FloatingRect_bottom>
         <FloatingRect_right>600</FloatingRect_right>
         <ContainerPercent>100</ContainerPercent>
-        <ActiveTab>0</ActiveTab>
-        <Visible>0</Visible>
+        <ActiveTab>1</ActiveTab>
+        <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
       <Window>
@@ -701,7 +737,7 @@
         <FloatingRect_bottom>250</FloatingRect_bottom>
         <FloatingRect_right>600</FloatingRect_right>
         <ContainerPercent>100</ContainerPercent>
-        <ActiveTab>1</ActiveTab>
+        <ActiveTab>0</ActiveTab>
         <Visible>1</Visible>
         <Dynamic>0</Dynamic>
       </Window>
@@ -1888,31 +1924,43 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>14</ActiveTab>
+      <ActiveTab>3</ActiveTab>
       <Documents>
         <Doc>
+          <Name>.\isr\isr.c</Name>
+          <ColumnNumber>29</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>15</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>.\ISR\ISR.H</Name>
+          <ColumnNumber>21</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>4</CurrentLine>
+        </Doc>
+        <Doc>
           <Name>.\cd4052\cd4052.c</Name>
-          <ColumnNumber>43</ColumnNumber>
-          <TopLine>433</TopLine>
-          <CurrentLine>433</CurrentLine>
+          <ColumnNumber>5</ColumnNumber>
+          <TopLine>502</TopLine>
+          <CurrentLine>506</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\main\main.c</Name>
-          <ColumnNumber>37</ColumnNumber>
-          <TopLine>43</TopLine>
-          <CurrentLine>67</CurrentLine>
+          <ColumnNumber>51</ColumnNumber>
+          <TopLine>61</TopLine>
+          <CurrentLine>78</CurrentLine>
         </Doc>
         <Doc>
           <Name>MAIN\MAIN.H</Name>
-          <ColumnNumber>47</ColumnNumber>
-          <TopLine>80</TopLine>
-          <CurrentLine>80</CurrentLine>
+          <ColumnNumber>55</ColumnNumber>
+          <TopLine>94</TopLine>
+          <CurrentLine>94</CurrentLine>
         </Doc>
         <Doc>
           <Name>MAIN\TYPEDEF.H</Name>
           <ColumnNumber>0</ColumnNumber>
           <TopLine>1</TopLine>
-          <CurrentLine>1</CurrentLine>
+          <CurrentLine>10</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\eeprom\24c02.c</Name>
@@ -1940,9 +1988,9 @@
         </Doc>
         <Doc>
           <Name>.\uart\Uart.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>101</TopLine>
-          <CurrentLine>118</CurrentLine>
+          <ColumnNumber>23</ColumnNumber>
+          <TopLine>111</TopLine>
+          <CurrentLine>120</CurrentLine>
         </Doc>
         <Doc>
           <Name>MAIN\STC15XXXXXX.H</Name>
@@ -1973,12 +2021,6 @@
           <ColumnNumber>5</ColumnNumber>
           <TopLine>1</TopLine>
           <CurrentLine>16</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>.\isr\isr.c</Name>
-          <ColumnNumber>11</ColumnNumber>
-          <TopLine>133</TopLine>
-          <CurrentLine>150</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>

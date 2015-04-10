@@ -408,6 +408,13 @@
         </Group>
         <Group>
           <GroupName>isr</GroupName>
+          <Files>
+            <File>
+              <FileName>isr.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\isr\isr.c</FilePath>
+            </File>
+          </Files>
         </Group>
       </Groups>
     </Target>

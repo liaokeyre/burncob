@@ -3,6 +3,7 @@
 #include "oled.h"
 #include "24c02.h"
 #include "cd4052.h"
+#include "isr.h"
 /*********************************************************************/
 #define PRINT_AUTHOR_INFO	   //打印作者信息
 #define SHOW_LOGO			   //显示屏显示logo
@@ -65,6 +66,7 @@ void sysInit(void)
   ioInit();
   UartInit();
   oledInit();
+  timerInit();
 }
 
 void main(void)
@@ -73,6 +75,11 @@ void main(void)
 #ifdef PRINT_AUTHOR_INFO
 	printInfo();
 #endif
+////////////////////////////////////////////////////////////////////////////
+    P2M1 =0x04;
+	P2M1 = 0;
+////////////////////////////////////////////////////////////////////////////TEST
+    EA = 1;
 	while(1)
 	{
 	  TestPn();

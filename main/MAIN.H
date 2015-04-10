@@ -44,8 +44,8 @@
 #define OLED_SDIN 		 P32    //D1（MOSI） 数据
 /*******************************************************///OLED SPI IO DEFINE
 #define SPEAKER  		 P02	//异常报警蜂鸣器
-#define LED0      		 P24	//工作指示灯
-/*******************************************************///LED SPK IO DEFINE
+#define LED0      		 P22//P24	//工作指示灯
+/*******************************************************///LED SPK IO DEFINE  <---------------------TEST LED
 #define OLED_CS_Clr()  OLED_CS=0
 #define OLED_CS_Set()  OLED_CS=1
 

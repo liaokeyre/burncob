@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22                                                        04/07/2015  17:12:24  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22                                                        04/08/2015  09:37:04  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
@@ -59,7 +59,7 @@ LINK MAP OF MODULE:  .\output\BurnCob (MAIN)
             XDATA   0200H     0035H     UNIT         ?XD?CD4052
             XDATA   0235H     0010H     UNIT         ?XD?ISR
             XDATA   0245H     000BH     UNIT         ?XD?_OLED_DRAWLINE?OLED
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 2
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 2
 
 
             XDATA   0250H     000BH     UNIT         ?XD?_OLED_SHOWNUM?OLED
@@ -119,7 +119,7 @@ LINK MAP OF MODULE:  .\output\BurnCob (MAIN)
             CODE    2A5AH     005EH     UNIT         ?PR?INITADDNO?MAIN
             CODE    2AB8H     005EH     UNIT         ?PR?_OLED_DRAWRECTANGLE?OLED
             CODE    2B16H     0059H     UNIT         ?CO?CD4052
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 3
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 3
 
 
             CODE    2B6FH     0050H     UNIT         ?PR?_OLED_DRAW_SQUARE?OLED
@@ -137,40 +137,40 @@ LINK MAP OF MODULE:  .\output\BurnCob (MAIN)
             CODE    2E3DH     002CH     UNIT         ?PR?_BYTEMIRRO?OLED
             CODE    2E69H     002AH     UNIT         ?PR?_AT24C02_WRDAT?24C02
             CODE    2E93H     0029H     UNIT         ?PR?_OLED_WR_BYTE?OLED
-            CODE    2EBCH     0025H     UNIT         ?PR?T1_ISR?ISR
-            CODE    2EE1H     0024H     UNIT         ?PR?_OLED_DRAW_RLINE?OLED
-            CODE    2F05H     0023H     UNIT         ?PR?_GETADCRESULT?CD4052
-            CODE    2F28H     0020H     UNIT         ?PR?_OLED_SET_POS?OLED
-            CODE    2F48H     001FH     UNIT         ?PR?I2C_START?24C02
-            CODE    2F67H     001BH     UNIT         ?PR?_PRINTF_U8?UART
-            CODE    2F82H     001BH     UNIT         ?PR?_STORGE595?_595
-            CODE    2F9DH     001BH     UNIT         ?PR?T0_ISR?ISR
-            CODE    2FB8H     001AH     UNIT         ?PR?_DELAY_MS?OLED
-            CODE    2FD2H     0018H     UNIT         ?PR?_AT24C02_RD?24C02
-            CODE    2FEAH     0018H     UNIT         ?PR?UART1_INTERRUPT?UART
-            CODE    3002H     0018H     UNIT         ?PR?_ADC2RES?CD4052
-            CODE    301AH     0018H     UNIT         ?PR?ENDECODE?ISR
-            CODE    3032H     0017H     UNIT         ?PR?_AT24C02_WR?24C02
-            CODE    3049H     0017H     UNIT         ?PR?_PUT_CHAR?UART
-            CODE    3060H     0016H     UNIT         ?PR?DSDECODE?ISR
-            CODE    3076H     0014H     UNIT         ?PR?_GET_HEX_DATA?UART
-            CODE    308AH     0014H     UNIT         ?PR?_WRITE595?_595
-            CODE    309EH     0013H     UNIT         ?PR?TIMER1INIT?ISR
-            CODE    30B1H     0011H     UNIT         ?PR?TIMER0INIT?ISR
-            CODE    30C2H     0010H     UNIT         ?PR?I2C_STOP?24C02
-            CODE    30D2H     000FH     UNIT         ?PR?OLEDINIT?MAIN
-            CODE    30E1H     000FH     UNIT         ?C_INITSEG
-            CODE    30F0H     000FH     UNIT         ?PR?BURNCHECK?CD4052
-            CODE    30FFH     000CH     UNIT         ?PR?INITADC?CD4052
-            CODE    310BH     000BH     UNIT         ?PR?MAIN?MAIN
-            CODE    3116H     000BH     UNIT         ?PR?DELAY_10MS?24C02
-            CODE    3121H     000BH     UNIT         ?PR?UARTINIT?UART
-            CODE    312CH     000BH     UNIT         ?PR?INT0INIT?ISR
-            CODE    3137H     0009H     UNIT         ?PR?SYSINIT?MAIN
-            CODE    3140H     0009H     UNIT         ?PR?INIT595?_595
-            CODE    3149H     0009H     UNIT         ?PR?TIMERINIT?ISR
-            CODE    3152H     0008H     UNIT         ?PR?DELAY_10US?24C02
-            CODE    315AH     0008H     UNIT         ?PR?_PUT_BYTE?UART
+            CODE    2EBCH     0024H     UNIT         ?PR?_OLED_DRAW_RLINE?OLED
+            CODE    2EE0H     0023H     UNIT         ?PR?_GETADCRESULT?CD4052
+            CODE    2F03H     0021H     UNIT         ?PR?T1_ISR?ISR
+            CODE    2F24H     0020H     UNIT         ?PR?_OLED_SET_POS?OLED
+            CODE    2F44H     001FH     UNIT         ?PR?I2C_START?24C02
+            CODE    2F63H     001BH     UNIT         ?PR?_PRINTF_U8?UART
+            CODE    2F7EH     001BH     UNIT         ?PR?_STORGE595?_595
+            CODE    2F99H     001BH     UNIT         ?PR?T0_ISR?ISR
+            CODE    2FB4H     001AH     UNIT         ?PR?_DELAY_MS?OLED
+            CODE    2FCEH     0018H     UNIT         ?PR?_AT24C02_RD?24C02
+            CODE    2FE6H     0018H     UNIT         ?PR?UART1_INTERRUPT?UART
+            CODE    2FFEH     0018H     UNIT         ?PR?_ADC2RES?CD4052
+            CODE    3016H     0018H     UNIT         ?PR?ENDECODE?ISR
+            CODE    302EH     0017H     UNIT         ?PR?_AT24C02_WR?24C02
+            CODE    3045H     0017H     UNIT         ?PR?_PUT_CHAR?UART
+            CODE    305CH     0016H     UNIT         ?PR?DSDECODE?ISR
+            CODE    3072H     0014H     UNIT         ?PR?_GET_HEX_DATA?UART
+            CODE    3086H     0014H     UNIT         ?PR?_WRITE595?_595
+            CODE    309AH     0013H     UNIT         ?PR?MAIN?MAIN
+            CODE    30ADH     0013H     UNIT         ?PR?TIMER1INIT?ISR
+            CODE    30C0H     0011H     UNIT         ?PR?TIMER0INIT?ISR
+            CODE    30D1H     0010H     UNIT         ?PR?I2C_STOP?24C02
+            CODE    30E1H     000FH     UNIT         ?PR?OLEDINIT?MAIN
+            CODE    30F0H     000FH     UNIT         ?C_INITSEG
+            CODE    30FFH     000FH     UNIT         ?PR?BURNCHECK?CD4052
+            CODE    310EH     000CH     UNIT         ?PR?SYSINIT?MAIN
+            CODE    311AH     000CH     UNIT         ?PR?INITADC?CD4052
+            CODE    3126H     000BH     UNIT         ?PR?DELAY_10MS?24C02
+            CODE    3131H     000BH     UNIT         ?PR?UARTINIT?UART
+            CODE    313CH     000BH     UNIT         ?PR?INT0INIT?ISR
+            CODE    3147H     0009H     UNIT         ?PR?INIT595?_595
+            CODE    3150H     0009H     UNIT         ?PR?TIMERINIT?ISR
+            CODE    3159H     0008H     UNIT         ?PR?DELAY_10US?24C02
+            CODE    3161H     0008H     UNIT         ?PR?_PUT_BYTE?UART
 
 
 
@@ -179,7 +179,7 @@ OVERLAY MAP OF MODULE:   .\output\BurnCob (MAIN)
 
 SEGMENT                                     XDATA_GROUP
   +--> CALLED SEGMENT                     START    LENGTH
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 4
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 4
 
 
 ---------------------------------------------------------
@@ -200,6 +200,7 @@ SEGMENT                                     XDATA_GROUP
   +--> ?PR?IOINIT?MAIN
   +--> ?PR?UARTINIT?UART
   +--> ?PR?OLEDINIT?MAIN
+  +--> ?PR?TIMERINIT?ISR
 
 ?PR?UARTINIT?UART                         -----    -----
   +--> ?PR?_UART_BAUDSET?UART
@@ -230,18 +231,22 @@ SEGMENT                                     XDATA_GROUP
 ?PR?OLED_REFRESH_GRAM?OLED                -----    -----
   +--> ?PR?_OLED_WR_BYTE?OLED
 
+?PR?TIMERINIT?ISR                         -----    -----
+  +--> ?PR?TIMER0INIT?ISR
+  +--> ?PR?TIMER1INIT?ISR
+
 ?PR?PRINTINFO?MAIN                        -----    -----
   +--> ?CO?MAIN
   +--> ?PR?_SEND_STRING?UART
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 5
+
 
 ?PR?_SEND_STRING?UART                     025CH    0003H
   +--> ?PR?_PUT_CHAR?UART
 
 ?PR?_PUT_CHAR?UART                        -----    -----
   +--> ?PR?_PUT_BYTE?UART
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 5
-
-
 
 ?PR?TESTPN?CD4052                         -----    -----
   +--> ?CO?CD4052
@@ -267,87 +272,96 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:0000H         SYMBOL        _ICE_DUMMY_
   C:2A5AH         PUBLIC        initAddNo
   D:0080H         PUBLIC        P0
+  D:0095H         PUBLIC        P2M1
   D:0090H         PUBLIC        P1
   D:00A0H         PUBLIC        P2
   D:00B0H         PUBLIC        P3
   D:00C0H         PUBLIC        P4
   D:00C8H         PUBLIC        P5
+  B:00A8H.7       PUBLIC        EA
   D:00A8H         PUBLIC        IE
   D:00B8H         PUBLIC        IP
   D:00D8H         PUBLIC        CCON
-  C:310BH         PUBLIC        main
+  C:309AH         PUBLIC        main
   D:0098H         PUBLIC        SCON
   D:0088H         PUBLIC        TCON
-  C:30D2H         PUBLIC        oledInit
+  C:30E1H         PUBLIC        oledInit
   C:2995H         PUBLIC        printInfo
   D:00F0H         PUBLIC        B
   D:00E0H         PUBLIC        ACC
   X:02B4H         PUBLIC        AddNo
   C:0006H         PUBLIC        ioInit
-  C:3137H         PUBLIC        sysInit
+  C:310EH         PUBLIC        sysInit
   D:00D0H         PUBLIC        PSW
   -------         PROC          PRINTINFO
-  C:2995H         LINE#         12
   C:2995H         LINE#         13
   C:2995H         LINE#         14
-  C:299EH         LINE#         15
-  C:29A7H         LINE#         16
-  C:29B0H         LINE#         17
-  C:29B9H         LINE#         18
-  C:29C2H         LINE#         19
-  C:29CBH         LINE#         20
-  C:29D4H         LINE#         21
-  C:29DDH         LINE#         22
-  C:29E6H         LINE#         23
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 6
+  C:2995H         LINE#         15
+  C:299EH         LINE#         16
+  C:29A7H         LINE#         17
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 6
 
 
-  C:29EFH         LINE#         24
+  C:29B0H         LINE#         18
+  C:29B9H         LINE#         19
+  C:29C2H         LINE#         20
+  C:29CBH         LINE#         21
+  C:29D4H         LINE#         22
+  C:29DDH         LINE#         23
+  C:29E6H         LINE#         24
+  C:29EFH         LINE#         25
   -------         ENDPROC       PRINTINFO
   -------         PROC          INITADDNO
   -------         DO            
   X:02B0H         SYMBOL        tmp
   -------         ENDDO         
-  C:2A5AH         LINE#         28
   C:2A5AH         LINE#         29
-  C:2A5AH         LINE#         31
-  C:2A6BH         LINE#         32
-  C:2A9CH         LINE#         33
+  C:2A5AH         LINE#         30
+  C:2A5AH         LINE#         32
+  C:2A6BH         LINE#         33
   C:2A9CH         LINE#         34
-  C:2AA6H         LINE#         35
-  C:2AB7H         LINE#         36
+  C:2A9CH         LINE#         35
+  C:2AA6H         LINE#         36
   C:2AB7H         LINE#         37
+  C:2AB7H         LINE#         38
   -------         ENDPROC       INITADDNO
   -------         PROC          OLEDINIT
-  C:30D2H         LINE#         38
-  C:30D2H         LINE#         39
-  C:30D2H         LINE#         40
-  C:30D5H         LINE#         41
-  C:30D8H         LINE#         53
-  C:30DEH         LINE#         55
+  C:30E1H         LINE#         39
+  C:30E1H         LINE#         40
+  C:30E1H         LINE#         41
+  C:30E4H         LINE#         42
+  C:30E7H         LINE#         54
+  C:30EDH         LINE#         56
   -------         ENDPROC       OLEDINIT
   -------         PROC          IOINIT
-  C:0006H         LINE#         58
   C:0006H         LINE#         59
-  C:0006H         LINE#         61
+  C:0006H         LINE#         60
+  C:0006H         LINE#         62
   -------         ENDPROC       IOINIT
   -------         PROC          SYSINIT
-  C:3137H         LINE#         63
-  C:3137H         LINE#         64
-  C:3137H         LINE#         65
-  C:313AH         LINE#         66
-  C:313DH         LINE#         67
+  C:310EH         LINE#         64
+  C:310EH         LINE#         65
+  C:310EH         LINE#         66
+  C:3111H         LINE#         67
+  C:3114H         LINE#         68
+  C:3117H         LINE#         69
   -------         ENDPROC       SYSINIT
   -------         PROC          MAIN
-  C:310BH         LINE#         70
-  C:310BH         LINE#         71
-  C:310BH         LINE#         72
-  C:310EH         LINE#         74
-  C:3111H         LINE#         76
-  C:3111H         LINE#         77
-  C:3111H         LINE#         78
-  C:3114H         LINE#         79
+  C:309AH         LINE#         72
+  C:309AH         LINE#         73
+  C:309AH         LINE#         74
+  C:309DH         LINE#         76
+  C:30A0H         LINE#         79
+  C:30A3H         LINE#         80
+  C:30A6H         LINE#         82
+  C:30A8H         LINE#         83
+  C:30A8H         LINE#         84
+  C:30A8H         LINE#         85
+  C:30ABH         LINE#         86
   -------         ENDPROC       MAIN
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 7
+
+
   -------         ENDMOD        MAIN
 
   -------         MODULE        24C02
@@ -359,25 +373,22 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   D:00C0H         PUBLIC        P4
   D:00C8H         PUBLIC        P5
   C:2E69H         PUBLIC        _at24c02_wrdat
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 7
-
-
   D:00A8H         PUBLIC        IE
-  C:2F48H         PUBLIC        i2c_start
+  C:2F44H         PUBLIC        i2c_start
   C:0013H         PUBLIC        delay_5us
   D:00B8H         PUBLIC        IP
   D:00D8H         PUBLIC        CCON
-  C:30C2H         PUBLIC        i2c_stop
+  C:30D1H         PUBLIC        i2c_stop
   D:0098H         PUBLIC        SCON
-  C:3116H         PUBLIC        delay_10ms
+  C:3126H         PUBLIC        delay_10ms
   D:0088H         PUBLIC        TCON
   B:00A0H.6       PUBLIC        P26
   B:00A0H.7       PUBLIC        P27
-  C:2FD2H         PUBLIC        _at24c02_rd
-  C:3152H         PUBLIC        delay_10us
+  C:2FCEH         PUBLIC        _at24c02_rd
+  C:3159H         PUBLIC        delay_10us
   D:00F0H         PUBLIC        B
   D:00E0H         PUBLIC        ACC
-  C:3032H         PUBLIC        _at24c02_wr
+  C:302EH         PUBLIC        _at24c02_wr
   B:0020H.0       PUBLIC        ACK
   C:2CE5H         PUBLIC        _i2c_sentbyte
   C:2E0FH         PUBLIC        _i2c_rcvbyte
@@ -387,14 +398,14 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   -------         DO            
   D:0007H         SYMBOL        i
   -------         ENDDO         
-  C:3152H         LINE#         8
-  C:3152H         LINE#         9
-  C:3152H         LINE#         11
-  C:3153H         LINE#         12
-  C:3154H         LINE#         13
-  C:3155H         LINE#         14
-  C:3157H         LINE#         15
-  C:3159H         LINE#         16
+  C:3159H         LINE#         8
+  C:3159H         LINE#         9
+  C:3159H         LINE#         11
+  C:315AH         LINE#         12
+  C:315BH         LINE#         13
+  C:315CH         LINE#         14
+  C:315EH         LINE#         15
+  C:3160H         LINE#         16
   -------         ENDPROC       DELAY_10US
   C:000EH         SYMBOL        L?0043
   -------         PROC          L?0042
@@ -408,6 +419,9 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:0013H         LINE#         21
   C:0013H         LINE#         23
   C:0014H         LINE#         24
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 8
+
+
   C:0015H         LINE#         25
   C:0016H         LINE#         26
   C:0018H         LINE#         27
@@ -418,56 +432,56 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   D:0007H         SYMBOL        i
   D:0006H         SYMBOL        j
   -------         ENDDO         
-  C:3116H         LINE#         32
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 8
-
-
-  C:3116H         LINE#         33
-  C:3116H         LINE#         36
-  C:3117H         LINE#         37
-  C:3118H         LINE#         38
-  C:311AH         LINE#         39
-  C:311CH         LINE#         41
-  C:311CH         LINE#         42
-  C:311EH         LINE#         43
-  C:311EH         LINE#         44
-  C:3120H         LINE#         45
+  C:3126H         LINE#         32
+  C:3126H         LINE#         33
+  C:3126H         LINE#         36
+  C:3127H         LINE#         37
+  C:3128H         LINE#         38
+  C:312AH         LINE#         39
+  C:312CH         LINE#         41
+  C:312CH         LINE#         42
+  C:312EH         LINE#         43
+  C:312EH         LINE#         44
+  C:3130H         LINE#         45
   -------         ENDPROC       DELAY_10MS
   -------         PROC          I2C_START
-  C:2F48H         LINE#         56
-  C:2F48H         LINE#         57
-  C:2F48H         LINE#         58
-  C:2F4BH         LINE#         59
-  C:2F4DH         LINE#         60
-  C:2F50H         LINE#         61
-  C:2F52H         LINE#         62
-  C:2F55H         LINE#         63
-  C:2F5BH         LINE#         64
-  C:2F5BH         LINE#         65
-  C:2F5DH         LINE#         66
-  C:2F60H         LINE#         67
-  C:2F62H         LINE#         68
-  C:2F65H         LINE#         69
-  C:2F65H         LINE#         70
-  C:2F65H         LINE#         72
-  C:2F65H         LINE#         73
-  C:2F66H         LINE#         74
-  C:2F66H         LINE#         75
+  C:2F44H         LINE#         56
+  C:2F44H         LINE#         57
+  C:2F44H         LINE#         58
+  C:2F47H         LINE#         59
+  C:2F49H         LINE#         60
+  C:2F4CH         LINE#         61
+  C:2F4EH         LINE#         62
+  C:2F51H         LINE#         63
+  C:2F57H         LINE#         64
+  C:2F57H         LINE#         65
+  C:2F59H         LINE#         66
+  C:2F5CH         LINE#         67
+  C:2F5EH         LINE#         68
+  C:2F61H         LINE#         69
+  C:2F61H         LINE#         70
+  C:2F61H         LINE#         72
+  C:2F61H         LINE#         73
+  C:2F62H         LINE#         74
+  C:2F62H         LINE#         75
   -------         ENDPROC       I2C_START
   -------         PROC          I2C_STOP
-  C:30C2H         LINE#         87
-  C:30C2H         LINE#         88
-  C:30C2H         LINE#         89
-  C:30C5H         LINE#         90
-  C:30C7H         LINE#         91
-  C:30CAH         LINE#         92
-  C:30CCH         LINE#         93
-  C:30CFH         LINE#         94
-  C:30D1H         LINE#         95
+  C:30D1H         LINE#         87
+  C:30D1H         LINE#         88
+  C:30D1H         LINE#         89
+  C:30D4H         LINE#         90
+  C:30D6H         LINE#         91
+  C:30D9H         LINE#         92
+  C:30DBH         LINE#         93
+  C:30DEH         LINE#         94
+  C:30E0H         LINE#         95
   -------         ENDPROC       I2C_STOP
   C:2CDBH         SYMBOL        L?0040
   C:2CE0H         SYMBOL        L?0041
   -------         PROC          L?0039
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 9
+
+
   -------         ENDPROC       L?0039
   C:2CDBH         SYMBOL        L?0040
   C:2CE0H         SYMBOL        L?0041
@@ -479,9 +493,6 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:2CE5H         LINE#         103
   C:2CE7H         LINE#         104
   C:2CE7H         LINE#         107
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 9
-
-
   C:2CE9H         LINE#         108
   C:2CE9H         LINE#         109
   C:2CECH         LINE#         110
@@ -528,6 +539,9 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:2E23H         LINE#         156
   C:2E24H         LINE#         157
   C:2E26H         LINE#         158
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 10
+
+
   C:2E2BH         LINE#         160
   C:2E2EH         LINE#         161
   C:2E30H         LINE#         162
@@ -539,22 +553,19 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:2E35H         LINE#         169
   C:2E38H         LINE#         170
   C:2E3AH         LINE#         172
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 10
-
-
   C:2E3CH         LINE#         173
   -------         ENDPROC       _I2C_RCVBYTE
   -------         PROC          _AT24C02_WR
   D:0003H         SYMBOL        address
   D:0004H         SYMBOL        dat
-  C:3032H         LINE#         180
-  C:3036H         LINE#         181
-  C:3036H         LINE#         182
-  C:3039H         LINE#         183
-  C:303EH         LINE#         184
-  C:3040H         LINE#         185
-  C:3043H         LINE#         186
-  C:3046H         LINE#         187
+  C:302EH         LINE#         180
+  C:3032H         LINE#         181
+  C:3032H         LINE#         182
+  C:3035H         LINE#         183
+  C:303AH         LINE#         184
+  C:303CH         LINE#         185
+  C:303FH         LINE#         186
+  C:3042H         LINE#         187
   -------         ENDPROC       _AT24C02_WR
   -------         PROC          _AT24C02_WRDAT
   D:0004H         SYMBOL        address
@@ -580,17 +591,20 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   -------         DO            
   D:0006H         SYMBOL        temp
   -------         ENDDO         
-  C:2FD2H         LINE#         212
-  C:2FD2H         LINE#         213
-  C:2FD2H         LINE#         215
-  C:2FD2H         LINE#         216
-  C:2FD2H         LINE#         217
-  C:2FD5H         LINE#         218
-  C:2FD8H         LINE#         219
-  C:2FDDH         LINE#         220
-  C:2FE4H         LINE#         221
-  C:2FE7H         LINE#         222
-  C:2FE9H         LINE#         223
+  C:2FCEH         LINE#         212
+  C:2FCEH         LINE#         213
+  C:2FCEH         LINE#         215
+  C:2FCEH         LINE#         216
+  C:2FCEH         LINE#         217
+  C:2FD1H         LINE#         218
+  C:2FD4H         LINE#         219
+  C:2FD9H         LINE#         220
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 11
+
+
+  C:2FE0H         LINE#         221
+  C:2FE3H         LINE#         222
+  C:2FE5H         LINE#         223
   -------         ENDPROC       _AT24C02_RD
   -------         PROC          _AT24C02_RDDAT
   D:0004H         SYMBOL        address
@@ -599,9 +613,6 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:2C9AH         LINE#         224
   C:2C9CH         LINE#         225
   C:2C9CH         LINE#         226
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 11
-
-
   C:2CA2H         LINE#         227
   C:2CA2H         LINE#         228
   C:2CA2H         LINE#         229
@@ -648,6 +659,9 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   X:0000H         PUBLIC        OLED_GRAM
   C:0CC4H         PUBLIC        Hzk
   C:2AB8H         PUBLIC        _OLED_DrawRectangle
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 12
+
+
   C:0F64H         PUBLIC        logo
   D:0098H         PUBLIC        SCON
   B:00B0H.2       PUBLIC        P32
@@ -659,14 +673,11 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:2C0FH         PUBLIC        _mypow
   D:00F0H         PUBLIC        B
   C:2C58H         PUBLIC        OLED_Refresh_Gram
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 12
-
-
-  C:2F28H         PUBLIC        _OLED_Set_Pos
+  C:2F24H         PUBLIC        _OLED_Set_Pos
   D:00E0H         PUBLIC        ACC
   C:2D25H         PUBLIC        _OLED_Draw_HLine
-  C:2EE1H         PUBLIC        _OLED_Draw_RLine
-  C:2FB8H         PUBLIC        _delay_ms
+  C:2EBCH         PUBLIC        _OLED_Draw_RLine
+  C:2FB4H         PUBLIC        _delay_ms
   C:2376H         PUBLIC        _OLED_Draw_LineS
   C:2460H         PUBLIC        _OLED_ShowNum
   C:2B6FH         PUBLIC        _OLED_Draw_Square
@@ -691,15 +702,15 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   -------         DO            
   D:0004H         SYMBOL        a
   -------         ENDDO         
-  C:2FB8H         LINE#         41
-  C:2FB8H         LINE#         42
-  C:2FB8H         LINE#         44
-  C:2FBCH         LINE#         45
-  C:2FBCH         LINE#         46
-  C:2FC0H         LINE#         47
-  C:2FCAH         LINE#         48
-  C:2FCFH         LINE#         49
-  C:2FD1H         LINE#         51
+  C:2FB4H         LINE#         41
+  C:2FB4H         LINE#         42
+  C:2FB4H         LINE#         44
+  C:2FB8H         LINE#         45
+  C:2FB8H         LINE#         46
+  C:2FBCH         LINE#         47
+  C:2FC6H         LINE#         48
+  C:2FCBH         LINE#         49
+  C:2FCDH         LINE#         51
   -------         ENDPROC       _DELAY_MS
   -------         PROC          _OLED_WR_BYTE
   D:0007H         SYMBOL        dat
@@ -708,6 +719,9 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   D:0006H         SYMBOL        i
   -------         ENDDO         
   C:2E93H         LINE#         73
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 13
+
+
   C:2E93H         LINE#         74
   C:2E93H         LINE#         76
   C:2E96H         LINE#         77
@@ -719,9 +733,6 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:2EA2H         LINE#         84
   C:2EA6H         LINE#         85
   C:2EA6H         LINE#         86
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 13
-
-
   C:2EA8H         LINE#         87
   C:2EAAH         LINE#         89
   C:2EACH         LINE#         90
@@ -734,11 +745,11 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   -------         PROC          _OLED_SET_POS
   D:0004H         SYMBOL        x
   D:0005H         SYMBOL        y
-  C:2F28H         LINE#         98
-  C:2F2AH         LINE#         99
-  C:2F2AH         LINE#         100
-  C:2F33H         LINE#         101
-  C:2F3FH         LINE#         102
+  C:2F24H         LINE#         98
+  C:2F26H         LINE#         99
+  C:2F26H         LINE#         100
+  C:2F2FH         LINE#         101
+  C:2F3BH         LINE#         102
   -------         ENDPROC       _OLED_SET_POS
   -------         PROC          OLED_REFRESH_GRAM
   -------         DO            
@@ -768,6 +779,9 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:2DB5H         LINE#         133
   C:2DB5H         LINE#         134
   C:2DB5H         LINE#         136
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 14
+
+
   C:2DDEH         LINE#         138
   -------         ENDPROC       OLED_CLEAR
   C:2738H         SYMBOL        L?0195
@@ -779,9 +793,6 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   D:0005H         SYMBOL        y
   D:0003H         SYMBOL        t
   -------         DO            
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 14
-
-
   X:0264H         SYMBOL        pos
   D:0006H         SYMBOL        bx
   X:0265H         SYMBOL        temp
@@ -828,6 +839,9 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:1F87H         LINE#         176
   C:1F87H         LINE#         177
   C:1F94H         LINE#         178
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 15
+
+
   C:1F98H         LINE#         179
   C:1F9AH         LINE#         181
   C:1F9AH         LINE#         182
@@ -839,9 +853,6 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:1FD8H         LINE#         190
   C:1FE7H         LINE#         191
   C:1FE7H         LINE#         192
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 15
-
-
   C:1FEFH         LINE#         193
   C:1FEFH         LINE#         194
   C:1FF5H         LINE#         195
@@ -888,6 +899,9 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:2D36H         LINE#         239
   C:2D36H         LINE#         240
   C:2D42H         LINE#         241
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 16
+
+
   C:2D43H         LINE#         242
   C:2D43H         LINE#         243
   C:2D48H         LINE#         244
@@ -899,24 +913,21 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   X:02BFH         SYMBOL        t
   -------         DO            
   D:0007H         SYMBOL        temp
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 16
-
-
   -------         ENDDO         
-  C:2EE1H         LINE#         255
-  C:2EE7H         LINE#         256
-  C:2EE7H         LINE#         258
-  C:2EECH         LINE#         259
-  C:2EECH         LINE#         260
-  C:2EEEH         LINE#         261
-  C:2EF0H         LINE#         262
-  C:2EF2H         LINE#         263
-  C:2EF2H         LINE#         265
-  C:2EF2H         LINE#         266
-  C:2EFEH         LINE#         267
-  C:2EFFH         LINE#         268
-  C:2EFFH         LINE#         269
-  C:2F04H         LINE#         270
+  C:2EBCH         LINE#         255
+  C:2EC2H         LINE#         256
+  C:2EC2H         LINE#         258
+  C:2EC7H         LINE#         259
+  C:2EC7H         LINE#         260
+  C:2EC9H         LINE#         261
+  C:2ECBH         LINE#         262
+  C:2ECDH         LINE#         263
+  C:2ECDH         LINE#         265
+  C:2ECDH         LINE#         266
+  C:2ED9H         LINE#         267
+  C:2EDAH         LINE#         268
+  C:2EDAH         LINE#         269
+  C:2EDFH         LINE#         270
   -------         ENDPROC       _OLED_DRAW_RLINE
   -------         PROC          _OLED_DRAWRECTANGLE
   X:02A1H         SYMBOL        x1
@@ -948,6 +959,9 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:2804H         LINE#         305
   C:2804H         LINE#         306
   C:2812H         LINE#         307
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 17
+
+
   C:2817H         LINE#         308
   C:281CH         LINE#         309
   C:2821H         LINE#         310
@@ -959,9 +973,6 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:284FH         LINE#         320
   C:284FH         LINE#         322
   C:285DH         LINE#         323
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 17
-
-
   C:2872H         LINE#         324
   C:2878H         LINE#         325
   C:287AH         LINE#         326
@@ -1008,6 +1019,9 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:2384H         LINE#         373
   C:2389H         LINE#         374
   C:2390H         LINE#         375
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 18
+
+
   C:23A7H         LINE#         376
   C:23B6H         LINE#         377
   C:23C5H         LINE#         378
@@ -1019,9 +1033,6 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:2431H         LINE#         386
   C:244CH         LINE#         387
   C:2454H         LINE#         388
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 18
-
-
   C:2459H         LINE#         389
   C:245FH         LINE#         390
   -------         ENDPROC       _OLED_DRAW_LINES
@@ -1068,6 +1079,9 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:116FH         LINE#         426
   C:116FH         LINE#         430
   C:1194H         LINE#         431
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 19
+
+
   C:11ACH         LINE#         432
   C:11D7H         LINE#         435
   C:121DH         LINE#         436
@@ -1079,9 +1093,6 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:130EH         LINE#         448
   C:132AH         LINE#         449
   C:133FH         LINE#         450
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 19
-
-
   C:134AH         LINE#         451
   C:1356H         LINE#         453
   C:1356H         LINE#         454
@@ -1128,6 +1139,9 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   -------         DO            
   D:0004H         SYMBOL        x
   D:0002H         SYMBOL        y
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 20
+
+
   -------         ENDDO         
   C:2DDFH         LINE#         505
   C:2DE6H         LINE#         506
@@ -1139,9 +1153,6 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   -------         ENDPROC       _OLED_FILL
   C:2076H         SYMBOL        L?0191
   C:2094H         SYMBOL        L?0192
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 20
-
-
   C:2097H         SYMBOL        L?0193
   -------         PROC          L?0190
   -------         ENDPROC       L?0190
@@ -1188,6 +1199,9 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   -------         PROC          _MYPOW
   X:0285H         SYMBOL        m
   X:0286H         SYMBOL        n
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 21
+
+
   -------         DO            
   X:0287H         SYMBOL        result
   -------         ENDDO         
@@ -1199,9 +1213,6 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:2C57H         LINE#         556
   -------         ENDPROC       _MYPOW
   -------         PROC          _OLED_SHOWNUM
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 21
-
-
   X:0250H         SYMBOL        x
   X:0251H         SYMBOL        y
   X:0252H         SYMBOL        num
@@ -1248,6 +1259,9 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:22E5H         LINE#         604
   C:22E8H         LINE#         605
   C:22F0H         LINE#         606
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 22
+
+
   C:22F0H         LINE#         607
   C:2300H         LINE#         608
   C:230CH         LINE#         609
@@ -1259,9 +1273,6 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:2344H         LINE#         616
   C:2361H         LINE#         617
   C:2368H         LINE#         618
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 22
-
-
   C:2368H         LINE#         619
   C:2372H         LINE#         620
   C:2375H         LINE#         621
@@ -1308,6 +1319,9 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   X:025EH         SYMBOL        t
   X:0260H         SYMBOL        t1
   X:0262H         SYMBOL        y0
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 23
+
+
   -------         ENDDO         
   C:25DBH         LINE#         661
   C:25DFH         LINE#         662
@@ -1319,9 +1333,6 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:261DH         LINE#         669
   C:261DH         LINE#         670
   C:262CH         LINE#         671
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 23
-
-
   C:2631H         LINE#         672
   C:263EH         LINE#         673
   C:263FH         LINE#         674
@@ -1368,6 +1379,9 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:25B0H         LINE#         742
   C:25B5H         LINE#         743
   C:25BAH         LINE#         748
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 24
+
+
   C:25BFH         LINE#         749
   C:25C4H         LINE#         751
   C:25C9H         LINE#         752
@@ -1379,9 +1393,6 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
 
   -------         MODULE        UART
   C:0000H         SYMBOL        _ICE_DUMMY_
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 24
-
-
   D:0080H         PUBLIC        P0
   D:0090H         PUBLIC        P1
   D:00A0H         PUBLIC        P2
@@ -1393,23 +1404,23 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   B:0098H.0       PUBLIC        RI
   B:0098H.1       PUBLIC        TI
   D:00D8H         PUBLIC        CCON
-  C:2F67H         PUBLIC        _printf_u8
+  C:2F63H         PUBLIC        _printf_u8
   C:2D49H         PUBLIC        _send_string
   D:0099H         PUBLIC        SBUF
   D:0087H         PUBLIC        PCON
   D:0098H         PUBLIC        SCON
-  C:3121H         PUBLIC        UartInit
+  C:3131H         PUBLIC        UartInit
   D:0088H         PUBLIC        TCON
   D:00F0H         PUBLIC        B
   D:008EH         PUBLIC        AUXR
-  C:2FEAH         PUBLIC        uart1_interrupt
+  C:2FE6H         PUBLIC        uart1_interrupt
   D:00E0H         PUBLIC        ACC
   C:29F8H         PUBLIC        _Uart_Baudset
   D:00D6H         PUBLIC        T2H
   D:00D7H         PUBLIC        T2L
-  C:3049H         PUBLIC        _put_char
-  C:3076H         PUBLIC        _get_hex_data
-  C:315AH         PUBLIC        _put_byte
+  C:3045H         PUBLIC        _put_char
+  C:3072H         PUBLIC        _get_hex_data
+  C:3161H         PUBLIC        _put_byte
   D:00D0H         PUBLIC        PSW
   -------         PROC          _UART_BAUDSET
   X:025CH         SYMBOL        num
@@ -1425,23 +1436,23 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:2A59H         LINE#         23
   -------         ENDPROC       _UART_BAUDSET
   -------         PROC          UARTINIT
-  C:3121H         LINE#         25
-  C:3121H         LINE#         26
-  C:3121H         LINE#         27
+  C:3131H         LINE#         25
+  C:3131H         LINE#         26
+  C:3131H         LINE#         27
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 25
+
+
   -------         ENDPROC       UARTINIT
   -------         PROC          _PUT_BYTE
   D:0007H         SYMBOL        tmp
-  C:315AH         LINE#         39
-  C:315AH         LINE#         40
-  C:315AH         LINE#         41
-  C:315CH         LINE#         42
-  C:315FH         LINE#         43
-  C:3161H         LINE#         44
+  C:3161H         LINE#         39
+  C:3161H         LINE#         40
+  C:3161H         LINE#         41
+  C:3163H         LINE#         42
+  C:3166H         LINE#         43
+  C:3168H         LINE#         44
   -------         ENDPROC       _PUT_BYTE
   -------         PROC          _SEND_STRING
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 25
-
-
   X:025CH         SYMBOL        s
   C:2D49H         LINE#         54
   C:2D54H         LINE#         55
@@ -1453,58 +1464,58 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   -------         ENDPROC       _SEND_STRING
   -------         PROC          _PUT_CHAR
   D:0006H         SYMBOL        c
-  C:3049H         LINE#         71
-  C:304BH         LINE#         72
-  C:304BH         LINE#         73
-  C:304FH         LINE#         74
-  C:304FH         LINE#         75
-  C:3054H         LINE#         76
-  C:3056H         LINE#         77
-  C:3058H         LINE#         79
-  C:3058H         LINE#         80
-  C:305DH         LINE#         81
-  C:305DH         LINE#         82
-  C:305FH         LINE#         84
+  C:3045H         LINE#         71
+  C:3047H         LINE#         72
+  C:3047H         LINE#         73
+  C:304BH         LINE#         74
+  C:304BH         LINE#         75
+  C:3050H         LINE#         76
+  C:3052H         LINE#         77
+  C:3054H         LINE#         79
+  C:3054H         LINE#         80
+  C:3059H         LINE#         81
+  C:3059H         LINE#         82
+  C:305BH         LINE#         84
   -------         ENDPROC       _PUT_CHAR
   -------         PROC          _GET_HEX_DATA
   D:0007H         SYMBOL        dat
   -------         DO            
   D:0005H         SYMBOL        dat0
   -------         ENDDO         
-  C:3076H         LINE#         95
-  C:3076H         LINE#         96
-  C:3076H         LINE#         98
-  C:307DH         LINE#         99
-  C:307DH         LINE#         100
-  C:3080H         LINE#         101
-  C:3082H         LINE#         103
-  C:3082H         LINE#         104
-  C:3085H         LINE#         105
-  C:3085H         LINE#         106
+  C:3072H         LINE#         95
+  C:3072H         LINE#         96
+  C:3072H         LINE#         98
+  C:3079H         LINE#         99
+  C:3079H         LINE#         100
+  C:307CH         LINE#         101
+  C:307EH         LINE#         103
+  C:307EH         LINE#         104
+  C:3081H         LINE#         105
+  C:3081H         LINE#         106
   -------         ENDPROC       _GET_HEX_DATA
   -------         PROC          _PRINTF_U8
   D:0004H         SYMBOL        dat
-  C:2F67H         LINE#         118
-  C:2F69H         LINE#         119
-  C:2F69H         LINE#         120
-  C:2F6EH         LINE#         121
-  C:2F76H         LINE#         122
-  C:2F7DH         LINE#         123
+  C:2F63H         LINE#         118
+  C:2F65H         LINE#         119
+  C:2F65H         LINE#         120
+  C:2F6AH         LINE#         121
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 26
+
+
+  C:2F72H         LINE#         122
+  C:2F79H         LINE#         123
   -------         ENDPROC       _PRINTF_U8
   -------         PROC          UART1_INTERRUPT
   -------         DO            
   X:025BH         SYMBOL        temp
   -------         ENDDO         
-  C:2FEAH         LINE#         127
-  C:2FF0H         LINE#         130
-  C:2FF3H         LINE#         131
-  C:2FF3H         LINE#         132
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 26
-
-
-  C:2FF5H         LINE#         133
-  C:2FFBH         LINE#         135
-  C:2FFBH         LINE#         137
+  C:2FE6H         LINE#         127
+  C:2FECH         LINE#         130
+  C:2FEFH         LINE#         131
+  C:2FEFH         LINE#         132
+  C:2FF1H         LINE#         133
+  C:2FF7H         LINE#         135
+  C:2FF7H         LINE#         137
   -------         ENDPROC       UART1_INTERRUPT
   -------         ENDMOD        UART
 
@@ -1525,53 +1536,53 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   D:0098H         PUBLIC        SCON
   B:00A0H.3       PUBLIC        P23
   D:0088H         PUBLIC        TCON
-  C:2F82H         PUBLIC        _storge595
+  C:2F7EH         PUBLIC        _storge595
   D:00F0H         PUBLIC        B
   D:00E0H         PUBLIC        ACC
-  C:308AH         PUBLIC        _write595
-  C:3140H         PUBLIC        init595
+  C:3086H         PUBLIC        _write595
+  C:3147H         PUBLIC        init595
   D:00D0H         PUBLIC        PSW
   -------         PROC          INIT595
-  C:3140H         LINE#         5
-  C:3140H         LINE#         6
-  C:3140H         LINE#         7
-  C:3142H         LINE#         8
-  C:3144H         LINE#         9
-  C:3146H         LINE#         10
-  C:3148H         LINE#         11
+  C:3147H         LINE#         5
+  C:3147H         LINE#         6
+  C:3147H         LINE#         7
+  C:3149H         LINE#         8
+  C:314BH         LINE#         9
+  C:314DH         LINE#         10
+  C:314FH         LINE#         11
   -------         ENDPROC       INIT595
   -------         PROC          _WRITE595
   D:0007H         SYMBOL        dat
   -------         DO            
   D:0006H         SYMBOL        i
   -------         ENDDO         
-  C:308AH         LINE#         16
-  C:308AH         LINE#         17
-  C:308AH         LINE#         19
-  C:308CH         LINE#         20
-  C:308CH         LINE#         21
-  C:3090H         LINE#         22
-  C:3092H         LINE#         23
-  C:3094H         LINE#         24
-  C:3098H         LINE#         25
-  C:309DH         LINE#         26
+  C:3086H         LINE#         16
+  C:3086H         LINE#         17
+  C:3086H         LINE#         19
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 27
+
+
+  C:3088H         LINE#         20
+  C:3088H         LINE#         21
+  C:308CH         LINE#         22
+  C:308EH         LINE#         23
+  C:3090H         LINE#         24
+  C:3094H         LINE#         25
+  C:3099H         LINE#         26
   -------         ENDPROC       _WRITE595
   -------         PROC          _STORGE595
   D:0001H         SYMBOL        dat
   D:0005H         SYMBOL        count
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 27
-
-
-  C:2F82H         LINE#         32
-  C:2F82H         LINE#         33
-  C:2F82H         LINE#         34
-  C:2F84H         LINE#         35
-  C:2F8AH         LINE#         36
-  C:2F8AH         LINE#         37
-  C:2F91H         LINE#         38
-  C:2F98H         LINE#         39
-  C:2F9AH         LINE#         40
-  C:2F9CH         LINE#         41
+  C:2F7EH         LINE#         32
+  C:2F7EH         LINE#         33
+  C:2F7EH         LINE#         34
+  C:2F80H         LINE#         35
+  C:2F86H         LINE#         36
+  C:2F86H         LINE#         37
+  C:2F8DH         LINE#         38
+  C:2F94H         LINE#         39
+  C:2F96H         LINE#         40
+  C:2F98H         LINE#         41
   -------         ENDPROC       _STORGE595
   -------         ENDMOD        _595
 
@@ -1599,54 +1610,54 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   D:00E0H         PUBLIC        ACC
   C:217FH         PUBLIC        _PnMask
   D:009DH         PUBLIC        P1ASF
-  C:30FFH         PUBLIC        InitADC
+  C:311AH         PUBLIC        InitADC
   D:00BEH         PUBLIC        ADC_RESL
   C:1819H         PUBLIC        TestPn
   C:1BCCH         PUBLIC        GetPadRes
-  C:3007H         PUBLIC        _Adc2Res
+  C:3003H         PUBLIC        _Adc2Res
   X:0205H         PUBLIC        RES
   X:022DH         PUBLIC        PN_CUT
-  C:2F05H         PUBLIC        _GetADCResult
+  C:2EE0H         PUBLIC        _GetADCResult
   X:0231H         PUBLIC        PN_TMP
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 28
+
+
   C:2D7CH         PUBLIC        compareAdd
-  C:30F0H         PUBLIC        BurnCheck
+  C:30FFH         PUBLIC        BurnCheck
   D:00D0H         PUBLIC        PSW
   -------         PROC          INITADC
-  C:30FFH         LINE#         15
-  C:30FFH         LINE#         16
-  C:30FFH         LINE#         17
-  C:3102H         LINE#         18
-  C:3105H         LINE#         19
-  C:3107H         LINE#         20
-  C:310AH         LINE#         21
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 28
-
-
+  C:311AH         LINE#         15
+  C:311AH         LINE#         16
+  C:311AH         LINE#         17
+  C:311DH         LINE#         18
+  C:3120H         LINE#         19
+  C:3122H         LINE#         20
+  C:3125H         LINE#         21
   -------         ENDPROC       INITADC
   -------         PROC          _GETADCRESULT
   D:0007H         SYMBOL        Chanel
-  C:2F05H         LINE#         28
-  C:2F05H         LINE#         29
-  C:2F05H         LINE#         30
-  C:2F0AH         LINE#         31
-  C:2F0BH         LINE#         32
-  C:2F0CH         LINE#         33
-  C:2F0DH         LINE#         34
-  C:2F0EH         LINE#         35
-  C:2F13H         LINE#         36
-  C:2F16H         LINE#         37
-  C:2F27H         LINE#         38
+  C:2EE0H         LINE#         28
+  C:2EE0H         LINE#         29
+  C:2EE0H         LINE#         30
+  C:2EE5H         LINE#         31
+  C:2EE6H         LINE#         32
+  C:2EE7H         LINE#         33
+  C:2EE8H         LINE#         34
+  C:2EE9H         LINE#         35
+  C:2EEEH         LINE#         36
+  C:2EF1H         LINE#         37
+  C:2F02H         LINE#         38
   -------         ENDPROC       _GETADCRESULT
-  C:3002H         SYMBOL        L?0021
+  C:2FFEH         SYMBOL        L?0021
   -------         PROC          L?0020
   -------         ENDPROC       L?0020
-  C:3002H         SYMBOL        L?0021
+  C:2FFEH         SYMBOL        L?0021
   -------         PROC          _ADC2RES
   D:0006H         SYMBOL        adValue
-  C:3007H         LINE#         44
-  C:3007H         LINE#         45
-  C:3007H         LINE#         46
-  C:3019H         LINE#         47
+  C:3003H         LINE#         44
+  C:3003H         LINE#         45
+  C:3003H         LINE#         46
+  C:3015H         LINE#         47
   -------         ENDPROC       _ADC2RES
   -------         PROC          GETPADRES
   C:1BCCH         LINE#         65
@@ -1668,6 +1679,9 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:1C39H         LINE#         82
   C:1C3DH         LINE#         83
   C:1C4BH         LINE#         84
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 29
+
+
   C:1C4FH         LINE#         85
   C:1C5DH         LINE#         86
   C:1C61H         LINE#         87
@@ -1679,9 +1693,6 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:1C81H         LINE#         94
   C:1C8CH         LINE#         95
   C:1C90H         LINE#         96
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 29
-
-
   C:1CA0H         LINE#         97
   C:1CA4H         LINE#         98
   C:1CB4H         LINE#         99
@@ -1728,6 +1739,9 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:21FDH         LINE#         144
   C:220EH         LINE#         145
   C:221FH         LINE#         146
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 30
+
+
   C:2234H         LINE#         148
   C:2243H         LINE#         149
   C:2252H         LINE#         150
@@ -1739,20 +1753,17 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:2267H         LINE#         182
   C:227BH         LINE#         183
   C:227BH         LINE#         184
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 30
-
-
   -------         ENDPROC       _PNMASK
   -------         PROC          BURNCHECK
   -------         DO            
   B:0020H.1       SYMBOL        ret
   -------         ENDDO         
-  C:30F0H         LINE#         189
-  C:30F0H         LINE#         190
-  C:30F0H         LINE#         192
-  C:30F2H         LINE#         193
-  C:30FCH         LINE#         435
-  C:30FEH         LINE#         436
+  C:30FFH         LINE#         189
+  C:30FFH         LINE#         190
+  C:30FFH         LINE#         192
+  C:3101H         LINE#         193
+  C:310BH         LINE#         435
+  C:310DH         LINE#         436
   -------         ENDPROC       BURNCHECK
   -------         PROC          COMPAREADD
   -------         DO            
@@ -1788,6 +1799,9 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:187CH         LINE#         490
   C:1887H         LINE#         491
   C:1894H         LINE#         492
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 31
+
+
   C:18A0H         LINE#         493
   C:18ACH         LINE#         494
   C:18B6H         LINE#         496
@@ -1799,9 +1813,6 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:1901H         LINE#         502
   C:190DH         LINE#         503
   C:1917H         LINE#         505
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 31
-
-
   C:1920H         LINE#         506
   C:192EH         LINE#         507
   C:193BH         LINE#         508
@@ -1828,7 +1839,7 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
 
   -------         MODULE        ISR
   C:0000H         SYMBOL        _ICE_DUMMY_
-  C:3060H         PUBLIC        DsDecode
+  C:305CH         PUBLIC        DsDecode
   D:0080H         PUBLIC        P0
   D:00B2H         PUBLIC        P3M0
   D:0090H         PUBLIC        P1
@@ -1842,26 +1853,26 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   D:00B8H         PUBLIC        IP
   B:00B0H.2       PUBLIC        INT0
   D:00D8H         PUBLIC        CCON
-  C:2F9DH         PUBLIC        T0_isr
+  C:2F99H         PUBLIC        T0_isr
+  B:00A0H.2       PUBLIC        P22
   D:0098H         PUBLIC        SCON
-  C:2EBCH         PUBLIC        T1_isr
+  C:2F03H         PUBLIC        T1_isr
   D:0089H         PUBLIC        TMOD
   D:0088H         PUBLIC        TCON
-  B:00A0H.4       PUBLIC        P24
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 32
+
+
   X:023FH         PUBLIC        OscFreq
-  C:3149H         PUBLIC        timerInit
+  C:3150H         PUBLIC        timerInit
   D:00F0H         PUBLIC        B
   D:008EH         PUBLIC        AUXR
   D:00E0H         PUBLIC        ACC
   B:00A8H.3       PUBLIC        ET1
   B:0088H.5       PUBLIC        TF0
-  C:30B1H         PUBLIC        Timer0Init
+  C:30C0H         PUBLIC        Timer0Init
   B:0088H.7       PUBLIC        TF1
   C:1D7BH         PUBLIC        INT0_isr
-  C:309EH         PUBLIC        Timer1Init
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 32
-
-
+  C:30ADH         PUBLIC        Timer1Init
   D:008CH         PUBLIC        TH0
   B:00A8H.0       PUBLIC        EX0
   B:0088H.0       PUBLIC        IT0
@@ -1871,70 +1882,70 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   B:0088H.4       PUBLIC        TR0
   B:0088H.6       PUBLIC        TR1
   X:0241H         PUBLIC        ReIRcode
-  C:312CH         PUBLIC        Int0Init
+  C:313CH         PUBLIC        Int0Init
   D:00D0H         PUBLIC        PSW
-  C:301AH         PUBLIC        EnDecode
+  C:3016H         PUBLIC        EnDecode
   -------         PROC          TIMER0INIT
-  C:30B1H         LINE#         16
-  C:30B1H         LINE#         17
-  C:30B1H         LINE#         18
-  C:30B3H         LINE#         19
-  C:30B6H         LINE#         20
-  C:30B9H         LINE#         21
-  C:30BCH         LINE#         22
-  C:30BFH         LINE#         23
-  C:30C1H         LINE#         24
+  C:30C0H         LINE#         16
+  C:30C0H         LINE#         17
+  C:30C0H         LINE#         18
+  C:30C2H         LINE#         19
+  C:30C5H         LINE#         20
+  C:30C8H         LINE#         21
+  C:30CBH         LINE#         22
+  C:30CEH         LINE#         23
+  C:30D0H         LINE#         24
   -------         ENDPROC       TIMER0INIT
   -------         PROC          TIMER1INIT
-  C:309EH         LINE#         26
-  C:309EH         LINE#         27
-  C:309EH         LINE#         28
-  C:30A0H         LINE#         29
-  C:30A3H         LINE#         30
-  C:30A6H         LINE#         31
-  C:30A9H         LINE#         32
-  C:30ACH         LINE#         33
-  C:30AEH         LINE#         34
-  C:30B0H         LINE#         35
+  C:30ADH         LINE#         26
+  C:30ADH         LINE#         27
+  C:30ADH         LINE#         28
+  C:30AFH         LINE#         29
+  C:30B2H         LINE#         30
+  C:30B5H         LINE#         31
+  C:30B8H         LINE#         32
+  C:30BBH         LINE#         33
+  C:30BDH         LINE#         34
+  C:30BFH         LINE#         35
   -------         ENDPROC       TIMER1INIT
   -------         PROC          INT0INIT
-  C:312CH         LINE#         36
-  C:312CH         LINE#         37
-  C:312CH         LINE#         39
-  C:312FH         LINE#         40
-  C:3132H         LINE#         41
-  C:3134H         LINE#         42
-  C:3136H         LINE#         43
+  C:313CH         LINE#         36
+  C:313CH         LINE#         37
+  C:313CH         LINE#         39
+  C:313FH         LINE#         40
+  C:3142H         LINE#         41
+  C:3144H         LINE#         42
+  C:3146H         LINE#         43
   -------         ENDPROC       INT0INIT
   -------         PROC          TIMERINIT
-  C:3149H         LINE#         45
-  C:3149H         LINE#         46
-  C:3149H         LINE#         47
-  C:314CH         LINE#         48
-  C:314FH         LINE#         49
-  C:3151H         LINE#         50
+  C:3150H         LINE#         45
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 33
+
+
+  C:3150H         LINE#         46
+  C:3150H         LINE#         47
+  C:3153H         LINE#         48
+  C:3156H         LINE#         49
+  C:3158H         LINE#         50
   -------         ENDPROC       TIMERINIT
   -------         PROC          ENDECODE
-  C:301AH         LINE#         64
-  C:301AH         LINE#         65
-  C:301AH         LINE#         66
-  C:301CH         LINE#         67
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 33
-
-
-  C:3023H         LINE#         68
-  C:302DH         LINE#         69
-  C:302FH         LINE#         70
-  C:3031H         LINE#         73
+  C:3016H         LINE#         64
+  C:3016H         LINE#         65
+  C:3016H         LINE#         66
+  C:3018H         LINE#         67
+  C:301FH         LINE#         68
+  C:3029H         LINE#         69
+  C:302BH         LINE#         70
+  C:302DH         LINE#         73
   -------         ENDPROC       ENDECODE
   -------         PROC          DSDECODE
-  C:3060H         LINE#         74
-  C:3060H         LINE#         75
-  C:3060H         LINE#         76
-  C:3062H         LINE#         77
-  C:3064H         LINE#         78
-  C:306BH         LINE#         79
-  C:3075H         LINE#         81
+  C:305CH         LINE#         74
+  C:305CH         LINE#         75
+  C:305CH         LINE#         76
+  C:305EH         LINE#         77
+  C:3060H         LINE#         78
+  C:3067H         LINE#         79
+  C:3071H         LINE#         81
   -------         ENDPROC       DSDECODE
   -------         PROC          INT0_ISR
   -------         DO            
@@ -1968,6 +1979,9 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:1E09H         LINE#         110
   C:1E31H         LINE#         112
   C:1E31H         LINE#         113
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 34
+
+
   C:1E31H         LINE#         114
   C:1E31H         LINE#         116
   C:1E31H         LINE#         117
@@ -1979,9 +1993,6 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:1E54H         LINE#         123
   C:1E5AH         LINE#         124
   C:1E5DH         LINE#         126
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 34
-
-
   C:1E5DH         LINE#         127
   C:1E61H         LINE#         128
   C:1E65H         LINE#         129
@@ -2013,21 +2024,25 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   C:1EF7H         LINE#         158
   -------         ENDPROC       INT0_ISR
   -------         PROC          T0_ISR
-  C:2F9DH         LINE#         161
-  C:2FA3H         LINE#         163
-  C:2FB1H         LINE#         164
+  C:2F99H         LINE#         161
+  C:2F9FH         LINE#         163
+  C:2FADH         LINE#         164
   -------         ENDPROC       T0_ISR
   -------         PROC          T1_ISR
   -------         DO            
   X:023CH         SYMBOL        cnt
   -------         ENDDO         
-  C:2EBCH         LINE#         167
-  C:2EC4H         LINE#         170
-  C:2ECAH         LINE#         171
-  C:2ED0H         LINE#         172
-  C:2ED0H         LINE#         173
-  C:2ED8H         LINE#         174
-  C:2ED8H         LINE#         175
+  C:2F03H         LINE#         167
+  C:2F0BH         LINE#         170
+  C:2F11H         LINE#         171
+  C:2F17H         LINE#         172
+  C:2F17H         LINE#         173
+  C:2F19H         LINE#         174
+  C:2F1BH         LINE#         175
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 35
+
+
+  C:2F1BH         LINE#         176
   -------         ENDPROC       T1_ISR
   -------         ENDMOD        ISR
 
@@ -2038,9 +2053,6 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   -------         MODULE        ?C?CLDOPTR
   C:153DH         PUBLIC        ?C?CLDOPTR
   -------         ENDMOD        ?C?CLDOPTR
-
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 35
-
 
   -------         MODULE        ?C?CSTPTR
   C:156AH         PUBLIC        ?C?CSTPTR
@@ -2087,6 +2099,9 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   -------         MODULE        ?C?LSTXDATA
   C:1785H         PUBLIC        ?C?LSTXDATA
   -------         ENDMOD        ?C?LSTXDATA
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 36
+
+
 
   -------         MODULE        ?C?LSTKXDATA
   C:1791H         PUBLIC        ?C?LSTKXDATA
@@ -2099,9 +2114,6 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
   -------         MODULE        ?C?PLDIDATA
   C:17F2H         PUBLIC        ?C?PLDIDATA
   -------         ENDMOD        ?C?PLDIDATA
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 36
-
-
 
   -------         MODULE        ?C?PLDXDATA
   C:17FBH         PUBLIC        ?C?PLDXDATA
@@ -2147,6 +2159,9 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_OLED_SHOWSTRING?OLED
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/08/2015  09:37:04  PAGE 37
+
+
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_OLED_SHOWFONT16?OLED
@@ -2159,9 +2174,6 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?INITADC?CD4052
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2015  17:12:24  PAGE 37
-
-
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?GETPADRES?CD4052
@@ -2173,13 +2185,10 @@ SYMBOL TABLE OF MODULE:  .\output\BurnCob (MAIN)
     SEGMENT: ?PR?INT0INIT?ISR
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?TIMERINIT?ISR
-
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?ENDECODE?ISR
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?DSDECODE?ISR
 
-Program Size: data=9.2 xdata=716 code=12633
-LINK/LOCATE RUN COMPLETE.  21 WARNING(S),  0 ERROR(S)
+Program Size: data=9.2 xdata=716 code=12640
+LINK/LOCATE RUN COMPLETE.  20 WARNING(S),  0 ERROR(S)
