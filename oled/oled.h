@@ -50,6 +50,7 @@ void OLED_DrawCircle(u8 x,u8 y,u16 r,u8 t);
 u8   OLED_Draw_WindowsDraw(WINDOWS *win);
 void OLED_DrawBMP(u8 x,u8 y);
 void OLED_ShowName(u8 x,u8 y,u8 fno,u8 mode);
+void OLED_ShowAdd(u8 x,u8 y,u32 Add1,u32 Add2);
 #endif  
 	 
 

@@ -31,11 +31,13 @@
 #define VMOS_EN          P46	//控制割码电源
 #define K1_OUT           P55	//控制模拟测试芯片按键1被按下
 #define EN_VSOC          P47    //控制给测试芯片供电
+#define ENVMOS()   	     VMOS_EN = 1
+#define DSENVMOS()       VMOS_EN = 0
 /*******************************************************/// TESTER CONTROL
-#define KEY1             P43	//按键1
-#define KEY2             P44	//按键2
-#define KEY3             P20	//按键3
-#define KEY4             P21	//按键4
+#define KEY1             P42	//按键1
+#define KEY2             P43	//按键2
+#define KEY3             P44	//按键3
+#define KEY4             P20	//按键4
 /*******************************************************/// IO KEY DEFINE
 #define OLED_CS  		 P23    //片选
 #define OLED_RST 		 P24    //复位
@@ -128,5 +130,7 @@ enum IC_PAC	 //枚举 2封装
   Package_1,
   Package_2
 };
-extern u32 AddNo;  //割码地址值            
+extern u32 AddNo;  //割码地址值    
+extern u8 BeepFlag;
+extern u8 Cutflag;        
 #endif

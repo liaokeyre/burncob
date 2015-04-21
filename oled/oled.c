@@ -8,7 +8,7 @@
 //关于电压问题；如果客户需要长时间稳定工作；建议全部采用3.3V电源；电平信号也采用3.3V的
 //如果客户需要用5V电源，虽然5V可以正常工作，但式ㄒ榍不要长时间工作；这样可能会减少屏的寿命；在VCC端串一小电阻可能会好一些。
 #include "oled.h"
-#include "oledfont.h"  
+#include "oledfont.h" 
 #define GUI_LCM_XMAX 128
 #define GUI_LCM_YMAX  32	 
 //#include "delay.h"
@@ -681,6 +681,107 @@ void OLED_DrawBMP(u8 x,u8 y)
     }          
 }
 
+/*******************************************************************************************
+函数名: void OLED_ShowAdd(u8 x,u8 y,u32 Add1,u32 Add2)
+说明: 画位图 起始位置坐标 x,y
+********************************************************************************************/
+void OLED_ShowAdd(u8 x,u8 y,u32 Add1,u32 Add2)
+{ 
+  u8 i,j;     			    
+  OLED_ShowString(x+4,y,"SADD:",7); 	 //第一行字符
+  OLED_ShowString(x+4,y+16,"RADD:",7);   //第三行字符 
+  OLED_DrawLine(38,0,38,31,1); 
+  OLED_DrawLine(38,0,40,0,1); 
+  OLED_DrawLine(38,15,40,15,1);
+  OLED_DrawLine(38,31,40,31,1);			 //画分割线
+  j = 0; 
+  x = x+36;
+  OLED_ShowChar(x+6,y,((Add1>>23)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*2,y,((Add1>>22)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*3,y,((Add1>>21)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*4,y,((Add1>>20)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*5,y,'-',7,1);
+  OLED_ShowChar(x+6*6,y,((Add1>>19)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*7,y,((Add1>>18)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*8,y,((Add1>>17)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*9,y,((Add1>>16)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*10,y,'-',7,1);
+  OLED_ShowChar(x+6*11,y,((Add1>>15)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*12,y,((Add1>>14)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*13,y,((Add1>>13)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*14,y,((Add1>>12)&0x01)+'0',7,1);
+ // OLED_ShowChar(x+6*15,y,'-',7,1);
+  OLED_ShowChar(x+6,y+8,((Add1>>11)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*2,y+8,((Add1>>10)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*3,y+8,((Add1>>9)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*4,y+8,((Add1>>8)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*5,y+8,'-',7,1);
+  OLED_ShowChar(x+6*6,y+8,((Add1>>7)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*7,y+8,((Add1>>6)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*8,y+8,((Add1>>5)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*9,y+8,((Add1>>4)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*10,y+8,'-',7,1);
+  OLED_ShowChar(x+6*11,y+8,((Add1>>3)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*12,y+8,((Add1>>2)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*13,y+8,((Add1>>1)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*14,y+8,((Add1)&0x01)+'0',7,1);
+
+  OLED_ShowChar(x+6,y+16,((Add2>>23)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*2,y+16,((Add2>>22)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*3,y+16,((Add2>>21)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*4,y+16,((Add2>>20)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*5,y+16,'-',7,1);
+  OLED_ShowChar(x+6*6,y+16,((Add2>>19)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*7,y+16,((Add2>>18)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*8,y+16,((Add2>>17)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*9,y+16,((Add2>>16)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*10,y+16,'-',7,1);
+  OLED_ShowChar(x+6*11,y+16,((Add2>>15)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*12,y+16,((Add2>>14)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*13,y+16,((Add2>>13)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*14,y+16,((Add2>>12)&0x01)+'0',7,1);
+//  OLED_ShowChar(x+6*15,y+16,'-',7,1);
+
+  OLED_ShowChar(x+6,y+24,((Add2>>11)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*2,y+24,((Add2>>10)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*3,y+24,((Add2>>9)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*4,y+24,((Add2>>8)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*5,y+24,'-',7,1);
+  OLED_ShowChar(x+6*6,y+24,((Add2>>7)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*7,y+24,((Add2>>6)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*8,y+24,((Add2>>5)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*9,y+24,((Add2>>4)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*10,y+24,'-',7,1);
+  OLED_ShowChar(x+6*11,y+24,((Add2>>3)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*12,y+24,((Add2>>2)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*13,y+24,((Add2>>1)&0x01)+'0',7,1);
+  OLED_ShowChar(x+6*14,y+24,((Add2)&0x01)+'0',7,1);
+  /*
+  for(i=31;i>0;i--) 
+  {
+    if(x>122){x=0;y+=8;}
+    if(j%5 == 0)
+	{
+	  OLED_ShowChar(x+30+6*j,y,'-',7,1);
+	}
+    OLED_ShowChar(x+30+6*j,y,((Add1>>i)&0x01)+'0',7,1); 
+	j++;
+  }
+	OLED_ShowChar(x+30+6*j,y,(Add1&0x01)+'0',7,1); 
+    j = 0;
+  for(i=31;i>0;i--) 
+  {
+    if(x>122){x=0;y+=16;}
+    if(j%5 == 0)
+	{
+	  OLED_ShowChar(x+30+6*j,y,'-',7,1);
+	}
+    OLED_ShowChar(x+30+6*i,y+16,((Add2>>i)&0x01)+'0',7,1);
+	j++;
+  }
+	OLED_ShowChar(x+30+6*i,y+16,(Add2&0x01)+'0',7,1); 
+	*/	    
+}
 /*******************************************************************************************
 函数名: void OLED_Init(void)
 说明: OLED屏初始化

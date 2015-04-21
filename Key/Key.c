@@ -12,7 +12,7 @@ void CheckKey(u8 *flag)
    
 	 if(KEY1 == 0)
 	 {
-	  	  *flag = KEY_MOD;	//1
+	  	  *flag = KEY_OK;	//1
 	 }
 	 else if(KEY2 == 0)
 	 {
@@ -24,7 +24,7 @@ void CheckKey(u8 *flag)
 	 }
 	 else if(KEY4 == 0)
 	 {
-	  	  *flag = KEY_OK;	//4
+	  	  *flag = KEY_MOD;	//4
 	 }
 	 else if(START == 0)
 	 {

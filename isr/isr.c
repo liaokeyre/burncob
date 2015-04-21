@@ -1,6 +1,8 @@
 #include "main.h"
 #include "isr.h"
+#include "key.h"
 #include "uart.h"
+#include "_595.h"
 #define GET_FREQ
 #ifdef GET_FREQ
 u16 OscFreq;
@@ -167,10 +169,37 @@ void T0_isr() interrupt TIMER0_VECTOR //定时器0中断	40us
 void T1_isr() interrupt TIMER1_VECTOR  //定时器1中断用来做实时事件处理	5ms扫描一次
 {
 	static u8 cnt;
+	static u8 keycnt,beepcnt,cutcnt;
+	keycnt++;
 	cnt++;
 	if(cnt >= 100)//半秒
 	{
 	  cnt =0;
 	  LED0=!LED0;
-	}                  
+	} 
+	if(keycnt>15) 
+	{
+	 KeyScan();
+	 keycnt = 0;
+	}
+	if(BeepFlag ==1)
+	{
+	  SPEAKER = 1;
+	  if(beepcnt++>=5)
+	  {
+	    SPEAKER = 0;
+		beepcnt = 0;
+		BeepFlag = 0;
+	  }
+	}
+	if(Cutflag ==1)
+	{
+	  if(cutcnt++>=7)	   //40ms 
+	  {
+		DSENVMOS();		          // 关mos电源
+		DSENABLE595();  		  // 关595控制mos开关
+		Cutflag = 0;
+		cutcnt =0;
+	  }
+	}              
 }

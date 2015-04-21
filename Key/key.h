@@ -2,10 +2,10 @@
 #define __KEY_H__
 #include "main.h"
 
-#define   KEY_SCAN_TIMES		(5/2)    //按键防抖的扫描次数
-#define   KEY_SHORT_TIMES		(4)
-#define   KEY_LONG_TIMES		(0x10)	 //长按键的次数
-#define   KEY_HOLD_TIMES        (0x03)   //连按的频率次数
+#define   KEY_SCAN_TIMES		(7/2)    //按键防抖的扫描次数
+#define   KEY_SHORT_TIMES		(6)
+#define   KEY_LONG_TIMES		(0x12)	 //长按键的次数
+#define   KEY_HOLD_TIMES        (0x05)   //连按的频率次数
 							 
 #define   KEY_LONG		0x10
 #define   KEY_HOLD		0x20
@@ -21,10 +21,10 @@
 #define   KEY_7		0x07
 #define   KEY_8		0x08
 
-#define   KEY_MOD   KEY_1	 //菜单
-#define   KEY_ADD   KEY_2	 //加
-#define   KEY_SUB   KEY_3	 //减
-#define   KEY_OK    KEY_4 	 //确定
+#define   KEY_MOD     KEY_1	 //菜单
+#define   KEY_ADD     KEY_2	 //加
+#define   KEY_SUB     KEY_3	 //减
+#define   KEY_OK      KEY_4 	 //确定
 #define   KEY_START   KEY_5 	 //确定
 //*********************************************************//
 #define PR_MOD			 KEY_MOD     //MOD
@@ -64,5 +64,6 @@
 #define KEY_HOLD_CNT        (15)
 
 extern u8 Key_back;
+extern u8 Key_change;
 void KeyScan(void);  
 #endif

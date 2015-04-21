@@ -12,4 +12,5 @@ void get_hex_data(u8 dat);
 void printf_u8(u8 dat);
 void put_byte(u8 tmp);
 void UartInit(void);
+void get_hex_data(u8 dat);
 #endif
