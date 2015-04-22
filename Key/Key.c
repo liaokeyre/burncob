@@ -16,11 +16,11 @@ void CheckKey(u8 *flag)
 	 }
 	 else if(KEY2 == 0)
 	 {
-	  	  *flag = KEY_ADD;	//2
+	  	  *flag = KEY_SUB;	//2
 	 }
 	 else if(KEY3 == 0)
 	 {
-	  	  *flag = KEY_SUB;	//3
+	  	  *flag = KEY_ADD;	//3
 	 }
 	 else if(KEY4 == 0)
 	 {

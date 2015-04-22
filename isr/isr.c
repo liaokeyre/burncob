@@ -3,6 +3,8 @@
 #include "key.h"
 #include "uart.h"
 #include "_595.h"
+#include "oled.h"
+
 #define GET_FREQ
 #ifdef GET_FREQ
 u16 OscFreq;
@@ -14,7 +16,8 @@ u16 OscFreq;
 #define D_IR_BIT_NUMBER   24	//×°ÔØÎ»ÂëÊý
 
 u16 Decodecnt;
-u32 ReIRcode;   //¶Áµ½µÄµØÖ·Â
+u32 ReIRcode;   //¶Áµ½µÄµØÖ·Â
+
 void Timer0Init(void)		//40us@11.0592MHz	//ÓÃÀ´½âÂë
 {
 	Timer0_Stop();			//¹Ø¶¨Ê±Æ÷0
@@ -168,8 +171,9 @@ void T0_isr() interrupt TIMER0_VECTOR //¶¨Ê±Æ÷0ÖÐ¶Ï	40us
 
 void T1_isr() interrupt TIMER1_VECTOR  //¶¨Ê±Æ÷1ÖÐ¶ÏÓÃÀ´×öÊµÊ±ÊÂ¼þ´¦Àí	5msÉ¨ÃèÒ»´Î
 {
-	static u8 cnt;
-	static u8 keycnt,beepcnt,cutcnt;
+	static u8 cnt = 0;
+	static u8 keycnt=0,beepcnt=0,cutcnt=0;
+	static u16 popcnt=0;
 	keycnt++;
 	cnt++;
 	if(cnt >= 100)//°ëÃë
@@ -182,7 +186,7 @@ void T1_isr() interrupt TIMER1_VECTOR  //¶¨Ê±Æ÷1ÖÐ¶ÏÓÃÀ´×öÊµÊ±ÊÂ¼þ´¦Àí	5msÉ¨ÃèÒ»
 	 KeyScan();
 	 keycnt = 0;
 	}
-	if(BeepFlag ==1)
+	if(BeepFlag == 1)
 	{
 	  SPEAKER = 1;
 	  if(beepcnt++>=5)
@@ -201,5 +205,15 @@ void T1_isr() interrupt TIMER1_VECTOR  //¶¨Ê±Æ÷1ÖÐ¶ÏÓÃÀ´×öÊµÊ±ÊÂ¼þ´¦Àí	5msÉ¨ÃèÒ»
 		Cutflag = 0;
 		cutcnt =0;
 	  }
-	}              
+	} 
+	if(POP != 0) 
+	{
+	   if(popcnt++>=400*POP)
+	   {
+	     popcnt = 0;
+		 POP = 0;
+         memcpy(OLED_GRAM,OLED_GRAM_TMP,512);
+	   	 OLED_Refresh_Gram();
+	   }
+	}           
 }

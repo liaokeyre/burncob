@@ -6,15 +6,30 @@
 #include "_595.h"
 #include "isr.h"
 #include "key.h"
-/*********************************************************************/
-#define PRINT_AUTHOR_INFO	   //打印作者信息
-#define SHOW_LOGO			   //显示屏显示logo
-/*********************************************************************///宏开关，控制以上功能选项
+
+u8 MODE;
 u32 AddNo;    //割码地址值 
-#ifdef PRINT_AUTHOR_INFO
 
 u8 Cutflag;
 u8 BeepFlag;
+u8 PKG;		   //封装型号
+u32 OK_COUNT;
+u32 NG_COUNT;
+
+u8 POP;      //弹窗标志
+extern void tsteicon(void);
+WINDOWS windemo;
+void init_windows(u8 x ,u8 y,u8 with,u8 height,u8 * title,u8 * text,u8 * state)
+{
+  windemo.x =x;
+  windemo.y =y;
+  windemo.with =with;
+  windemo.hight =height;
+  windemo.title = title;
+  windemo.text = text;
+  windemo.state = state;
+} 
+#ifdef PRINT_AUTHOR_INFO
 void printInfo(void)
 {
    send_string ("=======================================================\n");
@@ -56,7 +71,7 @@ void oledInit(void)
 	OLED_ShowFont16(112,10,7,1);
 	*/
 #ifdef SHOW_LOGO
-	OLED_DrawBMP(0,0);			// show logo
+	OLED_DrawBMP(0,0,1);			// show logo
 #endif
 	OLED_Refresh_Gram();
 }
@@ -88,17 +103,259 @@ void ioInit(void)
 
 void sysInit(void)
 {
-  ioInit();
-  InitADC();
-  UartInit();
-  oledInit();
-  timerInit();
-  BeepFlag = 0;
+	ioInit();
+	InitADC();
+	UartInit();
+	oledInit();
+	timerInit();
+	BeepFlag = 0;
+	OK_COUNT = 0;
+	NG_COUNT = 0; //复位计数器
+	DSENVMOS();		          // 关mos电源
+	DSENABLE595();  		  // 关595控制mos开关
+	Cutflag = 0;
+	MODE = cutmode;
+	POP = 0;
+}
+void set_mode(void)
+{
+    u8 Done;
+	u8 InMode;
+	InMode = 0;
+	Done = 0;
+	Disp_Menu_Main(setmode);
+	OLED_Refresh_Gram();
+	while(!Done)
+	{
+	  if(Key_change)
+	  {
+	  	switch(Key_back)
+		{
+		  case PR_ADD:
+		  		Key_change=0; 
+		        BeepFlag =1;
+				if(InMode)
+				{
+				
+				}
+				else
+				{
+				  MODE = rstmode;
+				  Done = 1;
+				}
+		  break;
+		  case PR_SUB:
+		  		Key_change=0; 
+		        BeepFlag =1;
+				if(InMode)
+				{
+				
+				}
+				else
+				{
+				  MODE = cutmode;
+				  Done = 1;
+				}
+		  break;
+		  case PR_OK:
+		  		Key_change=0; 
+		        BeepFlag =1;
+				if(InMode)
+				{
+				
+				}
+				else
+				{
+				  memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
+		          init_windows(30,0,60,32,"Notice"," NO MENU!",0);
+		          OLED_Draw_WindowsDraw(&windemo);
+				  POP = 1;
+ 	              OLED_Refresh_Gram();
+				  //InMode = 1;
+				}
+		  break;
+		}
+	  
+	  }
+	}
+
+}
+void cut_mode(void)
+{
+    u8 Done;
+	u8 InMode;
+	u8 menucnt;
+	menucnt = 0;
+	InMode = 0;
+	Done = 0;
+	Disp_Menu_Main(cutmode);
+	OLED_Refresh_Gram();
+	while(!Done)
+	{
+	  if(Key_change)
+	  {
+	  	switch(Key_back)
+		{
+		  case PR_ADD:
+		  		Key_change=0; 
+		        BeepFlag =1;
+				if(InMode)
+				{
+				  if(menucnt --<=0)
+				  menucnt = 3;
+				  Disp_Menu_1(menucnt);
+	              OLED_Refresh_Gram();
+				}
+				else
+				{
+				  MODE = setmode;
+				  Done = 1;
+				}
+		  break;
+		  case PR_SUB:
+		  		Key_change=0; 
+		        BeepFlag =1;
+				if(InMode)
+				{
+				  if(menucnt ++>=3)
+				  menucnt = 0;
+				  Disp_Menu_1(menucnt);
+	              OLED_Refresh_Gram();				  				
+				}
+				else
+				{
+				  MODE = rstmode;
+				  Done = 1;
+				}
+		  break;
+		  case PR_OK:
+		  		Key_change=0; 
+		        BeepFlag =1;
+				if(InMode)
+				{
+				  if(menucnt ==3)	 //返回
+				  {
+				    OLED_Clear();	 //清屏 
+				    Done = 1;
+				    return;
+				  }
+				  else
+				  {
+					  if(menucnt ==0)	 //PKG-1
+					  {
+						  memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
+				          init_windows(20,0,80,32,"Notice"," VT62538-B1",0);
+				          OLED_Draw_WindowsDraw(&windemo);
+						  POP = 1;
+		 	              OLED_Refresh_Gram();				    
+					  }
+					  else if(menucnt ==1)	 //PKG-2
+					  {
+						  memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
+				          init_windows(20,0,80,32,"Notice"," VT62538-B2",0);
+				          OLED_Draw_WindowsDraw(&windemo);
+						  POP = 1;
+		 	              OLED_Refresh_Gram();					    
+					  }
+					  else if(menucnt ==2)	 //COB
+					  {
+						  memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
+				          init_windows(20,0,80,32,"Notice"," COB",0);
+				          OLED_Draw_WindowsDraw(&windemo);
+						  POP = 1;
+		 	              OLED_Refresh_Gram();					    
+					  }
+					  OLED_Clear();
+					  PKG = menucnt; //注意增加型号需要判断是否对应
+					  OK_COUNT = 0;
+					  NG_COUNT = 0;
+					  CutRun(PKG);
+				  }
+				}
+				else
+				{
+				  OLED_Clear();
+				  Disp_Menu_1(0);
+	              OLED_Refresh_Gram();
+				  InMode = 1;
+				}
+		  break;
+		}
+	  
+	  }
+	}
+}
+void rst_mode(void)
+{
+    u8 Done;
+	u8 InMode;
+	InMode = 0;
+	Done = 0;
+	Disp_Menu_Main(rstmode);
+	OLED_Refresh_Gram();
+	while(!Done)
+	{
+	  if(Key_change)
+	  {
+	  	switch(Key_back)
+		{
+		  case PR_ADD:
+		  		Key_change=0; 
+		        BeepFlag =1;
+				if(InMode)
+				{
+				
+				}
+				else
+				{
+				  MODE = cutmode;
+				  Done = 1;
+				}
+		  break;
+		  case PR_SUB:
+		  		Key_change=0; 
+		        BeepFlag =1;
+				if(InMode)
+				{
+				
+				}
+				else
+				{
+				  MODE = setmode;
+				  Done = 1;
+				}
+		  break;
+		  case PR_OK:
+		  		Key_change=0; 
+		        BeepFlag =1;
+				if(InMode)
+				{
+				
+				}
+				else
+				{
+				  Flush_24c02();
+				  memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
+		          init_windows(10,0,100,32,"Notice"," FLUSH 2402 OK!",0);
+		          OLED_Draw_WindowsDraw(&windemo);
+				  POP = 1;
+ 	              OLED_Refresh_Gram();
+				  //InMode = 1;
+				}
+		  break;
+		}
+	  
+	  }
+	}
+}
+
+void lookinfo(void)
+{
+
 }
 
 void main(void)
 {
-	u16 tmp;
     sysInit();
 	SPEAKER = 1;
 #ifdef PRINT_AUTHOR_INFO
@@ -106,24 +363,24 @@ void main(void)
 #endif
     EA = 1;
 	SPEAKER = 0;
-	OLED_DrawBMP(0,0);
 	AddNo = 1;
-	storge595(&AddNo,4);
-	ENABLE595(); 
-		DSENVMOS();		          // 关mos电源
-		DSENABLE595();  		  // 关595控制mos开关
-		Cutflag = 0;
 	OLED_Clear();
 	while(1)
 	{
-//  A1_4052 = 1;
-//  A2_4052 = 1;
-//  B1_4052 = 1;
-//  B2_4052 = 1;
-//  NOP40();
-//  tmp = Adc2Res(GetADCResult(CH2));
-//  printf_u8(tmp>>8);
-//  printf_u8(tmp);
+	   switch(MODE)
+	   {
+	   	 case setmode:
+		   set_mode();
+		 break;
+	   	 case cutmode:
+		   cut_mode();
+		 break;
+	   	 case rstmode:
+		   rst_mode();
+		 break;
+	   }
+
+/*
 	  if((Key_back == PR_ADD)&&(Key_change))
 	  {
 	   AddNo >>= 1;		storge595(&AddNo,4); Key_change=0; BeepFlag =1;	
@@ -135,9 +392,8 @@ void main(void)
 	  else if((Key_back == PR_OK)&&(Key_change))
 	  {
 	   StartCut(0); Key_change=0;	BeepFlag =1;
+	   
 	  }
-//	  OLED_ShowAdd(0,0,AddNo,AddNo);
-//	  OLED_Refresh_Gram();
-//	  
+ */	  
 	}
 }

@@ -24,6 +24,7 @@
 //[6]0 1 2 3 ... 127	
 //[7]0 1 2 3 ... 127 
 u8 OLED_GRAM[128][4];//显存
+u8 OLED_GRAM_TMP[128][4];
 
 /****************************************************************************
 字节码高低位镜像操作
@@ -590,7 +591,7 @@ void OLED_ShowNum(u8 x,u8 y,u32 num,u8 len,u8 size)
 //x,y:起点坐标  
 //*p:字符串起始地址
 ********************************************************************************************/
-void OLED_ShowString(u8 x,u8 y,const u8 *p,u8 size)
+void OLED_ShowString(u8 x,u8 y,const u8 *p,u8 size, u8 mode)
 {
            
     while(*p!='\0')
@@ -599,21 +600,21 @@ void OLED_ShowString(u8 x,u8 y,const u8 *p,u8 size)
 		{      
 	        if(x>122){x=0;y+=16;}	//换行
 	        if(y>32){y=x=0;OLED_Clear();} //换页
-	        OLED_ShowChar(x,y,*p,16,1);	 
+	        OLED_ShowChar(x,y,*p,16,mode);	 
 	        x+=8;
 		}
 		else if(size == 12)
 		{
 	        if(x>122){x=0;y+=16;}	//换行
 	        if(y>32){y=x=0;OLED_Clear();} //换页
-	        OLED_ShowChar(x,y,*p,12,1);	 
+	        OLED_ShowChar(x,y,*p,12,mode);	 
 	        x+=6;		
 		}
 		else
 		{
 	        if(x>122){x=0;y+=16;}	//换行
 	        if(y>32){y=x=0;OLED_Clear();} //换页
-	        OLED_ShowChar(x,y,*p,7,1);	 
+	        OLED_ShowChar(x,y,*p,7,mode);	 
 	        x+=6;		
 		}
         p++;
@@ -658,7 +659,7 @@ void OLED_ShowFont16(u8 x,u8 y,u8 fno,u8 mode)
 函数名: void OLED_DrawBMP(u8 x,u8 y)
 说明: 画位图 起始位置坐标 x,y
 ********************************************************************************************/
-void OLED_DrawBMP(u8 x,u8 y)
+void OLED_DrawBMP(u8 x,u8 y,u8 mode)
 {      			    
 	u16 temp,t,t1;
 	u16 y0=y;					    				   
@@ -667,8 +668,8 @@ void OLED_DrawBMP(u8 x,u8 y)
 	    temp = logo[t]; 	                          
         for(t1=0;t1<8;t1++)
 		{
-			if(temp&0x80)OLED_DrawPoint(x,y,1); 
-			else OLED_DrawPoint(x,y,0);		   
+			if(temp&0x80)OLED_DrawPoint(x,y,mode); 
+			else OLED_DrawPoint(x,y,!mode);		   
 			temp<<=1;
 			y++;
 			if((y-y0)==32)
@@ -682,19 +683,102 @@ void OLED_DrawBMP(u8 x,u8 y)
 }
 
 /*******************************************************************************************
+void OLED_DrawICON(u8 x,u8 y,u16 size ,u8 mode)
+说明: 画位图 起始位置坐标 x,y
+********************************************************************************************/
+void OLED_DrawICON(u8 x,u8 y,u8 mode,void *icon)
+{      			    
+	u16 temp,t,t1;
+	u16 y0=y;					    				   
+    for(t=0;t<128;t++)
+    {  
+	    temp = *(u8*)icon ; 
+		((u8*)icon)++;	                          
+        for(t1=0;t1<8;t1++)
+		{
+			if(temp&0x80)OLED_DrawPoint(x,y,mode); 
+			else OLED_DrawPoint(x,y,!mode);		   
+			temp<<=1;
+			y++;
+			if((y-y0)==32)
+			{
+				y=y0;
+				x++;
+				break;
+			}
+		}  	 
+    }          
+}
+
+void Disp_Menu_Main(u8 num)
+{
+    OLED_ShowChar(0,11,'<',12,1);
+    OLED_ShowChar(120,11,'>',12,1);
+	if(num == 0)
+	{
+	    OLED_DrawICON(10,0,0,set_ico);
+	    OLED_DrawICON(48,0,1,cut_ico);
+	    OLED_DrawICON(86,0,1,rst_ico);
+	} 
+	else if(num == 1)
+	{
+	    OLED_DrawICON(10,0,1,set_ico);
+	    OLED_DrawICON(48,0,0,cut_ico);
+	    OLED_DrawICON(86,0,1,rst_ico);
+	}
+	else
+	{
+	    OLED_DrawICON(10,0,1,set_ico);
+	    OLED_DrawICON(48,0,1,cut_ico);
+	    OLED_DrawICON(86,0,0,rst_ico);
+	}
+//	OLED_Refresh_Gram();
+}
+void Disp_Menu_1(u8 num)
+{
+//    OLED_ShowChar(0,11,'<',12,1);
+//    OLED_ShowChar(120,11,'>',12,1);
+	if(num == 0)
+	{
+	    OLED_ShowString(0,0,"1.VT62538-B1",12,0);
+	    OLED_ShowString(0,15,"2.VT62538-B2",12,1);
+	    OLED_ShowString(78,0,"3.COB",12,1);
+	    OLED_ShowString(78,15,"4.RETURN",12,1);
+	} 
+	else if(num == 1)
+	{
+	    OLED_ShowString(0,0,"1.VT62538-B1",12,1);
+	    OLED_ShowString(0,15,"2.VT62538-B2",12,0);
+	    OLED_ShowString(78,0,"3.COB",12,1);
+	    OLED_ShowString(78,15,"4.RETURN",12,1);
+	}
+	else if(num == 2)
+	{
+	    OLED_ShowString(0,0,"1.VT62538-B1",12,1);
+	    OLED_ShowString(0,15,"2.VT62538-B2",12,1);
+	    OLED_ShowString(78,0,"3.COB",12,0);
+	    OLED_ShowString(78,15,"4.RETURN",12,1);
+	}
+	else
+	{
+	    OLED_ShowString(0,0,"1.VT62538-B1",12,1);
+	    OLED_ShowString(0,15,"2.VT62538-B2",12,1);
+	    OLED_ShowString(78,0,"3.COB",12,1);
+	    OLED_ShowString(78,15,"4.RETURN",12,0);
+	}
+}
+/*******************************************************************************************
 函数名: void OLED_ShowAdd(u8 x,u8 y,u32 Add1,u32 Add2)
 说明: 画位图 起始位置坐标 x,y
 ********************************************************************************************/
 void OLED_ShowAdd(u8 x,u8 y,u32 Add1,u32 Add2)
-{ 
-  u8 i,j;     			    
-  OLED_ShowString(x+4,y,"SADD:",7); 	 //第一行字符
-  OLED_ShowString(x+4,y+16,"RADD:",7);   //第三行字符 
+{     			    
+  OLED_ShowString(x+4,y,"SADD:",7,1); 	 //第一行字符
+  OLED_ShowString(x+4,y+16,"RADD:",7,1);   //第三行字符 
   OLED_DrawLine(38,0,38,31,1); 
   OLED_DrawLine(38,0,40,0,1); 
   OLED_DrawLine(38,15,40,15,1);
   OLED_DrawLine(38,31,40,31,1);			 //画分割线
-  j = 0; 
   x = x+36;
   OLED_ShowChar(x+6,y,((Add1>>23)&0x01)+'0',7,1);
   OLED_ShowChar(x+6*2,y,((Add1>>22)&0x01)+'0',7,1);
@@ -755,32 +839,7 @@ void OLED_ShowAdd(u8 x,u8 y,u32 Add1,u32 Add2)
   OLED_ShowChar(x+6*11,y+24,((Add2>>3)&0x01)+'0',7,1);
   OLED_ShowChar(x+6*12,y+24,((Add2>>2)&0x01)+'0',7,1);
   OLED_ShowChar(x+6*13,y+24,((Add2>>1)&0x01)+'0',7,1);
-  OLED_ShowChar(x+6*14,y+24,((Add2)&0x01)+'0',7,1);
-  /*
-  for(i=31;i>0;i--) 
-  {
-    if(x>122){x=0;y+=8;}
-    if(j%5 == 0)
-	{
-	  OLED_ShowChar(x+30+6*j,y,'-',7,1);
-	}
-    OLED_ShowChar(x+30+6*j,y,((Add1>>i)&0x01)+'0',7,1); 
-	j++;
-  }
-	OLED_ShowChar(x+30+6*j,y,(Add1&0x01)+'0',7,1); 
-    j = 0;
-  for(i=31;i>0;i--) 
-  {
-    if(x>122){x=0;y+=16;}
-    if(j%5 == 0)
-	{
-	  OLED_ShowChar(x+30+6*j,y,'-',7,1);
-	}
-    OLED_ShowChar(x+30+6*i,y+16,((Add2>>i)&0x01)+'0',7,1);
-	j++;
-  }
-	OLED_ShowChar(x+30+6*i,y+16,(Add2&0x01)+'0',7,1); 
-	*/	    
+  OLED_ShowChar(x+6*14,y+24,((Add2)&0x01)+'0',7,1);    
 }
 /*******************************************************************************************
 函数名: void OLED_Init(void)

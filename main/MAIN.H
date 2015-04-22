@@ -2,6 +2,18 @@
 #define __MAIN_H__
 #include "STC15xxxxxx.H"
 #include "TYPEDEF.H"
+#include <string.h>
+#define setmode 0
+#define cutmode 1
+#define rstmode 2
+
+/*********************************************************************/
+#define PRINT_AUTHOR_INFO	   //打印作者信息
+#define SHOW_LOGO			   //显示屏显示logo
+
+#define	EEPROM_EN			   //使能2402存储
+/*********************************************************************///宏开关，控制以上功能选项
+
 ///////////////////////////////IO CONFIG////////////////////////////////////////////////////////////
 /*******************************************************/
 #define I2C_SDA         P22
@@ -127,10 +139,17 @@ enum ADC_CH	  //枚举0-7CH
 };
 enum IC_PAC	 //枚举 2封装
 {
-  Package_1,
-  Package_2
+  Package_1,	  //VT62538_B1
+  Package_2,	  //VT62536_B2
+  Package_3		  //COB
 };
 extern u32 AddNo;  //割码地址值    
 extern u8 BeepFlag;
-extern u8 Cutflag;        
+extern u8 Cutflag; 
+extern u8 PKG;		   //封装型号
+extern u32 OK_COUNT;
+extern u32 NG_COUNT; 
+extern u8 POP;
+
+void init_windows(u8 x ,u8 y,u8 with,u8 height,u8 * title,u8 * text,u8 * state);     
 #endif

@@ -240,3 +240,74 @@ void at24c02_rddat(u8 address, void *dat, u8 bytenum)
 		i2c_stop();
 	}
 }
+
+void Flush_24c02(void)
+{
+  u8 i;
+  for(i=0;i<0xff;i++)
+  {
+    at24c02_wr(i,0);  //全部填充0
+  }
+}
+/****************************************************************/
+//获取地址码
+/***************************************************************/
+u32 Get_Pkg_Add(u8 package)
+{
+   u32 ret;
+   if(package == Package_1)
+   {
+    at24c02_rddat(PKG1_ADD, &ret, 4);
+   } 
+   else	if(package == Package_2)
+   {
+    at24c02_rddat(PKG2_ADD, &ret, 4);
+   } 
+   else
+   {
+    at24c02_rddat(PKG3_ADD, &ret, 4);
+   } 
+   return ret;
+}
+
+/****************************************************************/
+//获取地址码	mode 0=OK  1=NG
+/***************************************************************/
+u32 Get_Pkg_CNT(u8 package,u8 mode)
+{
+   u32 ret;
+   if(mode == 0)
+   {
+	   if(package == Package_1)
+	   {
+	    at24c02_rddat(COUNT1_OK_ADD, &ret, 4);
+	   } 
+	   else	if(package == Package_2)
+	   {
+	    at24c02_rddat(COUNT2_OK_ADD, &ret, 4);
+	   } 
+	   else
+	   {
+	    at24c02_rddat(COUNT3_OK_ADD, &ret, 4);
+	   } 
+   }
+   else
+   {
+ 	   if(package == Package_1)
+	   {
+	    at24c02_rddat(COUNT1_NG_ADD, &ret, 4);
+	   } 
+	   else	if(package == Package_2)
+	   {
+	    at24c02_rddat(COUNT2_NG_ADD, &ret, 4);
+	   } 
+	   else
+	   {
+	    at24c02_rddat(COUNT3_NG_ADD, &ret, 4);
+	   }   
+   }
+   return ret;
+}
+
+
+

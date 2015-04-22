@@ -13,6 +13,6 @@ void PnMask(u8 package);
 bool BurnCheck(void);
 void compareAdd(void);
 
-void StartCut(u8 package);
+void CutRun(u8 package);
 void TestPn(void);
 #endif

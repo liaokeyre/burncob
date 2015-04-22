@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   ISR                                                                   04/21/2015 18:25:46 PAGE 1   
+C51 COMPILER V9.00   ISR                                                                   04/22/2015 18:31:49 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE ISR
@@ -13,218 +13,232 @@ line level    source
    3          #include "key.h"
    4          #include "uart.h"
    5          #include "_595.h"
-   6          #define GET_FREQ
-   7          #ifdef GET_FREQ
-   8          u16 OscFreq;
-   9          #endif
-  10          #define D_TIMER0   40        //40us
-  11          #define SYNCMAX    750           //30ms---->3000/4=750
-  12          #define SYNCMIN    125           //5ms---->500/4=125
-  13          #define D_HIGHMAX  30            //970us ---->970/40 = 24 
-  14          #define D_IR_BIT_NUMBER   24    //◊∞‘ÿŒª¬Î ˝
-  15          
-  16          u16 Decodecnt;
-  17          u32 ReIRcode;   //∂¡µΩµƒµÿ÷∑¬
-  18          void Timer0Init(void)           //40us@11.0592MHz       //”√¿¥Ω‚¬Î
-  19          {
-  20   1              Timer0_Stop();                  //πÿ∂® ±∆˜0
-  21   1              AUXR |= 0x80;                   //∂® ±∆˜ ±÷”1Tƒ£ Ω
-  22   1              TMOD &= 0xF0;                   //…Ë÷√∂® ±∆˜ƒ£ Ω
-  23   1              TL0 = 0x46;                             //…Ë÷√∂® ±≥ı÷µ
-  24   1              TH0 = 0xFE;                             //…Ë÷√∂® ±≥ı÷µ
-  25   1              TF0 = 0;                                //«Â≥˝TF0±Í÷æ
-  26   1      }
-  27          
-  28          void Timer1Init(void)           //5∫¡√Î@11.0592MHz       ”√¿¥…®√Ë∞¥º¸µ»
-  29          {
-  30   1              Timer1_Stop();                  //πÿ∂® ±∆˜1
-  31   1              AUXR |= 0x40;                   //∂® ±∆˜ ±÷”1Tƒ£ Ω
-  32   1              TMOD &= 0x0F;                   //…Ë÷√∂® ±∆˜ƒ£ Ω
-  33   1              TL1 = 0x00;                             //…Ë÷√∂® ±≥ı÷µ
-  34   1              TH1 = 0x28;                             //…Ë÷√∂® ±≥ı÷µ
-  35   1              TF1 = 0;                                //«Â≥˝TF1±Í÷æ
-  36   1              Timer1_Run();                   //ø™∂® ±∆˜1
-  37   1      }
-  38          void Int0Init(void)
-  39          {
-  40   1          //≈‰÷√int0 ‰»Îƒ£ Ω  P3.2    XXXX,XHXX
-  41   1              P3M1 |= 0x04;
-  42   1              P3M0 &= ~0x04;
-  43   1          INT0 = 0;
-  44   1              IT0 = 0;                // 1£∫œ¬Ωµ—ÿ÷–∂œ    0£∫‘ –Ì…œ…˝—ÿ∫Õœ¬Ωµ—ÿ÷–∂œ
-  45   1      }
-  46          
-  47          void timerInit(void)
-  48          {
-  49   1              Timer0Init();          //º∆ ˝≤ª÷–∂œ
-  50   1              Timer1Init();              //º∆ ˝÷–∂œ
-  51   1              Timer1_InterruptEnable();//ø™∂® ±∆˜1÷–∂œ
-  52   1      }
-  53          /****************************************************************************************
-  54          //                 |````|
-C51 COMPILER V9.00   ISR                                                                   04/21/2015 18:25:46 PAGE 2   
+   6          #include "oled.h"
+   7          
+   8          #define GET_FREQ
+   9          #ifdef GET_FREQ
+  10          u16 OscFreq;
+  11          #endif
+  12          #define D_TIMER0   40        //40us
+  13          #define SYNCMAX    750           //30ms---->3000/4=750
+  14          #define SYNCMIN    125           //5ms---->500/4=125
+  15          #define D_HIGHMAX  30            //970us ---->970/40 = 24 
+  16          #define D_IR_BIT_NUMBER   24    //◊∞‘ÿŒª¬Î ˝
+  17          
+  18          u16 Decodecnt;
+  19          u32 ReIRcode;   //∂¡µΩµƒµÿ÷∑¬
+  20          
+  21          void Timer0Init(void)           //40us@11.0592MHz       //”√¿¥Ω‚¬Î
+  22          {
+  23   1              Timer0_Stop();                  //πÿ∂® ±∆˜0
+  24   1              AUXR |= 0x80;                   //∂® ±∆˜ ±÷”1Tƒ£ Ω
+  25   1              TMOD &= 0xF0;                   //…Ë÷√∂® ±∆˜ƒ£ Ω
+  26   1              TL0 = 0x46;                             //…Ë÷√∂® ±≥ı÷µ
+  27   1              TH0 = 0xFE;                             //…Ë÷√∂® ±≥ı÷µ
+  28   1              TF0 = 0;                                //«Â≥˝TF0±Í÷æ
+  29   1      }
+  30          
+  31          void Timer1Init(void)           //5∫¡√Î@11.0592MHz       ”√¿¥…®√Ë∞¥º¸µ»
+  32          {
+  33   1              Timer1_Stop();                  //πÿ∂® ±∆˜1
+  34   1              AUXR |= 0x40;                   //∂® ±∆˜ ±÷”1Tƒ£ Ω
+  35   1              TMOD &= 0x0F;                   //…Ë÷√∂® ±∆˜ƒ£ Ω
+  36   1              TL1 = 0x00;                             //…Ë÷√∂® ±≥ı÷µ
+  37   1              TH1 = 0x28;                             //…Ë÷√∂® ±≥ı÷µ
+  38   1              TF1 = 0;                                //«Â≥˝TF1±Í÷æ
+  39   1              Timer1_Run();                   //ø™∂® ±∆˜1
+  40   1      }
+  41          void Int0Init(void)
+  42          {
+  43   1          //≈‰÷√int0 ‰»Îƒ£ Ω  P3.2    XXXX,XHXX
+  44   1              P3M1 |= 0x04;
+  45   1              P3M0 &= ~0x04;
+  46   1          INT0 = 0;
+  47   1              IT0 = 0;                // 1£∫œ¬Ωµ—ÿ÷–∂œ    0£∫‘ –Ì…œ…˝—ÿ∫Õœ¬Ωµ—ÿ÷–∂œ
+  48   1      }
+  49          
+  50          void timerInit(void)
+  51          {
+  52   1              Timer0Init();          //º∆ ˝≤ª÷–∂œ
+  53   1              Timer1Init();              //º∆ ˝÷–∂œ
+  54   1              Timer1_InterruptEnable();//ø™∂® ±∆˜1÷–∂œ
+C51 COMPILER V9.00   ISR                                                                   04/22/2015 18:31:49 PAGE 2   
 
-  55          //SYNC: ___|    |_____________________________________________________________...
-  56          //          4clk                         124clk
-  57          //
-  58          //
-  59          //           |````|                        |                      |````````````|        |               1clk = 8 osclk
-  60          //0:   __|    |____________|        1:  __|                        |____|
-  61          //        4clk    12clk                     12clk     4clk
-  62          //Datalength:
-  63          //Minlength:1.31ms @300k/13V    Maxlength:3.01ms @430k/4v
-  64          //bit:[0:19] addcode    bit:[20:23] keycode
-  65          ****************************************************************************************/
-  66          void EnDecode(void)
-  67          {
-  68   1         EX0 = 1;                 //ø™int0÷–∂œ
-  69   1         Decodecnt = 0;                       //∏¥Œªº∆ ˝∆˜
-  70   1         ReIRcode = 0;
-  71   1         Timer0_Run();                        //ø™∂® ±∆˜
-  72   1         Timer1_InterruptEnable();//ø™∂® ±∆˜1÷–∂œ
-  73   1      
-  74   1        //ø™÷–∂œ ø™∂® ±∆˜ ≤∂ªÒIRcode
-  75   1      }
-  76          void DsDecode(void)
-  77          {
-  78   1         EX0 = 0;
-  79   1         Timer0_Stop();
-  80   1         Decodecnt = 0;                       //∏¥Œªº∆ ˝∆˜
-  81   1         ReIRcode = 0;
-  82   1        //πÿ÷–∂œ πÿ∂® ±∆˜ Ω⁄ °◊ ‘¥
-  83   1      }
-  84          
-  85          void INT0_isr() interrupt INT0_VECTOR  //Õ‚≤ø÷–∂œ0 ”√¿¥ºÏ≤‚“£øÿ¬Î
-  86          {
-  87   1          static u16 CountL , CountH;
-  88   1              static u8 IR_BitCnt;    
-  89   1              static u8 sync = 0;
-  90   1              static u8 step = 0;
-  91   1              if(!sync)
-  92   1              {
-  93   2                      if(INT0) //…œ…˝—ÿ
-  94   2                      {
-  95   3                if(step==0)  //∆ ºŒª÷√£¨µ⁄“ª∏ˆ…œ…˝—ÿ∏¥Œªº∆ ˝∆˜
-  96   3                        {
-  97   4                                      Decodecnt = 0;
-  98   4                                      step = 1;          //step = 1;
-  99   4                        }
- 100   3                        else if(step==2)     //ºÏ≤‚µΩ¡Àµ⁄∂˛∏ˆ…œ…˝—ÿ£¨ø…“‘ªÒ»°µÕµÁ∆Ω≥÷–¯ ±º‰
- 101   3                        {               
- 102   4                                 CountL = Decodecnt;   //ªÒ»°µΩµÕµÁ∆Ωµƒ ±º‰
- 103   4                                 Decodecnt = 0;
- 104   4                                 step = 0;
- 105   4                                 if(CountL > CountH)   //œ»≈–∂œµÕµÁ∆Ω ±º‰¥Û”⁄∏ﬂµÁ∆Ω ±º‰
- 106   4                                 {
- 107   5                                    if((CountL >= SYNCMIN)&&(CountL <= SYNCMAX))//ΩÿªÒÕ¨≤Ω¬Î
- 108   5                                        {
- 109   6                                          sync = 1;
- 110   6                                              IR_BitCnt = D_IR_BIT_NUMBER;    //◊∞‘ÿŒª¬Î ˝
- 111   6      #ifdef GET_FREQ
- 112   6                                          OscFreq =  1000/(CountL*40/124/8);       //kHz
- 113   6      #endif
- 114   6                                        }
- 115   5                                 }
- 116   4                        }
-C51 COMPILER V9.00   ISR                                                                   04/21/2015 18:25:46 PAGE 3   
+  55   1      }
+  56          /****************************************************************************************
+  57          //                 |````|
+  58          //SYNC: ___|    |_____________________________________________________________...
+  59          //          4clk                         124clk
+  60          //
+  61          //
+  62          //           |````|                        |                      |````````````|        |               1clk = 8 osclk
+  63          //0:   __|    |____________|        1:  __|                        |____|
+  64          //        4clk    12clk                     12clk     4clk
+  65          //Datalength:
+  66          //Minlength:1.31ms @300k/13V    Maxlength:3.01ms @430k/4v
+  67          //bit:[0:19] addcode    bit:[20:23] keycode
+  68          ****************************************************************************************/
+  69          void EnDecode(void)
+  70          {
+  71   1         EX0 = 1;                 //ø™int0÷–∂œ
+  72   1         Decodecnt = 0;                       //∏¥Œªº∆ ˝∆˜
+  73   1         ReIRcode = 0;
+  74   1         Timer0_Run();                        //ø™∂® ±∆˜
+  75   1         Timer1_InterruptEnable();//ø™∂® ±∆˜1÷–∂œ
+  76   1      
+  77   1        //ø™÷–∂œ ø™∂® ±∆˜ ≤∂ªÒIRcode
+  78   1      }
+  79          void DsDecode(void)
+  80          {
+  81   1         EX0 = 0;
+  82   1         Timer0_Stop();
+  83   1         Decodecnt = 0;                       //∏¥Œªº∆ ˝∆˜
+  84   1         ReIRcode = 0;
+  85   1        //πÿ÷–∂œ πÿ∂® ±∆˜ Ω⁄ °◊ ‘¥
+  86   1      }
+  87          
+  88          void INT0_isr() interrupt INT0_VECTOR  //Õ‚≤ø÷–∂œ0 ”√¿¥ºÏ≤‚“£øÿ¬Î
+  89          {
+  90   1          static u16 CountL , CountH;
+  91   1              static u8 IR_BitCnt;    
+  92   1              static u8 sync = 0;
+  93   1              static u8 step = 0;
+  94   1              if(!sync)
+  95   1              {
+  96   2                      if(INT0) //…œ…˝—ÿ
+  97   2                      {
+  98   3                if(step==0)  //∆ ºŒª÷√£¨µ⁄“ª∏ˆ…œ…˝—ÿ∏¥Œªº∆ ˝∆˜
+  99   3                        {
+ 100   4                                      Decodecnt = 0;
+ 101   4                                      step = 1;          //step = 1;
+ 102   4                        }
+ 103   3                        else if(step==2)     //ºÏ≤‚µΩ¡Àµ⁄∂˛∏ˆ…œ…˝—ÿ£¨ø…“‘ªÒ»°µÕµÁ∆Ω≥÷–¯ ±º‰
+ 104   3                        {               
+ 105   4                                 CountL = Decodecnt;   //ªÒ»°µΩµÕµÁ∆Ωµƒ ±º‰
+ 106   4                                 Decodecnt = 0;
+ 107   4                                 step = 0;
+ 108   4                                 if(CountL > CountH)   //œ»≈–∂œµÕµÁ∆Ω ±º‰¥Û”⁄∏ﬂµÁ∆Ω ±º‰
+ 109   4                                 {
+ 110   5                                    if((CountL >= SYNCMIN)&&(CountL <= SYNCMAX))//ΩÿªÒÕ¨≤Ω¬Î
+ 111   5                                        {
+ 112   6                                          sync = 1;
+ 113   6                                              IR_BitCnt = D_IR_BIT_NUMBER;    //◊∞‘ÿŒª¬Î ˝
+ 114   6      #ifdef GET_FREQ
+ 115   6                                          OscFreq =  1000/(CountL*40/124/8);       //kHz
+ 116   6      #endif
+C51 COMPILER V9.00   ISR                                                                   04/22/2015 18:31:49 PAGE 3   
 
- 117   3      
- 118   3                      } 
- 119   2                      if(!INT0) //œ¬Ωµ—ÿ
- 120   2                      {
- 121   3                        if(step == 1)      //Àµ√˜“—ºÏ≤‚µΩ¡À“ª∏ˆ…œ…˝—ÿ
- 122   3                        {
- 123   4                                CountH = Decodecnt;   //ªÒ»°µΩ∏ﬂµÁ∆Ωµƒ ±º‰
- 124   4                                Decodecnt = 0;
- 125   4                                step = 2;
- 126   4                        }
- 127   3                        else                      //µ⁄“ª¥ŒºÏ≤‚µƒ «œ¬Ωµ—ÿ£¨∏¥Œªº∆ ˝∆˜£¨≤Ω ˝∏¥Œª
- 128   3                        {
- 129   4                                Decodecnt = 0;
- 130   4                                step = 0;               
- 131   4                        }
- 132   3                      }
- 133   2              }
- 134   1              else //“—Õ¨≤Ω£¨∂¡»° ˝æ›
- 135   1              {
- 136   2                
- 137   2                  if(!INT0) //œ¬Ωµ—ÿ
- 138   2                  {
- 139   3                 CountH = Decodecnt;   //ªÒ»°∏ﬂµÁ∆Ω ±º‰
- 140   3                         Decodecnt = 0;
- 141   3                         if(CountH > D_HIGHMAX) // ˝æ›≥¨ ±
- 142   3                         sync = 0;
- 143   3                  }
- 144   2                  else if(INT0) //…œ…˝—ÿ
- 145   2                  {
- 146   3                 CountL = Decodecnt;   //ªÒ»°µÕµÁ∆Ω ±º‰
- 147   3                         Decodecnt = 0;
- 148   3                         ReIRcode >>= 1; //Ω” ’1bit
- 149   3                         if(CountL < CountH)
- 150   3                         {
- 151   4                               ReIRcode |= 0x00800000;
- 152   4                         } 
- 153   3                         if(--IR_BitCnt == 0)                         //≈–∂œΩ” ’ «∑ÒÕÍ≥…
- 154   3                         {
- 155   4                               sync= 0;                       //«Â≥˝Õ¨≤Ω¬Î                
- 156   4                         }                                               
- 157   3                  }
- 158   2              }
- 159   1                                       
- 160   1      }
- 161          
- 162          
- 163          void T0_isr() interrupt TIMER0_VECTOR //∂® ±∆˜0÷–∂œ     40us
- 164          {
- 165   1         Decodecnt++;               
- 166   1      }
- 167          
- 168          
- 169          void T1_isr() interrupt TIMER1_VECTOR  //∂® ±∆˜1÷–∂œ”√¿¥◊ˆ µ ± ¬º˛¥¶¿Ì  5ms…®√Ë“ª¥Œ
- 170          {
- 171   1              static u8 cnt;
- 172   1              static u8 keycnt,beepcnt,cutcnt;
- 173   1              keycnt++;
- 174   1              cnt++;
- 175   1              if(cnt >= 100)//∞Î√Î
- 176   1              {
- 177   2                cnt =0;
- 178   2                LED0=!LED0;
-C51 COMPILER V9.00   ISR                                                                   04/21/2015 18:25:46 PAGE 4   
+ 117   6                                        }
+ 118   5                                 }
+ 119   4                        }
+ 120   3      
+ 121   3                      } 
+ 122   2                      if(!INT0) //œ¬Ωµ—ÿ
+ 123   2                      {
+ 124   3                        if(step == 1)      //Àµ√˜“—ºÏ≤‚µΩ¡À“ª∏ˆ…œ…˝—ÿ
+ 125   3                        {
+ 126   4                                CountH = Decodecnt;   //ªÒ»°µΩ∏ﬂµÁ∆Ωµƒ ±º‰
+ 127   4                                Decodecnt = 0;
+ 128   4                                step = 2;
+ 129   4                        }
+ 130   3                        else                      //µ⁄“ª¥ŒºÏ≤‚µƒ «œ¬Ωµ—ÿ£¨∏¥Œªº∆ ˝∆˜£¨≤Ω ˝∏¥Œª
+ 131   3                        {
+ 132   4                                Decodecnt = 0;
+ 133   4                                step = 0;               
+ 134   4                        }
+ 135   3                      }
+ 136   2              }
+ 137   1              else //“—Õ¨≤Ω£¨∂¡»° ˝æ›
+ 138   1              {
+ 139   2                
+ 140   2                  if(!INT0) //œ¬Ωµ—ÿ
+ 141   2                  {
+ 142   3                 CountH = Decodecnt;   //ªÒ»°∏ﬂµÁ∆Ω ±º‰
+ 143   3                         Decodecnt = 0;
+ 144   3                         if(CountH > D_HIGHMAX) // ˝æ›≥¨ ±
+ 145   3                         sync = 0;
+ 146   3                  }
+ 147   2                  else if(INT0) //…œ…˝—ÿ
+ 148   2                  {
+ 149   3                 CountL = Decodecnt;   //ªÒ»°µÕµÁ∆Ω ±º‰
+ 150   3                         Decodecnt = 0;
+ 151   3                         ReIRcode >>= 1; //Ω” ’1bit
+ 152   3                         if(CountL < CountH)
+ 153   3                         {
+ 154   4                               ReIRcode |= 0x00800000;
+ 155   4                         } 
+ 156   3                         if(--IR_BitCnt == 0)                         //≈–∂œΩ” ’ «∑ÒÕÍ≥…
+ 157   3                         {
+ 158   4                               sync= 0;                       //«Â≥˝Õ¨≤Ω¬Î                
+ 159   4                         }                                               
+ 160   3                  }
+ 161   2              }
+ 162   1                                       
+ 163   1      }
+ 164          
+ 165          
+ 166          void T0_isr() interrupt TIMER0_VECTOR //∂® ±∆˜0÷–∂œ     40us
+ 167          {
+ 168   1         Decodecnt++;               
+ 169   1      }
+ 170          
+ 171          
+ 172          void T1_isr() interrupt TIMER1_VECTOR  //∂® ±∆˜1÷–∂œ”√¿¥◊ˆ µ ± ¬º˛¥¶¿Ì  5ms…®√Ë“ª¥Œ
+ 173          {
+ 174   1              static u8 cnt = 0;
+ 175   1              static u8 keycnt=0,beepcnt=0,cutcnt=0;
+ 176   1              static u16 popcnt=0;
+ 177   1              keycnt++;
+ 178   1              cnt++;
+C51 COMPILER V9.00   ISR                                                                   04/22/2015 18:31:49 PAGE 4   
 
- 179   2              } 
- 180   1              if(keycnt>15) 
- 181   1              {
- 182   2               KeyScan();
- 183   2               keycnt = 0;
- 184   2              }
- 185   1              if(BeepFlag ==1)
- 186   1              {
- 187   2                SPEAKER = 1;
- 188   2                if(beepcnt++>=5)
- 189   2                {
- 190   3                  SPEAKER = 0;
- 191   3                      beepcnt = 0;
- 192   3                      BeepFlag = 0;
- 193   3                }
- 194   2              }
- 195   1              if(Cutflag ==1)
- 196   1              {
- 197   2                if(cutcnt++>=7)          //40ms 
- 198   2                {
- 199   3                      DSENVMOS();                       // πÿmosµÁ‘¥
- 200   3                      DSENABLE595();                    // πÿ595øÿ÷∆mosø™πÿ
- 201   3                      Cutflag = 0;
- 202   3                      cutcnt =0;
- 203   3                }
- 204   2              }              
- 205   1      }
+ 179   1              if(cnt >= 100)//∞Î√Î
+ 180   1              {
+ 181   2                cnt =0;
+ 182   2                LED0=!LED0;
+ 183   2              } 
+ 184   1              if(keycnt>15) 
+ 185   1              {
+ 186   2               KeyScan();
+ 187   2               keycnt = 0;
+ 188   2              }
+ 189   1              if(BeepFlag == 1)
+ 190   1              {
+ 191   2                SPEAKER = 1;
+ 192   2                if(beepcnt++>=5)
+ 193   2                {
+ 194   3                  SPEAKER = 0;
+ 195   3                      beepcnt = 0;
+ 196   3                      BeepFlag = 0;
+ 197   3                }
+ 198   2              }
+ 199   1              if(Cutflag ==1)
+ 200   1              {
+ 201   2                if(cutcnt++>=7)          //40ms 
+ 202   2                {
+ 203   3                      DSENVMOS();                       // πÿmosµÁ‘¥
+ 204   3                      DSENABLE595();                    // πÿ595øÿ÷∆mosø™πÿ
+ 205   3                      Cutflag = 0;
+ 206   3                      cutcnt =0;
+ 207   3                }
+ 208   2              } 
+ 209   1              if(POP != 0) 
+ 210   1              {
+ 211   2                 if(popcnt++>=400*POP)
+ 212   2                 {
+ 213   3                   popcnt = 0;
+ 214   3                       POP = 0;
+ 215   3               memcpy(OLED_GRAM,OLED_GRAM_TMP,512);
+ 216   3                       OLED_Refresh_Gram();
+ 217   3                 }
+ 218   2              }           
+ 219   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    692    ----
+   CODE SIZE        =    759    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =     19    ----
+   XDATA SIZE       =     21    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----

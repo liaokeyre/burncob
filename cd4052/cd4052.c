@@ -3,12 +3,15 @@
 #include "uart.h"
 #include "_595.h"
 #include "oled.h"
+#include "24c02.h"
+#include "key.h"
 
-#define Res_OK  2000        //设置电阻判定值2000K=2M
+#define Res_OK  500//2000        //设置电阻判定值2000K=2M
 CobPad PN;	  //20线地址码
 CobPad PN_TMP;//临时存放不同封装地址码
 CobPad PN_CUT;//存放烧码后的地址，此地址码是实际烧出来的，不是预设码；需要和预设码对比
 Pad_Res RES;
+extern WINDOWS windemo;
 /********************************************
 函数功能： ADC初始化
 返回 ： void
@@ -66,7 +69,6 @@ ADC通道列表，对应不同PAD脚
 *******************************************************************************************/
 void GetPadRes(void)
 {
-  u8 i;
   A1_4052 = 0;
   A2_4052 = 0;
   B1_4052 = 0;
@@ -129,8 +131,8 @@ void GetPadRes(void)
   RES.Pad7 = Adc2Res(GetADCResult(CH1));
   NOP4();
   RES.Pad11 = Adc2Res(GetADCResult(CH2));
-  printf_u8(RES.Pad11>>8);
-  printf_u8(RES.Pad11);
+//  printf_u8(RES.Pad11>>8);
+//  printf_u8(RES.Pad11);
   NOP4();
   RES.Pad15 = Adc2Res(GetADCResult(CH3));
 }
@@ -141,7 +143,7 @@ void GetPadRes(void)
 void PnMask(u8 package)
 {
   PN.PadByte = 0;   //复位地址码,没割码状态
-  if(package == 0)					 //封装1
+  if(package == Package_2)					 //封装1
   {
  //    PN.Px.P_XXH.Pad0 = PN_TMP.Px.P_XXH.Pad0;
      PN.Px.P_XXH.Pad1 = PN_TMP.Px.P_XXH.Pad0;
@@ -160,7 +162,7 @@ void PnMask(u8 package)
      PN.Px.P_HXX.Pad3 = PN_TMP.Px.P_XHX.Pad3; 
 */	 		 	 
   }
-  else if(package == 1)		            //封装2
+  else if(package == Package_1)		            //封装2
   {
      PN.Px.P_XXH.Pad0 = PN_TMP.Px.P_XXH.Pad0;
      PN.Px.P_XXH.Pad2 = PN_TMP.Px.P_XXH.Pad1;
@@ -450,6 +452,7 @@ u8 Hex2Dat(u8 dat)
 void compareAdd(void)
 {
   u32 tmp;
+  u32 countmp;
   if(BurnCheck() == 0)  //判断烧码脚烧码失败
   {
 	tmp = PN.PadByte^PN_CUT.PadByte;  //tmp 存放异常地址码 可以判断出在哪一位出现异常
@@ -461,20 +464,96 @@ void compareAdd(void)
 
 	OLED_ShowChar(24,8,Hex2Dat(((tmp)>>4)&0x0f),7,1);
  	OLED_ShowChar(30,8,Hex2Dat(((tmp)&0x0f)),7,1);
-    OLED_ShowString(0,24," NG!! ",7);
+    OLED_ShowString(0,24," NG!! ",7,1);
     OLED_Refresh_Gram();
 	   //这里添加烧码失败操作 显示 给信号测试机   地址码不变
+/**********************************************************************************************/
+	NG_COUNT++;
+#ifdef EEPROM_EN
+	if(PKG == Package_1)
+	{
+	  at24c02_rddat(COUNT1_NG_ADD,&countmp,4);
+	  countmp++;
+      at24c02_wrdat(COUNT1_NG_ADD,&countmp,4);    //累加 NG数量
+	}
+	else if(PKG == Package_2)
+	{
+	  at24c02_rddat(COUNT2_NG_ADD,&countmp,4);
+	  countmp++;
+      at24c02_wrdat(COUNT2_NG_ADD,&countmp,4);    //累加 NG数量
+	}
+	else if(PKG == Package_3)
+	{
+	  at24c02_rddat(COUNT3_NG_ADD,&countmp,4);
+	  countmp ++;
+      at24c02_wrdat(COUNT3_NG_ADD,&countmp,4);    //累加 NG数量
+	}
+	at24c02_rddat(COUNTALL_NG_ADD,&countmp,4);
+	countmp ++;
+	at24c02_wrdat(COUNTALL_NG_ADD,&countmp,4);    //累加 NG数量  
+#endif
+/***********************************************************************************************/
   }
   else
   {
-    OLED_ShowString(0,8,"      ",7);
-    OLED_ShowString(0,24,"PASS!!",7);
+    OLED_ShowString(0,8,"      ",7,1);
+    OLED_ShowString(0,24,"PASS!!",7,1);
     OLED_Refresh_Gram();
 	   //解码判断码值和地址码匹配
 	   //这里添加烧码成功操作 显示  给信号测试机   地址码自加1
-//	     PN_TMP.PadByte ++;
+	PN_TMP.PadByte ++;
+	if((PKG == Package_1)||(PKG == Package_2))
+	{
+	  if(PN_TMP.PadByte > 0xff)	   //2^8 不能超出地址空间
+	  PN_TMP.PadByte = 0;
+#ifdef EEPROM_EN
+	  if(PKG == Package_1)
+	  {
+	    at24c02_wrdat(PKG1_ADD,&PN_TMP.PadByte,4); 			 //储存割码地址到2402
+	  }
+	  else
+	  {
+	    at24c02_wrdat(PKG2_ADD,&PN_TMP.PadByte,4); 	  		 //储存割码地址到2402
+	  }
+#endif
+	}
+	else if(PKG == Package_3)
+	{
+	   if(PN_TMP.PadByte > 0xfffff)	  //2^20  不能超出地址空间
+	   PN_TMP.PadByte = 0;
+#ifdef EEPROM_EN
+	   at24c02_wrdat(PKG3_ADD,&PN_TMP.PadByte,4);                    //储存割码地址到2402
+#endif	   	  	
+	}
+
+/*****************************************************************************************/
+	OK_COUNT++;
+#ifdef EEPROM_EN
+	if(PKG == Package_1)
+	{
+	  at24c02_rddat(COUNT1_OK_ADD,&countmp,4);
+	  countmp ++;
+      at24c02_wrdat(COUNT1_OK_ADD,&countmp,4);    //累加 OK数量
+	}
+	else if(PKG == Package_2)
+	{
+	  at24c02_rddat(COUNT2_OK_ADD,&countmp,4);
+	  countmp ++;
+      at24c02_wrdat(COUNT2_OK_ADD,&countmp,4);    //累加 OK数量
+	}
+	else if(PKG == Package_3)
+	{
+	  at24c02_rddat(COUNT3_OK_ADD,&countmp,4);
+	  countmp ++;
+      at24c02_wrdat(COUNT3_OK_ADD,&countmp,4);    //累加 OK数量
+	}
+	at24c02_rddat(COUNTALL_OK_ADD,&countmp,4);
+	countmp ++;
+	at24c02_wrdat(COUNTALL_OK_ADD,&countmp,4);    //累加 OK数量  
+#endif
+/*****************************************************************************************************/
   }
-   PN_TMP.PadByte ++;
+   
 }
 /************************************************************************************************
 烧码
@@ -493,8 +572,88 @@ void StartCut(u8 package)
   CobCuting(PN.PadByte);      //开始割码
   while(Cutflag)			  //等待割码完成 才可以去读引脚阻值
   NOP1();
-//  GetPadRes();                //读引脚阻值
+  GetPadRes();                //读引脚阻值
+  OLED_Clear();
   compareAdd();               //比较地址
+}
+void ShowInfo(void)
+{
+    u32 tmp;
+
+	memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
+	init_windows(0,0,120,32,"Info",0,0);
+	OLED_Draw_WindowsDraw(&windemo);
+ 	tmp = Get_Pkg_CNT(PKG,0);
+
+	OLED_ShowString(2,11,"OK:",7,1);   //Disp ok!
+    OLED_ShowChar(22,11,Hex2Dat(((tmp>>16)>>4)&0x0f),7,1);
+    OLED_ShowChar(28,11,Hex2Dat(((tmp>>16)&0x0f)),7,1);
+
+	OLED_ShowChar(34,11,Hex2Dat(((tmp>>8)>>4)&0x0f),7,1);
+	OLED_ShowChar(40,11,Hex2Dat(((tmp>>8)&0x0f)),7,1);
+
+	OLED_ShowChar(46,11,Hex2Dat(((tmp)>>4)&0x0f),7,1);
+ 	OLED_ShowChar(52,11,Hex2Dat(((tmp)&0x0f)),7,1);
+
+ 	tmp = Get_Pkg_CNT(PKG,1);
+	OLED_ShowString(62,11,"NG:",7,1);   //Disp ok!
+    OLED_ShowChar(82,11,Hex2Dat(((tmp>>16)>>4)&0x0f),7,1);
+    OLED_ShowChar(88,11,Hex2Dat(((tmp>>16)&0x0f)),7,1);
+
+	OLED_ShowChar(94,11,Hex2Dat(((tmp>>8)>>4)&0x0f),7,1);
+	OLED_ShowChar(100,11,Hex2Dat(((tmp>>8)&0x0f)),7,1);
+
+	OLED_ShowChar(106,11,Hex2Dat(((tmp)>>4)&0x0f),7,1);
+ 	OLED_ShowChar(112,11,Hex2Dat(((tmp)&0x0f)),7,1);
+
+ 	tmp = Get_Pkg_Add(PKG);
+	OLED_ShowString(2,20,"ADD:",7,1);   //Disp ok!
+    OLED_ShowChar(22,20,Hex2Dat(((tmp>>16)>>4)&0x0f),7,1);
+    OLED_ShowChar(28,20,Hex2Dat(((tmp>>16)&0x0f)),7,1);
+
+	OLED_ShowChar(34,20,Hex2Dat(((tmp>>8)>>4)&0x0f),7,1);
+	OLED_ShowChar(40,20,Hex2Dat(((tmp>>8)&0x0f)),7,1);
+
+	OLED_ShowChar(46,20,Hex2Dat(((tmp)>>4)&0x0f),7,1);
+ 	OLED_ShowChar(52,20,Hex2Dat(((tmp)&0x0f)),7,1);
+
+	POP = 2;
+	OLED_Refresh_Gram();	  
+}
+void CutRun(u8 package)
+{
+  u8 Done;
+  Done = 0;
+  //获取封装信息
+#ifdef EEPROM_EN
+    PN_TMP.PadByte = Get_Pkg_Add(package); //获取到对应封装割码地址
+#endif
+	OLED_ShowString(30,0,"SADD-No.:",12,1); 
+    OLED_ShowChar(0,15,Hex2Dat(((PN_TMP.PadByte>>16)>>4)&0x0f),12,1);
+    OLED_ShowChar(8,15,Hex2Dat(((PN_TMP.PadByte>>16)&0x0f)),12,1);
+
+	OLED_ShowChar(16,15,Hex2Dat(((PN_TMP.PadByte>>8)>>4)&0x0f),12,1);
+	OLED_ShowChar(24,15,Hex2Dat(((PN_TMP.PadByte>>8)&0x0f)),12,1);
+
+	OLED_ShowChar(32,15,Hex2Dat(((PN_TMP.PadByte)>>4)&0x0f),12,1);
+ 	OLED_ShowChar(40,15,Hex2Dat(((PN_TMP.PadByte)&0x0f)),12,1);
+    OLED_Refresh_Gram();
+	memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
+  while(!Done)
+  {
+	  if((Key_back == PR_MOD)&&(Key_change))
+	  {
+	   Key_change=0; 
+	   BeepFlag =1;	
+       StartCut(package);
+	  }
+	  if((Key_back == PR_OK)&&(Key_change))
+	  {
+	   Key_change=0; 
+	   BeepFlag =1;
+	   ShowInfo();
+	  }	    
+  }
 }
 /*
 void TestPn(void)
