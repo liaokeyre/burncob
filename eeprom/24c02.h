@@ -7,7 +7,7 @@
 void i2c_init(void);
 void at24c02_wr(u8 address, u8 dat);
 u8 at24c02_rd(u8 address);
-
+void delay_10ms();
 void at24c02_wrdat(u8 address, void *dat, u8 bytenum);
 void at24c02_rddat(u8 address, void *dat, u8 bytenum);
 

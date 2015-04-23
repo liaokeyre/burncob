@@ -5,7 +5,7 @@
 #include "_595.h"
 #include "oled.h"
 
-#define GET_FREQ
+//#define GET_FREQ
 #ifdef GET_FREQ
 u16 OscFreq;
 #endif
@@ -16,8 +16,42 @@ u16 OscFreq;
 #define D_IR_BIT_NUMBER   24	//×°ÔØÎ»ÂëÊı
 
 u16 Decodecnt;
-u32 ReIRcode;   //¶Áµ½µÄµØÖ·Â
+u32 ReIRcode;   //¶Áµ½µÄµØÖ·Â
 
+/****************************************************************************************
+//		   |````|
+//SYNC: ___|	|_____________________________________________________________...
+//          4clk                         124clk
+//
+//
+//	     |````|			   |			  |````````````|	|		1clk = 8 osclk
+//0:   __|    |____________|        1:  __|			   |____|
+//        4clk    12clk                     12clk     4clk
+//Datalength:
+//Minlength:1.31ms @300k/13V    Maxlength:3.01ms @430k/4v
+//bit:[0:19] addcode    bit:[20:23] keycode
+****************************************************************************************/
+void EnDecode(void)
+{
+   EX0 = 1;                 //¿ªint0ÖĞ¶Ï
+   Decodecnt = 0;			//¸´Î»¼ÆÊıÆ÷
+   ReIRcode = 0;
+   Timer0_Run();	   		//¿ª¶¨Ê±Æ÷
+   Timer0_InterruptEnable();//¿ª¶¨Ê±Æ÷1ÖĞ¶Ï
+   ENVSOC();
+   K1_OUT = 1;
+  //¿ªÖĞ¶Ï ¿ª¶¨Ê±Æ÷ ²¶»ñIRcode
+}
+void DsDecode(void)
+{
+   EX0 = 0;
+   Timer0_Stop();
+   Decodecnt = 0;			//¸´Î»¼ÆÊıÆ÷
+   ReIRcode = 0;
+   DSENVSOC();
+   K1_OUT = 0;
+  //¹ØÖĞ¶Ï ¹Ø¶¨Ê±Æ÷ ½ÚÊ¡×ÊÔ´
+}
 void Timer0Init(void)		//40us@11.0592MHz	//ÓÃÀ´½âÂë
 {
 	Timer0_Stop();			//¹Ø¶¨Ê±Æ÷0
@@ -52,45 +86,16 @@ void timerInit(void)
 	Timer0Init();          //¼ÆÊı²»ÖĞ¶Ï
 	Timer1Init();		   //¼ÆÊıÖĞ¶Ï
 	Timer1_InterruptEnable();//¿ª¶¨Ê±Æ÷1ÖĞ¶Ï
+	Int0Init();
+	EnDecode();
 }
-/****************************************************************************************
-//		   |````|
-//SYNC: ___|	|_____________________________________________________________...
-//          4clk                         124clk
-//
-//
-//	     |````|			   |			  |````````````|	|		1clk = 8 osclk
-//0:   __|    |____________|        1:  __|			   |____|
-//        4clk    12clk                     12clk     4clk
-//Datalength:
-//Minlength:1.31ms @300k/13V    Maxlength:3.01ms @430k/4v
-//bit:[0:19] addcode    bit:[20:23] keycode
-****************************************************************************************/
-void EnDecode(void)
-{
-   EX0 = 1;                 //¿ªint0ÖĞ¶Ï
-   Decodecnt = 0;			//¸´Î»¼ÆÊıÆ÷
-   ReIRcode = 0;
-   Timer0_Run();	   		//¿ª¶¨Ê±Æ÷
-   Timer1_InterruptEnable();//¿ª¶¨Ê±Æ÷1ÖĞ¶Ï
-
-  //¿ªÖĞ¶Ï ¿ª¶¨Ê±Æ÷ ²¶»ñIRcode
-}
-void DsDecode(void)
-{
-   EX0 = 0;
-   Timer0_Stop();
-   Decodecnt = 0;			//¸´Î»¼ÆÊıÆ÷
-   ReIRcode = 0;
-  //¹ØÖĞ¶Ï ¹Ø¶¨Ê±Æ÷ ½ÚÊ¡×ÊÔ´
-}
-
 void INT0_isr() interrupt INT0_VECTOR  //Íâ²¿ÖĞ¶Ï0 ÓÃÀ´¼ì²âÒ£¿ØÂë
 {
     static u16 CountL , CountH;
 	static u8 IR_BitCnt;	
 	static u8 sync = 0;
 	static u8 step = 0;
+	static u32 IR_tmp=0;
 	if(!sync)
 	{
 		if(INT0) //ÉÏÉıÑØ
@@ -123,12 +128,13 @@ void INT0_isr() interrupt INT0_VECTOR  //Íâ²¿ÖĞ¶Ï0 ÓÃÀ´¼ì²âÒ£¿ØÂë
 		{
 		  if(step == 1)	     //ËµÃ÷ÒÑ¼ì²âµ½ÁËÒ»¸öÉÏÉıÑØ
 		  {
+		      
 			  CountH = Decodecnt;	//»ñÈ¡µ½¸ßµçÆ½µÄÊ±¼ä
 			  Decodecnt = 0;
 			  step = 2;
 		  }
 		  else			    //µÚÒ»´Î¼ì²âµÄÊÇÏÂ½µÑØ£¬¸´Î»¼ÆÊıÆ÷£¬²½Êı¸´Î»
-		  {
+		  {		      
 			  Decodecnt = 0;
 			  step = 0;		  
 		  }
@@ -136,7 +142,7 @@ void INT0_isr() interrupt INT0_VECTOR  //Íâ²¿ÖĞ¶Ï0 ÓÃÀ´¼ì²âÒ£¿ØÂë
 	}
 	else //ÒÑÍ¬²½£¬¶ÁÈ¡Êı¾İ
 	{
-	  
+//	  	SPEAKER=!SPEAKER;
 	    if(!INT0) //ÏÂ½µÑØ
 	    {
            CountH = Decodecnt;	 //»ñÈ¡¸ßµçÆ½Ê±¼ä
@@ -148,13 +154,15 @@ void INT0_isr() interrupt INT0_VECTOR  //Íâ²¿ÖĞ¶Ï0 ÓÃÀ´¼ì²âÒ£¿ØÂë
 	    {
            CountL = Decodecnt;	 //»ñÈ¡µÍµçÆ½Ê±¼ä
 		   Decodecnt = 0;
-		   ReIRcode >>= 1; //½ÓÊÕ1bit
+		   IR_tmp <<= 1; //½ÓÊÕ1bit
 		   if(CountL < CountH)
 		   {
-		   	 ReIRcode |= 0x00800000;
+		   	 IR_tmp |= 0X01;
 		   } 
 		   if(--IR_BitCnt == 0)				//ÅĞ¶Ï½ÓÊÕÊÇ·ñÍê³É
 		   {
+		     ReIRcode = IR_tmp;
+			 IR_tmp = 0;
 			 sync= 0;                       //Çå³ıÍ¬²½Âë		    
 		   }		   		   	           
 	    }
@@ -172,8 +180,8 @@ void T0_isr() interrupt TIMER0_VECTOR //¶¨Ê±Æ÷0ÖĞ¶Ï	40us
 void T1_isr() interrupt TIMER1_VECTOR  //¶¨Ê±Æ÷1ÖĞ¶ÏÓÃÀ´×öÊµÊ±ÊÂ¼ş´¦Àí	5msÉ¨ÃèÒ»´Î
 {
 	static u8 cnt = 0;
-	static u8 keycnt=0,beepcnt=0,cutcnt=0;
-	static u16 popcnt=0;
+	static u8 keycnt=0,beepcnt=0;
+	static u16 popcnt=0,cutcnt=0;
 	keycnt++;
 	cnt++;
 	if(cnt >= 100)//°ëÃë
@@ -214,6 +222,7 @@ void T1_isr() interrupt TIMER1_VECTOR  //¶¨Ê±Æ÷1ÖĞ¶ÏÓÃÀ´×öÊµÊ±ÊÂ¼ş´¦Àí	5msÉ¨ÃèÒ»
 		 POP = 0;
          memcpy(OLED_GRAM,OLED_GRAM_TMP,512);
 	   	 OLED_Refresh_Gram();
+		 DsDecode();
 	   }
 	}           
 }

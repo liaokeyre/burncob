@@ -9,6 +9,7 @@
 //如果客户需要用5V电源，虽然5V可以正常工作，但式ㄒ榍不要长时间工作；这样可能会减少屏的寿命；在VCC端串一小电阻可能会好一些。
 #include "oled.h"
 #include "oledfont.h" 
+#include "24c02.h"
 #define GUI_LCM_XMAX 128
 #define GUI_LCM_YMAX  32	 
 //#include "delay.h"
@@ -654,6 +655,22 @@ void OLED_ShowFont16(u8 x,u8 y,u8 fno,u8 mode)
 			}
 		}  	 
     }          
+}
+/*******************************************************************************************
+函数名: void OLED_DrawBar(u8 x1, u8 y1, u8 x2, u8 y2, u8 t)
+说明: 画进度条， 起始位置坐标  
+********************************************************************************************/
+void OLED_DrawBar(u8 x1, u8 y1, u8 x2, u8 y2, u8 t)
+{ 
+  u8 i;     			    
+  OLED_DrawRectangle(x1, y1, x2, y2, t);
+  for(i=0;i<x2-x1;i++)
+  {
+    OLED_Draw_RectangleFill(x1+1, y1+1, x1+i, y2-1, t); 
+	OLED_Refresh_Gram();
+	delay_10ms();
+	delay_10ms();
+  }      
 }
 /*******************************************************************************************
 函数名: void OLED_DrawBMP(u8 x,u8 y)

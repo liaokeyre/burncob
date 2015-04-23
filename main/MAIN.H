@@ -45,6 +45,8 @@
 #define EN_VSOC          P47    //控制给测试芯片供电
 #define ENVMOS()   	     VMOS_EN = 1
 #define DSENVMOS()       VMOS_EN = 0
+#define ENVSOC()   	     EN_VSOC = 1
+#define DSENVSOC()       EN_VSOC = 0
 /*******************************************************/// TESTER CONTROL
 #define KEY1             P42	//按键1
 #define KEY2             P43	//按键2

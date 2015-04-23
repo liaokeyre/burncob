@@ -53,7 +53,7 @@ void OLED_ShowName(u8 x,u8 y,u8 fno,u8 mode);
 void OLED_ShowAdd(u8 x,u8 y,u32 Add1,u32 Add2);
 void Disp_Menu_Main(u8 num);
 void Disp_Menu_1(u8 num);
-
+void OLED_DrawBar(u8 x1, u8 y1, u8 x2, u8 y2, u8 t);
 extern u8 OLED_GRAM[128][4];
 extern u8 OLED_GRAM_TMP[128][4];
 #endif  

@@ -72,6 +72,7 @@ void oledInit(void)
 	*/
 #ifdef SHOW_LOGO
 	OLED_DrawBMP(0,0,1);			// show logo
+    OLED_DrawBar(36, 26, 124, 30, 1);
 #endif
 	OLED_Refresh_Gram();
 }
@@ -99,6 +100,11 @@ void ioInit(void)
 	  P2M1 &= ~0XF8;
 	  P2M0 |= 0XF8;	//Õ∆ÕÏ
 
+	  P3M1 |= 0x04;
+	  P3M1 &= ~0x04;  //	p32  ‰»Î
+
+	  P5M1 &= ~0X20;
+	  P5M0 |= 0X20;    //P55Õ∆ÕÏ
 }
 
 void sysInit(void)
@@ -116,6 +122,8 @@ void sysInit(void)
 	Cutflag = 0;
 	MODE = cutmode;
 	POP = 0;
+	DSENVSOC();
+	K1_OUT = 0;
 }
 void set_mode(void)
 {
@@ -356,6 +364,7 @@ void lookinfo(void)
 
 void main(void)
 {
+    SPEAKER = 0;
     sysInit();
 	SPEAKER = 1;
 #ifdef PRINT_AUTHOR_INFO
