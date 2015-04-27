@@ -30,5 +30,7 @@ u32 Get_Pkg_CNT(u8 package,u8 mode);
 
 #define COUNTALL_OK_ADD 0X72
 #define COUNTALL_NG_ADD 0X80
+
+#define LINE_NUM_ADD 0XA0
 /************************************************************************///¥Ê¥¢–≈œ¢µÿ÷∑
 #endif

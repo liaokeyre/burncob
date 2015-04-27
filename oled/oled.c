@@ -10,6 +10,7 @@
 #include "oled.h"
 #include "oledfont.h" 
 #include "24c02.h"
+#include "cd4052.h"
 #define GUI_LCM_XMAX 128
 #define GUI_LCM_YMAX  32	 
 //#include "delay.h"
@@ -657,6 +658,124 @@ void OLED_ShowFont16(u8 x,u8 y,u8 fno,u8 mode)
     }          
 }
 /*******************************************************************************************
+函数名: void OLED_DrawTriangle(u8 x1, u8 y1, u8 len,u8 t)
+说明: 画三角形， 起始位置坐标  
+********************************************************************************************/
+void OLED_DrawTriangle(u8 x1, u8 y1, u8 len,u8 t)
+{
+  OLED_DrawLine(x1,y1,x1-len,y1+len,t);
+  OLED_DrawLine(x1,y1,x1+len,y1+len,t);
+  OLED_DrawLine(x1+len,y1+len,x1-len,y1+len,t);	//画三角形
+}
+/*******************************************************************************************
+函数名: void OLED_DrawBar(u8 x1, u8 y1, u8 x2, u8 y2, u8 t)
+说明: 画进度条， 起始位置坐标  
+********************************************************************************************/
+void OLED_DrawSetBar(u8 x1, u8 y1, u8 x2, u8 y2, u8 num, u8 num1,u8 t)
+{ 
+  u8 i; 
+  u8 xtmp;
+  xtmp = (x2-x1)/num;
+  OLED_Draw_RectangleFill(x1-3, y1-2, x2+4, y2+12, 0);   			    
+  OLED_DrawRectangle(x1, y1, x2, y2, t);
+
+  OLED_DrawTriangle(x1+xtmp*num1, y2+1, 3,1);
+  OLED_Draw_RectangleFill(x1+1, y1+1, x1+xtmp*num1, y2-1, t);
+  OLED_ShowChar(x1+xtmp*num1-6,y2+6,Hex2Dat(((num1/10)&0x0f)),7,1);
+  OLED_ShowChar(x1+xtmp*num1,y2+6,Hex2Dat(((num1%10)&0x0f)),7,1);
+  /*
+  switch(num)
+  {
+    case 0:
+	   OLED_DrawTriangle(x1+1, y2+1, 3,1);
+
+	break;
+    case 1:
+	   OLED_DrawTriangle(xtmp, y2+1, 3,1);
+	   OLED_Draw_RectangleFill(x1+1, y1+1, x1+xtmp, y2-1, t);
+	break;
+    case 2:
+	   OLED_DrawTriangle(2*xtmp, y2+1, 3,1);
+	   OLED_Draw_RectangleFill(x1+1, y1+1, x1+2*xtmp, y2-1, t);
+	break;
+    case 3:
+	   OLED_DrawTriangle(3*xtmp, y2+1, 3,1);
+	   OLED_Draw_RectangleFill(x1+1, y1+1, x1+3*xtmp, y2-1, t);
+	break;
+   case 4:
+	   OLED_DrawTriangle(4*xtmp, y2+1, 3,1);
+	   OLED_Draw_RectangleFill(x1+1, y1+1, x1+4*xtmp, y2-1, t);
+	break;
+    case 5:
+	   OLED_DrawTriangle(5*xtmp, y2+1, 3,1);
+	   OLED_Draw_RectangleFill(x1+1, y1+1, x1+5*xtmp, y2-1, t);
+	break;
+    case 6:
+	   OLED_DrawTriangle(6*xtmp, y2+1, 3,1);
+	   OLED_Draw_RectangleFill(x1+1, y1+1, x1+6*xtmp, y2-1, t);
+	break;
+    case 7:
+	   OLED_DrawTriangle(7*xtmp, y2+1, 3,1);
+	   OLED_Draw_RectangleFill(x1+1, y1+1, x1+7*xtmp, y2-1, t);
+	break;
+   case 8:
+	   OLED_DrawTriangle(8*xtmp, y2+1, 3,1);
+	   OLED_Draw_RectangleFill(x1+1, y1+1, x1+8*xtmp, y2-1, t);
+	break;
+    case 9:
+	   OLED_DrawTriangle(9*xtmp, y2+1, 3,1);
+	   OLED_Draw_RectangleFill(x1+1, y1+1, x1+9*xtmp, y2-1, t);
+	break;
+    case 10:
+	   OLED_DrawTriangle(10*xtmp, y2+1, 3,1);
+	   OLED_Draw_RectangleFill(x1+1, y1+1, x1+10*xtmp, y2-1, t);
+	break;
+    case 11:
+	   OLED_DrawTriangle(11*xtmp, y2+1, 3,1);
+	   OLED_Draw_RectangleFill(x1+1, y1+1, x1+11*xtmp, y2-1, t);
+	break;
+   case 12:
+	   OLED_DrawTriangle(12*xtmp, y2+1, 3,1);
+	   OLED_Draw_RectangleFill(x1+1, y1+1, x1+12*xtmp, y2-1, t);
+	break;
+    case 13:
+	   OLED_DrawTriangle(13*xtmp, y2+1, 3,1);
+	   OLED_Draw_RectangleFill(x1+1, y1+1, x1+13*xtmp, y2-1, t);
+	break;
+    case 14:
+	   OLED_DrawTriangle(14*xtmp, y2+1, 3,1);
+	   OLED_Draw_RectangleFill(x1+1, y1+1, x1+14*xtmp, y2-1, t);
+	break;
+    case 15:
+	   OLED_DrawTriangle(15*xtmp, y2+1, 3,1);
+	   OLED_Draw_RectangleFill(x1+1, y1+1, x1+15*xtmp, y2-1, t);
+	break;
+   case 16:
+	   OLED_DrawTriangle(16*xtmp, y2+1, 3,1);
+	   OLED_Draw_RectangleFill(x1+1, y1+1, x1+16*xtmp, y2-1, t);
+	break;
+    case 17:
+	   OLED_DrawTriangle(17*xtmp, y2+1, 3,1);
+	   OLED_Draw_RectangleFill(x1+1, y1+1, x1+17*xtmp, y2-1, t);
+	break;
+    case 18:
+	   OLED_DrawTriangle(18*xtmp, y2+1, 3,1);
+	   OLED_Draw_RectangleFill(x1+1, y1+1, x1+18*xtmp, y2-1, t);
+	break;
+   case 19:
+	   OLED_DrawTriangle(19*xtmp, y2+1, 3,1);
+	   OLED_Draw_RectangleFill(x1+1, y1+1, x1+19*xtmp, y2-1, t);
+	break;
+    case 20:
+	   OLED_DrawTriangle(20*xtmp, y2+1, 3,1);
+	   OLED_Draw_RectangleFill(x1+1, y1+1, x1+20*xtmp, y2-1, t);
+	break;
+  }
+  */
+  OLED_Refresh_Gram(); 
+     
+}
+/*******************************************************************************************
 函数名: void OLED_DrawBar(u8 x1, u8 y1, u8 x2, u8 y2, u8 t)
 说明: 画进度条， 起始位置坐标  
 ********************************************************************************************/
@@ -789,33 +908,34 @@ void Disp_Menu_0(u8 num)
 {
 	if(num == 0)
 	{
-	    OLED_ShowString(0,0,"1.SET SEN",12,0);
-	    OLED_ShowString(0,15,"2.SET ADD",12,1);
+	    OLED_ShowString(0,0,"1.SET LINE",12,0);
+	    OLED_ShowString(0,15,"2.SET SENS",12,1);
 	    OLED_ShowString(78,0,"3.ERASE",12,1);
 	    OLED_ShowString(78,15,"4.RETURN",12,1);
 	} 
 	else if(num == 1)
 	{
-	    OLED_ShowString(0,0,"1.SET SEN",12,1);
-	    OLED_ShowString(0,15,"2.SET ADD",12,0);
+	    OLED_ShowString(0,0,"1.SET LINE",12,1);
+	    OLED_ShowString(0,15,"2.SET SENS",12,0);
 	    OLED_ShowString(78,0,"3.ERASE",12,1);
 	    OLED_ShowString(78,15,"4.RETURN",12,1);
 	}
 	else if(num == 2)
 	{
-	    OLED_ShowString(0,0,"1.SET SEN",12,1);
-	    OLED_ShowString(0,15,"2.SET ADD",12,1);
+	    OLED_ShowString(0,0,"1.SET LINE",12,1);
+	    OLED_ShowString(0,15,"2.SET SENS",12,1);
 	    OLED_ShowString(78,0,"3.ERASE",12,0);
 	    OLED_ShowString(78,15,"4.RETURN",12,1);
 	}
 	else
 	{
-	    OLED_ShowString(0,0,"1.SET SEN",12,1);
-	    OLED_ShowString(0,15,"2.SET ADD",12,1);
+	    OLED_ShowString(0,0,"1.SET LINE",12,1);
+	    OLED_ShowString(0,15,"2.SET SENS",12,1);
 	    OLED_ShowString(78,0,"3.ERASE",12,1);
 	    OLED_ShowString(78,15,"4.RETURN",12,0);
 	} 
 }
+
 /*******************************************************************************************
 函数名: void OLED_ShowAdd(u8 x,u8 y,u32 Add1,u32 Add2)
 说明: 画位图 起始位置坐标 x,y

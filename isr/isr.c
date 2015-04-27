@@ -56,18 +56,18 @@ void Timer0Init(void)		//40us@11.0592MHz	//用来解码
 	Timer0_Stop();			//关定时器0
 	AUXR |= 0x80;		  	//定时器时钟1T模式
 	TMOD &= 0xF0;			//设置定时器模式
-	TL0 = 0x23;				//设置定时初值
-	TH0 = 0xFE;				//设置定时初值
+	TL0 = 0x8B;				//设置定时初值
+	TH0 = 0xFC;				//设置定时初值
 	TF0 = 0;				//清除TF0标志
 }
 
-void Timer1Init(void)		//5毫秒@11.0592MHz	 用来扫描按键等
+void Timer1Init(void)		//5毫秒@22.1184MHz	 用来扫描按键等
 {
 	Timer1_Stop();			//关定时器1
-	AUXR |= 0x40;			//定时器时钟1T模式
+	AUXR &= ~0x40;			//定时器时钟1T模式
 	TMOD &= 0x0F;			//设置定时器模式
 	TL1 = 0x00;				//设置定时初值
-	TH1 = 0x28;				//设置定时初值
+	TH1 = 0xDC;				//设置定时初值
 	TF1 = 0;				//清除TF1标志
 	Timer1_Run();			//开定时器1
 }
@@ -113,13 +113,16 @@ void INT0_isr() interrupt INT0_VECTOR  //外部中断0 用来检测遥控码
 			   {
 			      if((CountL >= SYNCMIN)&&(CountL <= SYNCMAX))//截获同步码
 				  {
-				    sync = 1;
+				    sync = 1;	
 					IR_BitCnt = D_IR_BIT_NUMBER;	//装载位码数
 #ifdef GET_FREQ
 				    OscFreq =  1000/(CountL*40/124/8);       //kHz
 #endif
+                   return;
 				  }
+
 			   }
+
 		  }
 
 		} 

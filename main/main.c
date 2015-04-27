@@ -16,7 +16,10 @@ u8 PKG;		   //封装型号
 u32 OK_COUNT;
 u32 NG_COUNT;
 
+u8 Maxline;
+u32 MaxlineHex;
 u8 POP;      //弹窗标志
+extern Pad_Res RES;
 extern void tsteicon(void);
 WINDOWS windemo;
 void init_windows(u8 x ,u8 y,u8 with,u8 height,u8 * title,u8 * text,u8 * state)
@@ -103,10 +106,18 @@ void ioInit(void)
 	  P3M1 |= 0x04;
 	  P3M1 &= ~0x04;  //	p32 输入
 
-	  P5M1 &= ~0X20;
-	  P5M0 |= 0X20;    //P55推挽
+	  P5M1 &= ~0X28;
+	  P5M0 |= 0X28;    //P55推挽
 }
-
+u32 EXP2(u8 num)
+{
+  u8 i;
+  u32 tmp;
+  tmp = 1;
+  for (i=0;i<num;i++)
+  tmp*=2;
+  return tmp;
+}
 void sysInit(void)
 {
 	ioInit();
@@ -117,7 +128,7 @@ void sysInit(void)
 	timerInit();
 	BeepFlag = 0;
 	OK_COUNT = 0;
-	NG_COUNT = 0; //复位计数器
+	NG_COUNT = 0;             //复位计数器
 	DSENVMOS();		          // 关mos电源
 	DSENABLE595();  		  // 关595控制mos开关
 	Cutflag = 0;
@@ -125,7 +136,89 @@ void sysInit(void)
 	POP = 0;
 	DSENVSOC();
 	K1_OUT = 0;
+	Maxline = at24c02_rd(LINE_NUM_ADD);
+	if((Maxline >20)||(Maxline < 1))
+	{
+	  Maxline = 20;
+	  at24c02_wr(LINE_NUM_ADD, Maxline);
+	}
+	MaxlineHex = EXP2(Maxline);
 }
+void SetLine(void)
+{
+	u8 Done;
+	u8 Linetmp;
+	Done = 0;
+#ifdef PRINT_INFO
+	send_string ("\n 设置割码线 \n");
+#endif
+	Linetmp = at24c02_rd(LINE_NUM_ADD);
+	Maxline = Linetmp;
+	if((Maxline >20)||(Maxline < 1))
+	{
+	  Maxline = 20;
+	  at24c02_wr(LINE_NUM_ADD, Maxline);
+	}
+	Linetmp = Maxline;
+	MaxlineHex = EXP2(Maxline);
+	OLED_Clear();
+    OLED_ShowChar(0,14,'0',7,1);
+    OLED_ShowChar(115,14,'2',7,1);
+    OLED_ShowChar(121,14,'0',7,1); 
+	OLED_ShowString(20,0,"Set max line",12,1);
+	while(!Done)
+	{
+	  	OLED_DrawSetBar(9, 15, 110, 19, 20,Linetmp, 1);
+		//OLED_ShowChar(x1-8,18,Hex2Dat(((PN_TMP.PadByte)&0x0f)),12,1);
+	    OLED_Refresh_Gram();
+      if(Key_change)
+	  {
+	  	switch(Key_back)
+		{
+		  case PR_ADD:
+		  		Key_change=0; 
+		        BeepFlag =1;
+				if(Linetmp-- <= 1)
+				Linetmp = 20;
+		  break;
+		  case PR_SUB:
+		  		Key_change=0; 
+		        BeepFlag =1;
+				if(Linetmp++ >= 20)
+				Linetmp = 1;		
+		  break;
+		  case PR_OK:
+		  		Key_change=0; 
+		        BeepFlag =1;
+	            init_windows(20,0,80,32,"Notice"," Set OK!",0);
+	            OLED_Draw_WindowsDraw(&windemo);
+                OLED_Refresh_Gram();
+			    Maxline = Linetmp;
+				MaxlineHex = EXP2(Maxline);
+				at24c02_wr(LINE_NUM_ADD, Maxline);				
+				delay_10ms();
+				delay_10ms();
+				delay_10ms();
+				delay_10ms();
+#ifdef PRINT_INFO
+	            send_string ("\n割码线设置为 : ");
+                put_char((Maxline/10)+'0');
+	            put_char((Maxline%10)+'0');
+                send_string (" 条\n");
+#endif
+				Done = 1;	
+		  break;
+		  case PR_MOD:
+		  		Key_change=0; 
+		        BeepFlag =1;
+				OLED_Clear();
+				Done = 1;
+		  break;
+		}
+	  }	
+	}
+}
+
 void set_mode(void)
 {
     u8 Done;
@@ -140,6 +233,9 @@ void set_mode(void)
 	Done = 0;
 	Disp_Menu_Main(setmode);
 	OLED_Refresh_Gram();
+#ifdef PRINT_INFO
+	send_string ("\n【设置】 割码 测试\n");
+#endif
 	while(!Done)
 	{
 	  if(Key_change)
@@ -219,7 +315,9 @@ void set_mode(void)
 							    OLED_Clear();
 						  	    OLED_ShowString(2,10,"ERASE DONE!",12,1);					 
 								OLED_Refresh_Gram();
-
+#ifdef PRINT_INFO
+					            send_string ("\n记录擦除完成\n");
+#endif
 							}
 
 						    OLED_Clear();
@@ -232,22 +330,21 @@ void set_mode(void)
 						  {
 						    Eraseflag = 1;
 					        OLED_Clear();
-					  	    OLED_ShowString(2,0,"Do you want clear all memorry?",12,1);	
+					  	    OLED_ShowString(2,0,"Clear all memorry?",12,1);	
 							OLED_ShowString(70,20,"YES",12,1);
 							OLED_ShowString(110,20,"NO",12,0);				 
-		 	                OLED_Refresh_Gram();						  
+		 	                OLED_Refresh_Gram();				  
 						  }
 						  				    
 					  }
-/*					  else if(menucnt ==1)	 
+					  else if(menucnt ==0)	 
 					  {
-						  memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
-				          init_windows(20,0,80,32,"Notice"," VT62538-B2",0);
-				          OLED_Draw_WindowsDraw(&windemo);
-						  POP = 1;
+					      SetLine();
+			   			  OLED_Clear();
+				          Disp_Menu_0(menucnt);
 		 	              OLED_Refresh_Gram();					    
 					  }
-					  else if(menucnt ==2
+/*					  else if(menucnt ==2)
 					  {
 						  memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
 				          init_windows(20,0,80,32,"Notice"," COB",0);
@@ -287,6 +384,9 @@ void cut_mode(void)
 	Done = 0;
 	Disp_Menu_Main(cutmode);
 	OLED_Refresh_Gram();
+#ifdef PRINT_INFO
+	send_string ("\n设置 【割码】 测试\n");
+#endif
 	while(!Done)
 	{
 	  if(Key_change)
@@ -404,6 +504,9 @@ void test_mode(void)
 	DsDecode();
 	Disp_Menu_Main(testmode);
 	OLED_Refresh_Gram();
+#ifdef PRINT_INFO
+	send_string ("\n设置 割码 【测试】\n");
+#endif
 	while(!Done)
 	{
 	  if(InMode)
@@ -493,9 +596,43 @@ void test_mode(void)
 	}
 }
 
-void lookinfo(void)
-{
+//void lookinfo(void)
+//{
+//
+//}
 
+u8 chek4052(void)
+{
+  u8 ret;
+  ret = 0;
+  OLED_Clear();
+  if((RES.Pad0 <=Res_NG)||(RES.Pad1 <=Res_NG)||(RES.Pad2 <=Res_NG)||(RES.Pad3 <=Res_NG)||
+     (RES.Pad4 <=Res_NG)||(RES.Pad5 <=Res_NG)||(RES.Pad6 <=Res_NG)||(RES.Pad7 <=Res_NG))
+   {
+      ret = 0x01;
+	  send_string ("\n请更换U9 ：CD4052 \n");
+	  OLED_ShowString(0,11,"Check U9  CD4052",12,1);
+   }
+  if((RES.Pad8 <=Res_NG)||(RES.Pad9 <=Res_NG)||(RES.Pad10 <=Res_NG)||(RES.Pad11 <=Res_NG)|| 
+     (RES.Pad12 <=Res_NG)||(RES.Pad13 <=Res_NG)||(RES.Pad14 <=Res_NG)||(RES.Pad15 <=Res_NG))
+   {
+      ret = 0x11;
+	  send_string ("\n请更换U12 ：CD4052 \n");
+	  OLED_ShowString(0,22,"Check U12 CD4052",12,1);
+   }
+   if(ret)
+   {
+	OLED_ShowString(0,0,"Hardware error:",12,1);
+	OLED_Refresh_Gram();
+   }
+  if((Key_back == PR_OK)&&(Key_change))
+  {
+   Key_change=0; 
+   BeepFlag =1;
+   OLED_Clear();
+   ret = 0;
+  }	 
+   return ret;
 }
 
 void main(void)
@@ -506,12 +643,92 @@ void main(void)
 #ifdef PRINT_AUTHOR_INFO
 	printInfo();
 #endif
+#ifdef PRINT_INFO
+	send_string ("\n\n总烧录线【十进制】 : ");
+    put_char((Maxline/10)+'0');
+	put_char((Maxline%10)+'0');
+	send_string ("  最大烧录地址【十六进制】:");
+	printf_u8(MaxlineHex>>16);
+    printf_u8(MaxlineHex>>8);
+    printf_u8(MaxlineHex);
+#endif
+    GetPadRes();
+	//判断4052是否损坏！
+#ifdef PRINT_INFO
+	send_string ("\n\nADC采集通道测试 :\n--------------------------------------------------------- ");
+	send_string ("\n通道0：   ");
+    printf_u8(RES.Pad0>>8);
+    printf_u8(RES.Pad0);
+	send_string ("\n通道1：   ");
+    printf_u8(RES.Pad1>>8);
+    printf_u8(RES.Pad1);
+	send_string ("\n通道2：   ");
+    printf_u8(RES.Pad2>>8);
+    printf_u8(RES.Pad2);
+	send_string ("\n通道3：   ");
+    printf_u8(RES.Pad3>>8);
+    printf_u8(RES.Pad3);
+	send_string ("\n通道4：   ");
+    printf_u8(RES.Pad4>>8);
+    printf_u8(RES.Pad4);
+
+	send_string ("\n通道5：   ");
+    printf_u8(RES.Pad5>>8);
+    printf_u8(RES.Pad5);
+	send_string ("\n通道6：   ");
+    printf_u8(RES.Pad6>>8);
+    printf_u8(RES.Pad6);
+	send_string ("\n通道7：   ");
+    printf_u8(RES.Pad7>>8);
+    printf_u8(RES.Pad7);
+	send_string ("\n通道8：   ");
+    printf_u8(RES.Pad8>>8);
+    printf_u8(RES.Pad8);
+	send_string ("\n通道9：   ");
+    printf_u8(RES.Pad9>>8);
+    printf_u8(RES.Pad9);
+	send_string ("\n通道10：   ");
+    printf_u8(RES.Pad10>>8);
+    printf_u8(RES.Pad10);
+
+	send_string ("\n通道11：   ");
+    printf_u8(RES.Pad11>>8);
+    printf_u8(RES.Pad11);
+	send_string ("\n通道12：   ");
+    printf_u8(RES.Pad12>>8);
+    printf_u8(RES.Pad12);
+	send_string ("\n通道13：   ");
+    printf_u8(RES.Pad13>>8);
+    printf_u8(RES.Pad13);
+	send_string ("\n通道14：   ");
+    printf_u8(RES.Pad14>>8);
+    printf_u8(RES.Pad14);
+
+	send_string ("\n通道15：   ");
+    printf_u8(RES.Pad15>>8);
+    printf_u8(RES.Pad15);
+	send_string ("\n通道16：   ");
+    printf_u8(RES.Pad16>>8);
+    printf_u8(RES.Pad16);
+	send_string ("\n通道17：   ");
+    printf_u8(RES.Pad17>>8);
+    printf_u8(RES.Pad17);
+	send_string ("\n通道18：   ");
+    printf_u8(RES.Pad18>>8);
+    printf_u8(RES.Pad18);
+	send_string ("\n通道19：   ");
+    printf_u8(RES.Pad19>>8);
+    printf_u8(RES.Pad19);
+	send_string ("\n如果某个通道值为0或小于00 F0，请更换CD4052!\n");
+#endif
     EA = 1;
 	SPEAKER = 0;
 	AddNo = 1;
 	OLED_Clear();
+
 	while(1)
 	{
+	   while(chek4052());
 	   switch(MODE)
 	   {
 	   	 case setmode:

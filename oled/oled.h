@@ -57,6 +57,7 @@ void Disp_Menu_Main(u8 num);
 void Disp_Menu_0(u8 num);
 void Disp_Menu_1(u8 num);
 void OLED_DrawBar(u8 x1, u8 y1, u8 x2, u8 y2, u8 t);
+void OLED_DrawSetBar(u8 x1, u8 y1, u8 x2, u8 y2, u8 num,u8 num1, u8 t);
 extern u8 OLED_GRAM[128][4];
 extern u8 OLED_GRAM_TMP[128][4];
 #endif  

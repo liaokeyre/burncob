@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   MAIN                                                                  04/24/2015 19:30:25 PAGE 1   
+C51 COMPILER V9.00   MAIN                                                                  04/27/2015 19:27:06 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE MAIN
@@ -26,556 +26,779 @@ line level    source
   16          u32 OK_COUNT;
   17          u32 NG_COUNT;
   18          
-  19          u8 POP;      //弹窗标志
-  20          extern void tsteicon(void);
-  21          WINDOWS windemo;
-  22          void init_windows(u8 x ,u8 y,u8 with,u8 height,u8 * title,u8 * text,u8 * state)
-  23          {
-  24   1        windemo.x =x;
-  25   1        windemo.y =y;
-  26   1        windemo.with =with;
-  27   1        windemo.hight =height;
-  28   1        windemo.title = title;
-  29   1        windemo.text = text;
-  30   1        windemo.state = state;
-  31   1      } 
-  32          #ifdef PRINT_AUTHOR_INFO
-  33          void printInfo(void)
-  34          {
-  35   1         send_string ("=======================================================\n");
-  36   1         send_string ("********************* Burn Code X *********************\n");
-  37   1         send_string ("*                                                     *\n");
-  38   1         send_string ("*    Version: SDK1.00.00(11:20:16 Apr 2  2015)        *\n");
-  39   1         send_string ("*     Author: Liaokeyre<Liaokeyre@foxmail.com>        *\n");
-  40   1         send_string ("*  Author: Cherry@ycsemi.com.cn @yancheng company     *\n");
-  41   1         send_string ("*                                                     *\n");
-  42   1         send_string ("*******************************************************\n"); 
-  43   1         send_string ("=======================================================\n");
-  44   1         send_string ("\n\n\nSystem Loading...\n");
-  45   1         send_string ("\n\n\nSystem Load Ok!\n");
-  46   1      }
-  47          #endif
-  48          
-  49          void initAddNo(void)     //判断地址值是否正常
-  50          {
-  51   1        u32 tmp;
-  52   1        at24c02_rddat(0x10,(u8*)&tmp,4);
-  53   1        if((tmp == 0xffffffff)||((tmp > 0xfffff))) //初始状态 || 累加溢出？
-  54   1        {
-C51 COMPILER V9.00   MAIN                                                                  04/24/2015 19:30:25 PAGE 2   
+  19          u8 Maxline;
+  20          u32 MaxlineHex;
+  21          u8 POP;      //弹窗标志
+  22          extern Pad_Res RES;
+  23          extern void tsteicon(void);
+  24          WINDOWS windemo;
+  25          void init_windows(u8 x ,u8 y,u8 with,u8 height,u8 * title,u8 * text,u8 * state)
+  26          {
+  27   1        windemo.x =x;
+  28   1        windemo.y =y;
+  29   1        windemo.with =with;
+  30   1        windemo.hight =height;
+  31   1        windemo.title = title;
+  32   1        windemo.text = text;
+  33   1        windemo.state = state;
+  34   1      } 
+  35          #ifdef PRINT_AUTHOR_INFO
+  36          void printInfo(void)
+  37          {
+  38   1         send_string ("=======================================================\n");
+  39   1         send_string ("********************* Burn Code X *********************\n");
+  40   1         send_string ("*                                                     *\n");
+  41   1         send_string ("*    Version: SDK1.00.00(11:20:16 Apr 2  2015)        *\n");
+  42   1         send_string ("*     Author: Liaokeyre<Liaokeyre@foxmail.com>        *\n");
+  43   1         send_string ("*  Author: Cherry@ycsemi.com.cn @yancheng company     *\n");
+  44   1         send_string ("*                                                     *\n");
+  45   1         send_string ("*******************************************************\n"); 
+  46   1         send_string ("=======================================================\n");
+  47   1         send_string ("\n\n\nSystem Loading...\n");
+  48   1         send_string ("\n\n\nSystem Load Ok!\n");
+  49   1      }
+  50          #endif
+  51          
+  52          void initAddNo(void)     //判断地址值是否正常
+  53          {
+  54   1        u32 tmp;
+C51 COMPILER V9.00   MAIN                                                                  04/27/2015 19:27:06 PAGE 2   
 
-  55   2         AddNo = 0;
-  56   2         at24c02_wrdat(0x10,(u8*)&AddNo,4);
-  57   2        }
-  58   1      }
-  59          void oledInit(void)
-  60          {
-  61   1              OLED_Init();  //初始化OLED  
-  62   1              OLED_Clear(); 
-  63   1              /*
-  64   1          OLED_ShowFont16(0,10,0,1);
-  65   1              OLED_ShowFont16(16,10,1,1);
-  66   1              OLED_ShowFont16(32,10,2,1);
-  67   1              OLED_ShowFont16(48,10,3,1);
-  68   1              OLED_ShowFont16(64,10,4,1);
-  69   1              OLED_ShowFont16(80,10,5,1);
-  70   1              OLED_ShowFont16(96,10,6,1);
-  71   1              OLED_ShowFont16(112,10,7,1);
-  72   1              */
-  73   1      #ifdef SHOW_LOGO
-  74   1              OLED_DrawBMP(0,0,1);                    // show logo
-  75   1          OLED_DrawBar(36, 26, 124, 30, 1);
-  76   1      #endif
-  77   1              OLED_Refresh_Gram();
-  78   1      }
-  79          
-  80          void ioInit(void)
-  81          {
-  82   1            P1M1 = 0;
-  83   1                P1M0 = 0; 
-  84   1            P2M1 = 0;
-  85   1                P2M0 = 0;
-  86   1            P3M1 = 0;
-  87   1                P3M0 = 0; 
-  88   1            P4M1 = 0;
-  89   1                P4M0 = 0;
-  90   1            P5M1 = 0;
-  91   1                P5M0 = 0; 
-  92   1            P0M1 = 0;
-  93   1                P0M0 = 0;
-  94   1      
-  95   1                P4M0 |= 0x22;
-  96   1      
-  97   1                P1M1 |= 0Xff;
-  98   1                P1M0 &= ~0Xff; //高阻输入     ADC输入端口配置
+  55   1        at24c02_rddat(0x10,(u8*)&tmp,4);
+  56   1        if((tmp == 0xffffffff)||((tmp > 0xfffff))) //初始状态 || 累加溢出？
+  57   1        {
+  58   2         AddNo = 0;
+  59   2         at24c02_wrdat(0x10,(u8*)&AddNo,4);
+  60   2        }
+  61   1      }
+  62          void oledInit(void)
+  63          {
+  64   1              OLED_Init();  //初始化OLED  
+  65   1              OLED_Clear(); 
+  66   1              /*
+  67   1          OLED_ShowFont16(0,10,0,1);
+  68   1              OLED_ShowFont16(16,10,1,1);
+  69   1              OLED_ShowFont16(32,10,2,1);
+  70   1              OLED_ShowFont16(48,10,3,1);
+  71   1              OLED_ShowFont16(64,10,4,1);
+  72   1              OLED_ShowFont16(80,10,5,1);
+  73   1              OLED_ShowFont16(96,10,6,1);
+  74   1              OLED_ShowFont16(112,10,7,1);
+  75   1              */
+  76   1      #ifdef SHOW_LOGO
+  77   1              OLED_DrawBMP(0,0,1);                    // show logo
+  78   1          OLED_DrawBar(36, 26, 124, 30, 1);
+  79   1      #endif
+  80   1              OLED_Refresh_Gram();
+  81   1      }
+  82          
+  83          void ioInit(void)
+  84          {
+  85   1            P1M1 = 0;
+  86   1                P1M0 = 0; 
+  87   1            P2M1 = 0;
+  88   1                P2M0 = 0;
+  89   1            P3M1 = 0;
+  90   1                P3M0 = 0; 
+  91   1            P4M1 = 0;
+  92   1                P4M0 = 0;
+  93   1            P5M1 = 0;
+  94   1                P5M0 = 0; 
+  95   1            P0M1 = 0;
+  96   1                P0M0 = 0;
+  97   1      
+  98   1                P4M0 |= 0x22;
   99   1      
- 100   1                P2M1 &= ~0XF8;
- 101   1                P2M0 |= 0XF8; //推挽
+ 100   1                P1M1 |= 0Xff;
+ 101   1                P1M0 &= ~0Xff; //高阻输入     ADC输入端口配置
  102   1      
- 103   1                P3M1 |= 0x04;
- 104   1                P3M1 &= ~0x04;  //    p32 输入
+ 103   1                P2M1 &= ~0XF8;
+ 104   1                P2M0 |= 0XF8; //推挽
  105   1      
- 106   1                P5M1 &= ~0X20;
- 107   1                P5M0 |= 0X20;    //P55推挽
- 108   1      }
- 109          
- 110          void sysInit(void)
- 111          {
- 112   1              ioInit();
- 113   1              InitADC();
- 114   1              InitSign();
- 115   1              UartInit();
- 116   1              oledInit();
-C51 COMPILER V9.00   MAIN                                                                  04/24/2015 19:30:25 PAGE 3   
+ 106   1                P3M1 |= 0x04;
+ 107   1                P3M1 &= ~0x04;  //    p32 输入
+ 108   1      
+ 109   1                P5M1 &= ~0X28;
+ 110   1                P5M0 |= 0X28;    //P55推挽
+ 111   1      }
+ 112          u32 EXP2(u8 num)
+ 113          {
+ 114   1        u8 i;
+ 115   1        u32 tmp;
+ 116   1        tmp = 1;
+C51 COMPILER V9.00   MAIN                                                                  04/27/2015 19:27:06 PAGE 3   
 
- 117   1              timerInit();
- 118   1              BeepFlag = 0;
- 119   1              OK_COUNT = 0;
- 120   1              NG_COUNT = 0; //复位计数器
- 121   1              DSENVMOS();                       // 关mos电源
- 122   1              DSENABLE595();                    // 关595控制mos开关
- 123   1              Cutflag = 0;
- 124   1              MODE = cutmode;
- 125   1              POP = 0;
- 126   1              DSENVSOC();
- 127   1              K1_OUT = 0;
- 128   1      }
- 129          void set_mode(void)
- 130          {
- 131   1          u8 Done;
- 132   1              u8 InMode;
- 133   1              u8 menucnt;
- 134   1              u8 Eraseflag;
- 135   1              u8 YesNo;
- 136   1              YesNo = 0;
- 137   1              Eraseflag = 0;    //删除内存的二次确认
- 138   1              menucnt = 0;
- 139   1              InMode = 0;
- 140   1              Done = 0;
- 141   1              Disp_Menu_Main(setmode);
- 142   1              OLED_Refresh_Gram();
- 143   1              while(!Done)
- 144   1              {
- 145   2                if(Key_change)
- 146   2                {
- 147   3                      switch(Key_back)
- 148   3                      {
- 149   4                        case PR_ADD:
- 150   4                                      Key_change=0; 
- 151   4                              BeepFlag =1;
- 152   4                                      if(InMode)
- 153   4                                      {
- 154   5                                        if(Eraseflag == 1)
- 155   5                                        {
- 156   6                                                if(YesNo ++ >=1)
- 157   6                                                YesNo = 0;
- 158   6                                                OLED_ShowString(70,20,"YES",12,!YesNo);
- 159   6                                                OLED_ShowString(110,20,"NO",12,YesNo);
- 160   6                                                OLED_Refresh_Gram();  
- 161   6                                        }
- 162   5                                        else
- 163   5                                        {
- 164   6                                                if(menucnt --<=0)
- 165   6                                                menucnt = 3;
- 166   6                                                Disp_Menu_0(menucnt);
- 167   6                                    OLED_Refresh_Gram();                                
- 168   6                                        }                             
- 169   5                                      }
- 170   4                                      else
- 171   4                                      {
- 172   5                                        MODE = testmode;
- 173   5                                        Done = 1;
- 174   5                                      }
- 175   4                        break;
- 176   4                        case PR_SUB:
- 177   4                                      Key_change=0; 
- 178   4                              BeepFlag =1;
-C51 COMPILER V9.00   MAIN                                                                  04/24/2015 19:30:25 PAGE 4   
+ 117   1        for (i=0;i<num;i++)
+ 118   1        tmp*=2;
+ 119   1        return tmp;
+ 120   1      }
+ 121          void sysInit(void)
+ 122          {
+ 123   1              ioInit();
+ 124   1              InitADC();
+ 125   1              InitSign();
+ 126   1              UartInit();
+ 127   1              oledInit();
+ 128   1              timerInit();
+ 129   1              BeepFlag = 0;
+ 130   1              OK_COUNT = 0;
+ 131   1              NG_COUNT = 0;             //复位计数器
+ 132   1              DSENVMOS();                       // 关mos电源
+ 133   1              DSENABLE595();                    // 关595控制mos开关
+ 134   1              Cutflag = 0;
+ 135   1              MODE = cutmode;
+ 136   1              POP = 0;
+ 137   1              DSENVSOC();
+ 138   1              K1_OUT = 0;
+ 139   1              Maxline = at24c02_rd(LINE_NUM_ADD);
+ 140   1              if((Maxline >20)||(Maxline < 1))
+ 141   1              {
+ 142   2                Maxline = 20;
+ 143   2                at24c02_wr(LINE_NUM_ADD, Maxline);
+ 144   2              }
+ 145   1              MaxlineHex = EXP2(Maxline);
+ 146   1      }
+ 147          void SetLine(void)
+ 148          {
+ 149   1              u8 Done;
+ 150   1              u8 Linetmp;
+ 151   1              Done = 0;
+ 152   1      #ifdef PRINT_INFO
+ 153   1              send_string ("\n 设置割码线 \n");
+ 154   1      #endif
+ 155   1              Linetmp = at24c02_rd(LINE_NUM_ADD);
+ 156   1              Maxline = Linetmp;
+ 157   1              if((Maxline >20)||(Maxline < 1))
+ 158   1              {
+ 159   2                Maxline = 20;
+ 160   2                at24c02_wr(LINE_NUM_ADD, Maxline);
+ 161   2              }
+ 162   1              Linetmp = Maxline;
+ 163   1              MaxlineHex = EXP2(Maxline);
+ 164   1              OLED_Clear();
+ 165   1          OLED_ShowChar(0,14,'0',7,1);
+ 166   1          OLED_ShowChar(115,14,'2',7,1);
+ 167   1          OLED_ShowChar(121,14,'0',7,1); 
+ 168   1              OLED_ShowString(20,0,"Set max line",12,1);
+ 169   1              while(!Done)
+ 170   1              {
+ 171   2                      OLED_DrawSetBar(9, 15, 110, 19, 20,Linetmp, 1);
+ 172   2                      //OLED_ShowChar(x1-8,18,Hex2Dat(((PN_TMP.PadByte)&0x0f)),12,1);
+ 173   2                  OLED_Refresh_Gram();
+ 174   2            if(Key_change)
+ 175   2                {
+ 176   3                      switch(Key_back)
+ 177   3                      {
+ 178   4                        case PR_ADD:
+C51 COMPILER V9.00   MAIN                                                                  04/27/2015 19:27:06 PAGE 4   
 
- 179   4                                      if(InMode)
- 180   4                                      {
- 181   5                                        if(Eraseflag == 1)
- 182   5                                        {
- 183   6                                                if(YesNo -- <= 0)
- 184   6                                                YesNo = 1;
- 185   6                                                OLED_ShowString(70,20,"YES",12,!YesNo);
- 186   6                                                OLED_ShowString(110,20,"NO",12,YesNo);
- 187   6                                                OLED_Refresh_Gram();
- 188   6                                        }
- 189   5                                        else
- 190   5                                        {
- 191   6                                                if(menucnt ++>=3)
- 192   6                                                menucnt = 0;
- 193   6                                                Disp_Menu_0(menucnt);
- 194   6                                    OLED_Refresh_Gram();
- 195   6                                        }                                     
- 196   5                                      }
- 197   4                                      else
- 198   4                                      {
- 199   5                                        MODE = cutmode;
- 200   5                                        Done = 1;
- 201   5                                      }
- 202   4                        break;
- 203   4                        case PR_OK:
- 204   4                                      Key_change=0; 
- 205   4                              BeepFlag =1;
- 206   4                                      if(InMode)
- 207   4                                      {
- 208   5                                                if(menucnt ==2)        
- 209   5                                                {
- 210   6                                                    if(Eraseflag == 1)
- 211   6                                                        {
- 212   7                                                      
- 213   7                                                              if(YesNo)
- 214   7                                                              {
- 215   8                                                                  OLED_Clear();
- 216   8                                                                  OLED_ShowString(2,10,"ERASE MEMORRY...",12,1);                                       
- 217   8                                                                      OLED_Refresh_Gram();
- 218   8                                                                  Flush_24c02();
- 219   8                                                                  OLED_Clear();
- 220   8                                                                  OLED_ShowString(2,10,"ERASE DONE!",12,1);                                    
- 221   8                                                                      OLED_Refresh_Gram();
- 222   8      
- 223   8                                                              }
- 224   7      
- 225   7                                                          OLED_Clear();
- 226   7                                                          Disp_Menu_0(menucnt);
- 227   7                                                              OLED_Refresh_Gram();                                                
- 228   7                                                              Eraseflag = 0;
- 229   7                                                              YesNo = 0;
- 230   7                                                        }
- 231   6                                                        else
- 232   6                                                        {
- 233   7                                                          Eraseflag = 1;
- 234   7                                                      OLED_Clear();
- 235   7                                                          OLED_ShowString(2,0,"Do you want clear all memorry?",12,1); 
- 236   7                                                              OLED_ShowString(70,20,"YES",12,1);
- 237   7                                                              OLED_ShowString(110,20,"NO",12,0);                               
- 238   7                                              OLED_Refresh_Gram();                                              
- 239   7                                                        }
- 240   6                                                                                          
-C51 COMPILER V9.00   MAIN                                                                  04/24/2015 19:30:25 PAGE 5   
+ 179   4                                      Key_change=0; 
+ 180   4                              BeepFlag =1;
+ 181   4                                      if(Linetmp-- <= 1)
+ 182   4                                      Linetmp = 20;
+ 183   4                        break;
+ 184   4                        case PR_SUB:
+ 185   4                                      Key_change=0; 
+ 186   4                              BeepFlag =1;
+ 187   4                                      if(Linetmp++ >= 20)
+ 188   4                                      Linetmp = 1;            
+ 189   4                        break;
+ 190   4                        case PR_OK:
+ 191   4                                      Key_change=0; 
+ 192   4                              BeepFlag =1;
+ 193   4                          init_windows(20,0,80,32,"Notice"," Set OK!",0);
+ 194   4                          OLED_Draw_WindowsDraw(&windemo);
+ 195   4                      OLED_Refresh_Gram();
+ 196   4                                  Maxline = Linetmp;
+ 197   4                                      MaxlineHex = EXP2(Maxline);
+ 198   4                                      at24c02_wr(LINE_NUM_ADD, Maxline);                              
+ 199   4                                      delay_10ms();
+ 200   4                                      delay_10ms();
+ 201   4                                      delay_10ms();
+ 202   4                                      delay_10ms();
+ 203   4      #ifdef PRINT_INFO
+ 204   4                          send_string ("\n割码线设置为 : ");
+ 205   4                      put_char((Maxline/10)+'0');
+ 206   4                          put_char((Maxline%10)+'0');
+ 207   4                      send_string (" 条\n");
+ 208   4      #endif
+ 209   4                                      Done = 1;       
+ 210   4                        break;
+ 211   4                        case PR_MOD:
+ 212   4                                      Key_change=0; 
+ 213   4                              BeepFlag =1;
+ 214   4                                      OLED_Clear();
+ 215   4                                      Done = 1;
+ 216   4                        break;
+ 217   4                      }
+ 218   3                }     
+ 219   2              }
+ 220   1      }
+ 221          
+ 222          void set_mode(void)
+ 223          {
+ 224   1          u8 Done;
+ 225   1              u8 InMode;
+ 226   1              u8 menucnt;
+ 227   1              u8 Eraseflag;
+ 228   1              u8 YesNo;
+ 229   1              YesNo = 0;
+ 230   1              Eraseflag = 0;    //删除内存的二次确认
+ 231   1              menucnt = 0;
+ 232   1              InMode = 0;
+ 233   1              Done = 0;
+ 234   1              Disp_Menu_Main(setmode);
+ 235   1              OLED_Refresh_Gram();
+ 236   1      #ifdef PRINT_INFO
+ 237   1              send_string ("\n【设置】 割码 测试\n");
+ 238   1      #endif
+ 239   1              while(!Done)
+ 240   1              {
+C51 COMPILER V9.00   MAIN                                                                  04/27/2015 19:27:06 PAGE 5   
 
- 241   6                                                }
- 242   5      /*                                        else if(menucnt ==1)   
- 243   5                                                {
- 244   5                                                        memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
- 245   5                                                init_windows(20,0,80,32,"Notice"," VT62538-B2",0);
- 246   5                                                OLED_Draw_WindowsDraw(&windemo);
- 247   5                                                        POP = 1;
- 248   5                                            OLED_Refresh_Gram();                                          
- 249   5                                                }
- 250   5                                                else if(menucnt ==2
- 251   5                                                {
- 252   5                                                        memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
- 253   5                                                init_windows(20,0,80,32,"Notice"," COB",0);
- 254   5                                                OLED_Draw_WindowsDraw(&windemo);
- 255   5                                                        POP = 1;
- 256   5                                            OLED_Refresh_Gram();                                          
- 257   5                                                }      
- 258   5      */                                                                      
- 259   5                                      }
- 260   4                                      else
- 261   4                                      {
- 262   5                                        OLED_Clear();
- 263   5                                        Disp_Menu_0(menucnt);
- 264   5                            OLED_Refresh_Gram();
- 265   5                                        InMode = 1;
- 266   5                                      }
- 267   4                        break;
- 268   4                        case PR_MOD:
- 269   4                                      Key_change=0; 
- 270   4                              BeepFlag =1;
- 271   4                                      OLED_Clear();
- 272   4                                      Done = 1;
- 273   4                        break;
- 274   4                      }
- 275   3                
- 276   3                }
- 277   2              }
- 278   1      
- 279   1      }
- 280          void cut_mode(void)
- 281          {
- 282   1          u8 Done;
- 283   1              u8 InMode;
- 284   1              u8 menucnt;
- 285   1              menucnt = 0;
- 286   1              InMode = 0;
- 287   1              Done = 0;
- 288   1              Disp_Menu_Main(cutmode);
- 289   1              OLED_Refresh_Gram();
- 290   1              while(!Done)
- 291   1              {
- 292   2                if(Key_change)
- 293   2                {
- 294   3                      switch(Key_back)
- 295   3                      {
- 296   4                        case PR_ADD:
- 297   4                                      Key_change=0; 
- 298   4                              BeepFlag =1;
- 299   4                                      if(InMode)
- 300   4                                      {
- 301   5                                        if(menucnt --<=0)
- 302   5                                        menucnt = 3;
-C51 COMPILER V9.00   MAIN                                                                  04/24/2015 19:30:25 PAGE 6   
+ 241   2                if(Key_change)
+ 242   2                {
+ 243   3                      switch(Key_back)
+ 244   3                      {
+ 245   4                        case PR_ADD:
+ 246   4                                      Key_change=0; 
+ 247   4                              BeepFlag =1;
+ 248   4                                      if(InMode)
+ 249   4                                      {
+ 250   5                                        if(Eraseflag == 1)
+ 251   5                                        {
+ 252   6                                                if(YesNo ++ >=1)
+ 253   6                                                YesNo = 0;
+ 254   6                                                OLED_ShowString(70,20,"YES",12,!YesNo);
+ 255   6                                                OLED_ShowString(110,20,"NO",12,YesNo);
+ 256   6                                                OLED_Refresh_Gram();  
+ 257   6                                        }
+ 258   5                                        else
+ 259   5                                        {
+ 260   6                                                if(menucnt --<=0)
+ 261   6                                                menucnt = 3;
+ 262   6                                                Disp_Menu_0(menucnt);
+ 263   6                                    OLED_Refresh_Gram();                                
+ 264   6                                        }                             
+ 265   5                                      }
+ 266   4                                      else
+ 267   4                                      {
+ 268   5                                        MODE = testmode;
+ 269   5                                        Done = 1;
+ 270   5                                      }
+ 271   4                        break;
+ 272   4                        case PR_SUB:
+ 273   4                                      Key_change=0; 
+ 274   4                              BeepFlag =1;
+ 275   4                                      if(InMode)
+ 276   4                                      {
+ 277   5                                        if(Eraseflag == 1)
+ 278   5                                        {
+ 279   6                                                if(YesNo -- <= 0)
+ 280   6                                                YesNo = 1;
+ 281   6                                                OLED_ShowString(70,20,"YES",12,!YesNo);
+ 282   6                                                OLED_ShowString(110,20,"NO",12,YesNo);
+ 283   6                                                OLED_Refresh_Gram();
+ 284   6                                        }
+ 285   5                                        else
+ 286   5                                        {
+ 287   6                                                if(menucnt ++>=3)
+ 288   6                                                menucnt = 0;
+ 289   6                                                Disp_Menu_0(menucnt);
+ 290   6                                    OLED_Refresh_Gram();
+ 291   6                                        }                                     
+ 292   5                                      }
+ 293   4                                      else
+ 294   4                                      {
+ 295   5                                        MODE = cutmode;
+ 296   5                                        Done = 1;
+ 297   5                                      }
+ 298   4                        break;
+ 299   4                        case PR_OK:
+ 300   4                                      Key_change=0; 
+ 301   4                              BeepFlag =1;
+ 302   4                                      if(InMode)
+C51 COMPILER V9.00   MAIN                                                                  04/27/2015 19:27:06 PAGE 6   
 
- 303   5                                        Disp_Menu_1(menucnt);
- 304   5                            OLED_Refresh_Gram();
- 305   5                                      }
- 306   4                                      else
- 307   4                                      {
- 308   5                                        MODE = setmode;
- 309   5                                        Done = 1;
- 310   5                                      }
- 311   4                        break;
- 312   4                        case PR_SUB:
- 313   4                                      Key_change=0; 
- 314   4                              BeepFlag =1;
- 315   4                                      if(InMode)
- 316   4                                      {
- 317   5                                        if(menucnt ++>=3)
- 318   5                                        menucnt = 0;
- 319   5                                        Disp_Menu_1(menucnt);
- 320   5                            OLED_Refresh_Gram();                                                              
- 321   5                                      }
- 322   4                                      else
- 323   4                                      {
- 324   5                                        MODE = testmode;
- 325   5                                        Done = 1;
- 326   5                                      }
- 327   4                        break;
- 328   4                        case PR_OK:
- 329   4                                      Key_change=0; 
- 330   4                              BeepFlag =1;
- 331   4                                      if(InMode)
- 332   4                                      {
- 333   5                                        if(menucnt ==3)        //返回
- 334   5                                        {
- 335   6                                          OLED_Clear();        //清屏 
- 336   6                                          Done = 1;
- 337   6                                          return;
- 338   6                                        }
- 339   5                                        else
- 340   5                                        {
- 341   6                                        /*
- 342   6                                                if(menucnt ==0)        //PKG-1
- 343   6                                                {
- 344   6                                                        memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
- 345   6                                                init_windows(20,0,80,32,"Notice"," VT62538-B1",0);
- 346   6                                                OLED_Draw_WindowsDraw(&windemo);
- 347   6                                                        POP = 1;
- 348   6                                            OLED_Refresh_Gram();                                  
- 349   6                                                }
- 350   6                                                else if(menucnt ==1)   //PKG-2
- 351   6                                                {
- 352   6                                                        memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
- 353   6                                                init_windows(20,0,80,32,"Notice"," VT62538-B2",0);
- 354   6                                                OLED_Draw_WindowsDraw(&windemo);
- 355   6                                                        POP = 1;
- 356   6                                            OLED_Refresh_Gram();                                          
- 357   6                                                }
- 358   6                                                else if(menucnt ==2)   //COB
- 359   6                                                {
- 360   6                                                        memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
- 361   6                                                init_windows(20,0,80,32,"Notice"," COB",0);
- 362   6                                                OLED_Draw_WindowsDraw(&windemo);
- 363   6                                                        POP = 1;
- 364   6                                            OLED_Refresh_Gram();                                          
-C51 COMPILER V9.00   MAIN                                                                  04/24/2015 19:30:25 PAGE 7   
+ 303   4                                      {
+ 304   5                                                if(menucnt ==2)        
+ 305   5                                                {
+ 306   6                                                    if(Eraseflag == 1)
+ 307   6                                                        {
+ 308   7                                                      
+ 309   7                                                              if(YesNo)
+ 310   7                                                              {
+ 311   8                                                                  OLED_Clear();
+ 312   8                                                                  OLED_ShowString(2,10,"ERASE MEMORRY...",12,1);                                       
+ 313   8                                                                      OLED_Refresh_Gram();
+ 314   8                                                                  Flush_24c02();
+ 315   8                                                                  OLED_Clear();
+ 316   8                                                                  OLED_ShowString(2,10,"ERASE DONE!",12,1);                                    
+ 317   8                                                                      OLED_Refresh_Gram();
+ 318   8      #ifdef PRINT_INFO
+ 319   8                                                          send_string ("\n记录擦除完成\n");
+ 320   8      #endif
+ 321   8                                                              }
+ 322   7      
+ 323   7                                                          OLED_Clear();
+ 324   7                                                          Disp_Menu_0(menucnt);
+ 325   7                                                              OLED_Refresh_Gram();                                                
+ 326   7                                                              Eraseflag = 0;
+ 327   7                                                              YesNo = 0;
+ 328   7                                                        }
+ 329   6                                                        else
+ 330   6                                                        {
+ 331   7                                                          Eraseflag = 1;
+ 332   7                                                      OLED_Clear();
+ 333   7                                                          OLED_ShowString(2,0,"Clear all memorry?",12,1);     
+ 334   7                                                              OLED_ShowString(70,20,"YES",12,1);
+ 335   7                                                              OLED_ShowString(110,20,"NO",12,0);                               
+ 336   7                                              OLED_Refresh_Gram();                              
+ 337   7                                                        }
+ 338   6                                                                                          
+ 339   6                                                }
+ 340   5                                                else if(menucnt ==0)   
+ 341   5                                                {
+ 342   6                                                    SetLine();
+ 343   6                                                        OLED_Clear();
+ 344   6                                                Disp_Menu_0(menucnt);
+ 345   6                                            OLED_Refresh_Gram();                                          
+ 346   6                                                }
+ 347   5      /*                                        else if(menucnt ==2)
+ 348   5                                                {
+ 349   5                                                        memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
+ 350   5                                                init_windows(20,0,80,32,"Notice"," COB",0);
+ 351   5                                                OLED_Draw_WindowsDraw(&windemo);
+ 352   5                                                        POP = 1;
+ 353   5                                            OLED_Refresh_Gram();                                          
+ 354   5                                                }      
+ 355   5      */                                                                      
+ 356   5                                      }
+ 357   4                                      else
+ 358   4                                      {
+ 359   5                                        OLED_Clear();
+ 360   5                                        Disp_Menu_0(menucnt);
+ 361   5                            OLED_Refresh_Gram();
+ 362   5                                        InMode = 1;
+ 363   5                                      }
+ 364   4                        break;
+C51 COMPILER V9.00   MAIN                                                                  04/27/2015 19:27:06 PAGE 7   
 
- 365   6                                                }      
- 366   6                                                */
- 367   6                                                OLED_Clear();
- 368   6                                                PKG = menucnt; //注意增加型号需要判断是否对应
- 369   6                                                OK_COUNT = 0;
- 370   6                                                NG_COUNT = 0;
- 371   6                                                CutRun(PKG);    
- 372   6                                            OLED_Clear();       //退出了割码操作
- 373   6                                            Disp_Menu_1(menucnt);
- 374   6                                OLED_Refresh_Gram();
- 375   6                                        }
- 376   5                                      }
- 377   4                                      else
- 378   4                                      {
- 379   5                                        OLED_Clear();
- 380   5                                        Disp_Menu_1(menucnt);
- 381   5                            OLED_Refresh_Gram();
- 382   5                                        InMode = 1;
- 383   5                                      }
- 384   4                        break;
- 385   4                        case PR_MOD:
- 386   4                                      Key_change=0; 
- 387   4                              BeepFlag =1;
- 388   4                                      OLED_Clear();
- 389   4                                      Done = 1;
- 390   4                        break;
- 391   4                      }
- 392   3                
- 393   3                }
- 394   2              }
- 395   1      }
- 396          void test_mode(void)
- 397          {
- 398   1          u8 Done;
- 399   1              u8 InMode;
- 400   1              u32 IRtmp;
- 401   1              IRtmp = 0;
- 402   1              InMode = 0;
- 403   1              Done = 0;
- 404   1              DsDecode();
- 405   1              Disp_Menu_Main(testmode);
- 406   1              OLED_Refresh_Gram();
- 407   1              while(!Done)
- 408   1              {
- 409   2                if(InMode)
- 410   2                {
- 411   3      
- 412   3                  if((ReIRcode & 0xf) != 0)
- 413   3                      {
- 414   4                         IRtmp = ReIRcode;
- 415   4                      }
- 416   3                      if(IRtmp)
- 417   3                      {
- 418   4                          OLED_ShowChar(36,16,Hex2Dat(((IRtmp>>16)>>4)&0x0f),12,1);
- 419   4                          OLED_ShowChar(42,16,Hex2Dat(((IRtmp>>16)&0x0f)),12,1);
- 420   4                      
- 421   4                              OLED_ShowChar(54,16,Hex2Dat(((IRtmp>>8)>>4)&0x0f),12,1);
- 422   4                              OLED_ShowChar(60,16,Hex2Dat(((IRtmp>>8)&0x0f)),12,1);
- 423   4                      
- 424   4                              OLED_ShowChar(72,16,Hex2Dat(((IRtmp)>>4)&0x0f),12,1);
- 425   4                              OLED_ShowChar(78,16,Hex2Dat(((IRtmp)&0x0f)),12,1);
- 426   4                              OLED_Refresh_Gram();
-C51 COMPILER V9.00   MAIN                                                                  04/24/2015 19:30:25 PAGE 8   
+ 365   4                        case PR_MOD:
+ 366   4                                      Key_change=0; 
+ 367   4                              BeepFlag =1;
+ 368   4                                      OLED_Clear();
+ 369   4                                      Done = 1;
+ 370   4                        break;
+ 371   4                      }
+ 372   3                
+ 373   3                }
+ 374   2              }
+ 375   1      
+ 376   1      }
+ 377          void cut_mode(void)
+ 378          {
+ 379   1          u8 Done;
+ 380   1              u8 InMode;
+ 381   1              u8 menucnt;
+ 382   1              menucnt = 0;
+ 383   1              InMode = 0;
+ 384   1              Done = 0;
+ 385   1              Disp_Menu_Main(cutmode);
+ 386   1              OLED_Refresh_Gram();
+ 387   1      #ifdef PRINT_INFO
+ 388   1              send_string ("\n设置 【割码】 测试\n");
+ 389   1      #endif
+ 390   1              while(!Done)
+ 391   1              {
+ 392   2                if(Key_change)
+ 393   2                {
+ 394   3                      switch(Key_back)
+ 395   3                      {
+ 396   4                        case PR_ADD:
+ 397   4                                      Key_change=0; 
+ 398   4                              BeepFlag =1;
+ 399   4                                      if(InMode)
+ 400   4                                      {
+ 401   5                                        if(menucnt --<=0)
+ 402   5                                        menucnt = 3;
+ 403   5                                        Disp_Menu_1(menucnt);
+ 404   5                            OLED_Refresh_Gram();
+ 405   5                                      }
+ 406   4                                      else
+ 407   4                                      {
+ 408   5                                        MODE = setmode;
+ 409   5                                        Done = 1;
+ 410   5                                      }
+ 411   4                        break;
+ 412   4                        case PR_SUB:
+ 413   4                                      Key_change=0; 
+ 414   4                              BeepFlag =1;
+ 415   4                                      if(InMode)
+ 416   4                                      {
+ 417   5                                        if(menucnt ++>=3)
+ 418   5                                        menucnt = 0;
+ 419   5                                        Disp_Menu_1(menucnt);
+ 420   5                            OLED_Refresh_Gram();                                                              
+ 421   5                                      }
+ 422   4                                      else
+ 423   4                                      {
+ 424   5                                        MODE = testmode;
+ 425   5                                        Done = 1;
+ 426   5                                      }
+C51 COMPILER V9.00   MAIN                                                                  04/27/2015 19:27:06 PAGE 8   
 
- 427   4                      }   
- 428   3                }
- 429   2      
- 430   2                if(Key_change)
- 431   2                {
- 432   3                      switch(Key_back)
- 433   3                      {
- 434   4                        case PR_ADD:
- 435   4                                      Key_change=0; 
- 436   4                              BeepFlag =1;
- 437   4                                      if(InMode)
- 438   4                                      {
- 439   5                                      
- 440   5                                      }
- 441   4                                      else
- 442   4                                      {
- 443   5                                        MODE = cutmode;
- 444   5                                        Done = 1;
- 445   5                                      }
- 446   4                        break;
- 447   4                        case PR_SUB:
- 448   4                                      Key_change=0; 
- 449   4                              BeepFlag =1;
- 450   4                                      if(InMode)
- 451   4                                      {
- 452   5                                      
- 453   5                                      }
- 454   4                                      else
- 455   4                                      {
- 456   5                                        MODE = setmode;
- 457   5                                        Done = 1;
- 458   5                                      }
- 459   4                        break;
- 460   4                        case PR_OK:
- 461   4                                      Key_change=0; 
- 462   4                              BeepFlag =1;
- 463   4                                      if(InMode)
- 464   4                                      {
- 465   5      
- 466   5                                      }
- 467   4                                      else
- 468   4                                      {
- 469   5                                       /*
- 470   5                                        Flush_24c02();
- 471   5                                        memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
- 472   5                                init_windows(10,0,100,32,"Notice"," FLUSH 2402 OK!",0);
- 473   5                                OLED_Draw_WindowsDraw(&windemo);
- 474   5                                        POP = 1;
- 475   5                            OLED_Refresh_Gram();
- 476   5                                        */
- 477   5                                        EnDecode();
- 478   5                                        OLED_Clear();
- 479   5                                        OLED_ShowString(46,0,"DECODE",12,1);
- 480   5                                        OLED_Refresh_Gram();
- 481   5                                        InMode = 1;
- 482   5                                      }
- 483   4                        break;
- 484   4                        case PR_MOD:
- 485   4                                      Key_change=0; 
- 486   4                              BeepFlag =1;
- 487   4                                      OLED_Clear();
- 488   4                                      Done = 1;
-C51 COMPILER V9.00   MAIN                                                                  04/24/2015 19:30:25 PAGE 9   
+ 427   4                        break;
+ 428   4                        case PR_OK:
+ 429   4                                      Key_change=0; 
+ 430   4                              BeepFlag =1;
+ 431   4                                      if(InMode)
+ 432   4                                      {
+ 433   5                                        if(menucnt ==3)        //返回
+ 434   5                                        {
+ 435   6                                          OLED_Clear();        //清屏 
+ 436   6                                          Done = 1;
+ 437   6                                          return;
+ 438   6                                        }
+ 439   5                                        else
+ 440   5                                        {
+ 441   6                                        /*
+ 442   6                                                if(menucnt ==0)        //PKG-1
+ 443   6                                                {
+ 444   6                                                        memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
+ 445   6                                                init_windows(20,0,80,32,"Notice"," VT62538-B1",0);
+ 446   6                                                OLED_Draw_WindowsDraw(&windemo);
+ 447   6                                                        POP = 1;
+ 448   6                                            OLED_Refresh_Gram();                                  
+ 449   6                                                }
+ 450   6                                                else if(menucnt ==1)   //PKG-2
+ 451   6                                                {
+ 452   6                                                        memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
+ 453   6                                                init_windows(20,0,80,32,"Notice"," VT62538-B2",0);
+ 454   6                                                OLED_Draw_WindowsDraw(&windemo);
+ 455   6                                                        POP = 1;
+ 456   6                                            OLED_Refresh_Gram();                                          
+ 457   6                                                }
+ 458   6                                                else if(menucnt ==2)   //COB
+ 459   6                                                {
+ 460   6                                                        memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
+ 461   6                                                init_windows(20,0,80,32,"Notice"," COB",0);
+ 462   6                                                OLED_Draw_WindowsDraw(&windemo);
+ 463   6                                                        POP = 1;
+ 464   6                                            OLED_Refresh_Gram();                                          
+ 465   6                                                }      
+ 466   6                                                */
+ 467   6                                                OLED_Clear();
+ 468   6                                                PKG = menucnt; //注意增加型号需要判断是否对应
+ 469   6                                                OK_COUNT = 0;
+ 470   6                                                NG_COUNT = 0;
+ 471   6                                                CutRun(PKG);    
+ 472   6                                            OLED_Clear();       //退出了割码操作
+ 473   6                                            Disp_Menu_1(menucnt);
+ 474   6                                OLED_Refresh_Gram();
+ 475   6                                        }
+ 476   5                                      }
+ 477   4                                      else
+ 478   4                                      {
+ 479   5                                        OLED_Clear();
+ 480   5                                        Disp_Menu_1(menucnt);
+ 481   5                            OLED_Refresh_Gram();
+ 482   5                                        InMode = 1;
+ 483   5                                      }
+ 484   4                        break;
+ 485   4                        case PR_MOD:
+ 486   4                                      Key_change=0; 
+ 487   4                              BeepFlag =1;
+ 488   4                                      OLED_Clear();
+C51 COMPILER V9.00   MAIN                                                                  04/27/2015 19:27:06 PAGE 9   
 
- 489   4                        break;
- 490   4                      }
- 491   3                
- 492   3                }
- 493   2              }
- 494   1      }
- 495          
- 496          void lookinfo(void)
+ 489   4                                      Done = 1;
+ 490   4                        break;
+ 491   4                      }
+ 492   3                
+ 493   3                }
+ 494   2              }
+ 495   1      }
+ 496          void test_mode(void)
  497          {
- 498   1      
- 499   1      }
- 500          
- 501          void main(void)
- 502          {
- 503   1          SPEAKER = 0;
- 504   1          sysInit();
- 505   1              SPEAKER = 1;
- 506   1      #ifdef PRINT_AUTHOR_INFO
- 507   1              printInfo();
- 508   1      #endif
- 509   1          EA = 1;
- 510   1              SPEAKER = 0;
- 511   1              AddNo = 1;
- 512   1              OLED_Clear();
- 513   1              while(1)
- 514   1              {
- 515   2                 switch(MODE)
- 516   2                 {
- 517   3                       case setmode:
- 518   3                         set_mode();
- 519   3                       break;
- 520   3                       case cutmode:
- 521   3                         cut_mode();
- 522   3                       break;
- 523   3                       case testmode:
- 524   3                         test_mode();
- 525   3                       break;
- 526   3                 }
- 527   2      
- 528   2      /*
- 529   2                if((Key_back == PR_ADD)&&(Key_change))
- 530   2                {
- 531   2                 AddNo >>= 1;         storge595(&AddNo,4); Key_change=0; BeepFlag =1; 
- 532   2                }
- 533   2                else if((Key_back == PR_SUB)&&(Key_change))
+ 498   1          u8 Done;
+ 499   1              u8 InMode;
+ 500   1              u32 IRtmp;
+ 501   1              IRtmp = 0;
+ 502   1              InMode = 0;
+ 503   1              Done = 0;
+ 504   1              DsDecode();
+ 505   1              Disp_Menu_Main(testmode);
+ 506   1              OLED_Refresh_Gram();
+ 507   1      #ifdef PRINT_INFO
+ 508   1              send_string ("\n设置 割码 【测试】\n");
+ 509   1      #endif
+ 510   1              while(!Done)
+ 511   1              {
+ 512   2                if(InMode)
+ 513   2                {
+ 514   3      
+ 515   3                  if((ReIRcode & 0xf) != 0)
+ 516   3                      {
+ 517   4                         IRtmp = ReIRcode;
+ 518   4                      }
+ 519   3                      if(IRtmp)
+ 520   3                      {
+ 521   4                          OLED_ShowChar(36,16,Hex2Dat(((IRtmp>>16)>>4)&0x0f),12,1);
+ 522   4                          OLED_ShowChar(42,16,Hex2Dat(((IRtmp>>16)&0x0f)),12,1);
+ 523   4                      
+ 524   4                              OLED_ShowChar(54,16,Hex2Dat(((IRtmp>>8)>>4)&0x0f),12,1);
+ 525   4                              OLED_ShowChar(60,16,Hex2Dat(((IRtmp>>8)&0x0f)),12,1);
+ 526   4                      
+ 527   4                              OLED_ShowChar(72,16,Hex2Dat(((IRtmp)>>4)&0x0f),12,1);
+ 528   4                              OLED_ShowChar(78,16,Hex2Dat(((IRtmp)&0x0f)),12,1);
+ 529   4                              OLED_Refresh_Gram();
+ 530   4                      }   
+ 531   3                }
+ 532   2      
+ 533   2                if(Key_change)
  534   2                {
- 535   2                 AddNo <<= 1;         storge595(&AddNo,4);  Key_change=0;     BeepFlag =1;
- 536   2                }
- 537   2                else if((Key_back == PR_OK)&&(Key_change))
- 538   2                {
- 539   2                 StartCut(0); Key_change=0;   BeepFlag =1;
- 540   2                 
- 541   2                }
- 542   2       */       
- 543   2              }
- 544   1      }
+ 535   3                      switch(Key_back)
+ 536   3                      {
+ 537   4                        case PR_ADD:
+ 538   4                                      Key_change=0; 
+ 539   4                              BeepFlag =1;
+ 540   4                                      if(InMode)
+ 541   4                                      {
+ 542   5                                      
+ 543   5                                      }
+ 544   4                                      else
+ 545   4                                      {
+ 546   5                                        MODE = cutmode;
+ 547   5                                        Done = 1;
+ 548   5                                      }
+ 549   4                        break;
+ 550   4                        case PR_SUB:
+C51 COMPILER V9.00   MAIN                                                                  04/27/2015 19:27:06 PAGE 10  
+
+ 551   4                                      Key_change=0; 
+ 552   4                              BeepFlag =1;
+ 553   4                                      if(InMode)
+ 554   4                                      {
+ 555   5                                      
+ 556   5                                      }
+ 557   4                                      else
+ 558   4                                      {
+ 559   5                                        MODE = setmode;
+ 560   5                                        Done = 1;
+ 561   5                                      }
+ 562   4                        break;
+ 563   4                        case PR_OK:
+ 564   4                                      Key_change=0; 
+ 565   4                              BeepFlag =1;
+ 566   4                                      if(InMode)
+ 567   4                                      {
+ 568   5      
+ 569   5                                      }
+ 570   4                                      else
+ 571   4                                      {
+ 572   5                                       /*
+ 573   5                                        Flush_24c02();
+ 574   5                                        memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
+ 575   5                                init_windows(10,0,100,32,"Notice"," FLUSH 2402 OK!",0);
+ 576   5                                OLED_Draw_WindowsDraw(&windemo);
+ 577   5                                        POP = 1;
+ 578   5                            OLED_Refresh_Gram();
+ 579   5                                        */
+ 580   5                                        EnDecode();
+ 581   5                                        OLED_Clear();
+ 582   5                                        OLED_ShowString(46,0,"DECODE",12,1);
+ 583   5                                        OLED_Refresh_Gram();
+ 584   5                                        InMode = 1;
+ 585   5                                      }
+ 586   4                        break;
+ 587   4                        case PR_MOD:
+ 588   4                                      Key_change=0; 
+ 589   4                              BeepFlag =1;
+ 590   4                                      OLED_Clear();
+ 591   4                                      Done = 1;
+ 592   4                        break;
+ 593   4                      }
+ 594   3                
+ 595   3                }
+ 596   2              }
+ 597   1      }
+ 598          
+ 599          //void lookinfo(void)
+ 600          //{
+ 601          //
+ 602          //}
+ 603          
+ 604          u8 chek4052(void)
+ 605          {
+ 606   1        u8 ret;
+ 607   1        ret = 0;
+ 608   1        OLED_Clear();
+ 609   1        if((RES.Pad0 <=Res_NG)||(RES.Pad1 <=Res_NG)||(RES.Pad2 <=Res_NG)||(RES.Pad3 <=Res_NG)||
+ 610   1           (RES.Pad4 <=Res_NG)||(RES.Pad5 <=Res_NG)||(RES.Pad6 <=Res_NG)||(RES.Pad7 <=Res_NG))
+ 611   1         {
+ 612   2            ret = 0x01;
+C51 COMPILER V9.00   MAIN                                                                  04/27/2015 19:27:06 PAGE 11  
+
+ 613   2                send_string ("\n请更换U9 ：CD4052 \n");
+ 614   2                OLED_ShowString(0,11,"Check U9  CD4052",12,1);
+ 615   2         }
+ 616   1        if((RES.Pad8 <=Res_NG)||(RES.Pad9 <=Res_NG)||(RES.Pad10 <=Res_NG)||(RES.Pad11 <=Res_NG)|| 
+ 617   1           (RES.Pad12 <=Res_NG)||(RES.Pad13 <=Res_NG)||(RES.Pad14 <=Res_NG)||(RES.Pad15 <=Res_NG))
+ 618   1         {
+ 619   2            ret = 0x11;
+ 620   2                send_string ("\n请更换U12 ：CD4052 \n");
+ 621   2                OLED_ShowString(0,22,"Check U12 CD4052",12,1);
+ 622   2         }
+ 623   1         if(ret)
+ 624   1         {
+ 625   2              OLED_ShowString(0,0,"Hardware error:",12,1);
+ 626   2              OLED_Refresh_Gram();
+ 627   2         }
+ 628   1        if((Key_back == PR_OK)&&(Key_change))
+ 629   1        {
+ 630   2         Key_change=0; 
+ 631   2         BeepFlag =1;
+ 632   2         OLED_Clear();
+ 633   2         ret = 0;
+ 634   2        }      
+ 635   1         return ret;
+ 636   1      }
+ 637          
+ 638          void main(void)
+ 639          {
+ 640   1          SPEAKER = 0;
+ 641   1          sysInit();
+ 642   1              SPEAKER = 1;
+ 643   1      #ifdef PRINT_AUTHOR_INFO
+ 644   1              printInfo();
+ 645   1      #endif
+ 646   1      #ifdef PRINT_INFO
+ 647   1              send_string ("\n\n总烧录线【十进制】 : ");
+ 648   1          put_char((Maxline/10)+'0');
+ 649   1              put_char((Maxline%10)+'0');
+ 650   1              send_string ("  最大烧录地址【十六进制】:");
+ 651   1              printf_u8(MaxlineHex>>16);
+ 652   1          printf_u8(MaxlineHex>>8);
+ 653   1          printf_u8(MaxlineHex);
+ 654   1      #endif
+ 655   1          GetPadRes();
+ 656   1              //判断4052是否损坏！
+ 657   1      #ifdef PRINT_INFO
+ 658   1              send_string ("\n\nADC采集通道测试 :\n--------------------------------------------------------- ");
+ 659   1              send_string ("\n通道0：   ");
+ 660   1          printf_u8(RES.Pad0>>8);
+ 661   1          printf_u8(RES.Pad0);
+ 662   1              send_string ("\n通道1：   ");
+ 663   1          printf_u8(RES.Pad1>>8);
+ 664   1          printf_u8(RES.Pad1);
+ 665   1              send_string ("\n通道2：   ");
+ 666   1          printf_u8(RES.Pad2>>8);
+ 667   1          printf_u8(RES.Pad2);
+ 668   1              send_string ("\n通道3：   ");
+ 669   1          printf_u8(RES.Pad3>>8);
+ 670   1          printf_u8(RES.Pad3);
+ 671   1              send_string ("\n通道4：   ");
+ 672   1          printf_u8(RES.Pad4>>8);
+ 673   1          printf_u8(RES.Pad4);
+ 674   1      
+C51 COMPILER V9.00   MAIN                                                                  04/27/2015 19:27:06 PAGE 12  
+
+ 675   1              send_string ("\n通道5：   ");
+ 676   1          printf_u8(RES.Pad5>>8);
+ 677   1          printf_u8(RES.Pad5);
+ 678   1              send_string ("\n通道6：   ");
+ 679   1          printf_u8(RES.Pad6>>8);
+ 680   1          printf_u8(RES.Pad6);
+ 681   1              send_string ("\n通道7：   ");
+ 682   1          printf_u8(RES.Pad7>>8);
+ 683   1          printf_u8(RES.Pad7);
+ 684   1              send_string ("\n通道8：   ");
+ 685   1          printf_u8(RES.Pad8>>8);
+ 686   1          printf_u8(RES.Pad8);
+ 687   1              send_string ("\n通道9：   ");
+ 688   1          printf_u8(RES.Pad9>>8);
+ 689   1          printf_u8(RES.Pad9);
+ 690   1              send_string ("\n通道10：   ");
+ 691   1          printf_u8(RES.Pad10>>8);
+ 692   1          printf_u8(RES.Pad10);
+ 693   1      
+ 694   1              send_string ("\n通道11：   ");
+ 695   1          printf_u8(RES.Pad11>>8);
+ 696   1          printf_u8(RES.Pad11);
+ 697   1              send_string ("\n通道12：   ");
+ 698   1          printf_u8(RES.Pad12>>8);
+ 699   1          printf_u8(RES.Pad12);
+ 700   1              send_string ("\n通道13：   ");
+ 701   1          printf_u8(RES.Pad13>>8);
+ 702   1          printf_u8(RES.Pad13);
+ 703   1              send_string ("\n通道14：   ");
+ 704   1          printf_u8(RES.Pad14>>8);
+ 705   1          printf_u8(RES.Pad14);
+ 706   1      
+ 707   1              send_string ("\n通道15：   ");
+ 708   1          printf_u8(RES.Pad15>>8);
+ 709   1          printf_u8(RES.Pad15);
+ 710   1              send_string ("\n通道16：   ");
+ 711   1          printf_u8(RES.Pad16>>8);
+ 712   1          printf_u8(RES.Pad16);
+ 713   1              send_string ("\n通道17：   ");
+ 714   1          printf_u8(RES.Pad17>>8);
+ 715   1          printf_u8(RES.Pad17);
+ 716   1              send_string ("\n通道18：   ");
+ 717   1          printf_u8(RES.Pad18>>8);
+ 718   1          printf_u8(RES.Pad18);
+ 719   1              send_string ("\n通道19：   ");
+ 720   1          printf_u8(RES.Pad19>>8);
+ 721   1          printf_u8(RES.Pad19);
+ 722   1              send_string ("\n如果某个通道值为0或小于00 F0，请更换CD4052!\n");
+ 723   1      #endif
+ 724   1          EA = 1;
+ 725   1              SPEAKER = 0;
+ 726   1              AddNo = 1;
+ 727   1              OLED_Clear();
+ 728   1      
+ 729   1              while(1)
+ 730   1              {
+ 731   2                 while(chek4052());
+ 732   2                 switch(MODE)
+ 733   2                 {
+ 734   3                       case setmode:
+ 735   3                         set_mode();
+ 736   3                       break;
+C51 COMPILER V9.00   MAIN                                                                  04/27/2015 19:27:06 PAGE 13  
+
+ 737   3                       case cutmode:
+ 738   3                         cut_mode();
+ 739   3                       break;
+ 740   3                       case testmode:
+ 741   3                         test_mode();
+ 742   3                       break;
+ 743   3                 }
+ 744   2      
+ 745   2      /*
+ 746   2                if((Key_back == PR_ADD)&&(Key_change))
+ 747   2                {
+ 748   2                 AddNo >>= 1;         storge595(&AddNo,4); Key_change=0; BeepFlag =1; 
+ 749   2                }
+ 750   2                else if((Key_back == PR_SUB)&&(Key_change))
+ 751   2                {
+ 752   2                 AddNo <<= 1;         storge595(&AddNo,4);  Key_change=0;     BeepFlag =1;
+ 753   2                }
+ 754   2                else if((Key_back == PR_OK)&&(Key_change))
+ 755   2                {
+ 756   2                 StartCut(0); Key_change=0;   BeepFlag =1;
+ 757   2                 
+ 758   2                }
+ 759   2       */       
+ 760   2              }
+ 761   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1948    ----
-   CONSTANT SIZE    =    515    ----
-   XDATA SIZE       =     30      31
-C51 COMPILER V9.00   MAIN                                                                  04/24/2015 19:30:25 PAGE 10  
-
+   CODE SIZE        =   3548    ----
+   CONSTANT SIZE    =   1166    ----
+   XDATA SIZE       =     35      40
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----

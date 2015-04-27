@@ -6,7 +6,7 @@
 #include "24c02.h"
 #include "key.h"
 #include "isr.h"
-#define Res_OK  300//2000        //设置电阻判定值2000K=2M
+
 CobPad PN;	  //20线地址码
 CobPad PN_TMP;//临时存放不同封装地址码
 CobPad PN_CUT;//存放烧码后的地址，此地址码是实际烧出来的，不是预设码；需要和预设码对比
@@ -28,30 +28,30 @@ void PN_Mirro(void)
 }
 void InitSign(void)
 {
-  BUS_6 = 0; //成功失败标志！
-  BUS_5 = 0;//输出第一位
+  BUS_6 = 0;//输出第四位 
+  BUS_5 = 0;//输出第三位
   BUS_4 = 0;//输出第二位
-  BUS_3 = 0;//输出第三位
-  BUS_2 = 0;//输出第四位
-  BUS_1 = 0;//输出第五位
+  BUS_3 = 0;//输出第一位
+  BUS_2 = 0;//成功失败标志！
+  BUS_1 = 1;//结束测试
 }
 void SignOut(u8 status,u32 xornum)
 {
-  u8 tmp,i;
-  tmp = 0;
-  for(i=0;i<24;i++)	//转信号码
-  {
-    if((xornum>>i)&0x01)
-	{
-	  tmp+=i;
-	}
-  }
-  BUS_6 = status; //成功失败标志！
-  BUS_5 = tmp&0x01;//输出第一位
-  BUS_4 = (tmp>>1)&0x01;//输出第二位
-  BUS_3 = (tmp>>2)&0x01;//输出第三位
-  BUS_2 = (tmp>>3)&0x01;//输出第四位
-  BUS_1 = (tmp>>4)&0x01;//输出第五位
+//  u8 tmp,i;
+//  tmp = 0;
+//  for(i=0;i<24;i++)	//转信号码
+//  {
+//    if((xornum>>i)&0x01)
+//	{
+//	  tmp+=i;
+//	}
+//  }
+  BUS_2 = status; //成功失败标志！
+  BUS_1 = 0; //成功失败标志
+//  BUS_3 = tmp&0x01;//输出第一位
+//  BUS_4 = (tmp>>1)&0x01;//输出第二位
+//  BUS_5 = (tmp>>2)&0x01;//输出第三位
+//  BUS_6 = (tmp>>3)&0x01;//输出第四位
 }
 /********************************************
 函数功能： ADC初始化
@@ -115,6 +115,8 @@ void GetPadRes(void)
   A2_4052 = 0;
   B1_4052 = 0;
   B2_4052 = 0;
+  delay_10ms();
+  delay_10ms();
   delay_10ms();	  //一定要延时等待4052开关切换ok
   RES.Pad0 = Adc2Res(GetADCResult(CH0));
   NOP4();
@@ -144,10 +146,12 @@ void GetPadRes(void)
   A2_4052 = 0;
   B1_4052 = 1;
   B2_4052 = 1;
+  delay_10ms();
+  delay_10ms();
   delay_10ms();	  //一定要延时等待4052开关切换ok
   RES.Pad1 = Adc2Res(GetADCResult(CH0));
-  printf_u8(RES.Pad1>>8);
-  printf_u8(RES.Pad1);
+//  printf_u8(RES.Pad1>>8);
+//  printf_u8(RES.Pad1);
   NOP4();
   RES.Pad5 = Adc2Res(GetADCResult(CH1));
   NOP4();
@@ -161,6 +165,8 @@ void GetPadRes(void)
   A2_4052 = 1;
   B1_4052 = 0;
   B2_4052 = 0;
+  delay_10ms();
+  delay_10ms();
   delay_10ms();	  //一定要延时等待4052开关切换ok
   RES.Pad2 = Adc2Res(GetADCResult(CH0));
   NOP4();
@@ -174,6 +180,8 @@ void GetPadRes(void)
   A2_4052 = 1;
   B1_4052 = 1;
   B2_4052 = 1;
+  delay_10ms();
+  delay_10ms();
   delay_10ms();	  //一定要延时等待4052开关切换ok
   RES.Pad3 = Adc2Res(GetADCResult(CH0));
   NOP4();
@@ -751,36 +759,59 @@ u8 Hex2Dat(u8 dat)
 ************************************************************************************************/
 void Decode(u8 status)
 {
-    u32 IRtmp;
+    u32 IRtmp[3];
 	u32 Xornum;
-	u8 i;
+	u8 i,j;
+	ReIRcode = 0;
     EnDecode();
     delay_10ms(); 
+    delay_10ms(); 
 	K1_OUT = 1;
+    delay_10ms(); 
+    delay_10ms(); 
+    delay_10ms(); 
+    delay_10ms(); 
+    delay_10ms(); 
+    delay_10ms(); 
+    delay_10ms(); 
+ 
+    delay_10ms(); 
+    delay_10ms(); 
+    delay_10ms(); 
+    delay_10ms(); 
+
 	memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
 	init_windows(0,0,120,32,"Code No.:",0,0);
-	OLED_Draw_WindowsDraw(&windemo);	
-	for(i=0;i<30;i++)
+	OLED_Draw_WindowsDraw(&windemo);
+	i = 200;
+	j = 0;	
+    while(i--)
 	{
 		if((ReIRcode & 0x0f) != 0)
 		{
-		  IRtmp = ReIRcode;
-		  break;
+		  IRtmp[j++] = ReIRcode;
+		  if(j>2) 
+		  { 
+		    j = 0;
+		    if(IRtmp[1]==IRtmp[2])
+		    break;
+		  }
 		}
+
 	}
-    OLED_ShowChar(22,16,Hex2Dat(((IRtmp >>16)>>4)&0x0f),12,1);
-    OLED_ShowChar(30,16,Hex2Dat(((IRtmp>>16)&0x0f)),12,1);
+    OLED_ShowChar(22,16,Hex2Dat(((IRtmp[1] >>16)>>4)&0x0f),12,1);
+    OLED_ShowChar(30,16,Hex2Dat(((IRtmp[1]>>16)&0x0f)),12,1);
 
-	OLED_ShowChar(42,16,Hex2Dat(((IRtmp >>8)>>4)&0x0f),12,1);
-	OLED_ShowChar(50,16,Hex2Dat(((IRtmp >>8)&0x0f)),12,1);
+	OLED_ShowChar(42,16,Hex2Dat(((IRtmp[1] >>8)>>4)&0x0f),12,1);
+	OLED_ShowChar(50,16,Hex2Dat(((IRtmp[1] >>8)&0x0f)),12,1);
 
-	OLED_ShowChar(62,16,Hex2Dat(((IRtmp)>>4)&0x0f),12,1);
- 	OLED_ShowChar(70,16,Hex2Dat(((IRtmp)&0x0f)),12,1);
+	OLED_ShowChar(62,16,Hex2Dat(((IRtmp[1])>>4)&0x0f),12,1);
+ 	OLED_ShowChar(70,16,Hex2Dat(((IRtmp[1])&0x0f)),12,1);
 
 	POP = 1;
 	OLED_Refresh_Gram();
 	PN_Mirro();
-	Xornum = (PN.PadByte |0x4)^IRtmp;
+	Xornum = (PN.PadByte |0x4)^IRtmp[1];
 	SignOut(status,Xornum);
 
 //  printf_u8((PN.PadByte )>>16);
@@ -874,7 +905,7 @@ void compareAdd(void)
 	}
 	else if(PKG == Package_3)
 	{
-	   if(PN_TMP.PadByte > 0xfffff)	  //2^20  不能超出地址空间
+	   if(PN_TMP.PadByte >= MaxlineHex)	  //2^20  不能超出地址空间
 	   PN_TMP.PadByte = 0;
 #ifdef EEPROM_EN
 	   at24c02_wrdat(PKG3_ADD,&PN_TMP.PadByte,4);                    //储存割码地址到2402
@@ -931,7 +962,7 @@ void StartCut(u8 package)
   GetPadRes();                //读引脚阻值
   OLED_Clear();
   compareAdd();               //比较地址
-  ENVSOC();
+//  ENVSOC();
 }
 void ShowInfo(void)
 {
@@ -1005,8 +1036,13 @@ void CutRun(u8 package)
 	   Key_change=0; 
 	   BeepFlag =1;	
 	   InitSign();
+#ifdef PRINT_INFO
+    send_string ("\n开始割码--->\n");
+#endif
        StartCut(package);
-
+#ifdef PRINT_INFO
+    send_string ("\n完成割码\n");
+#endif
 	  }
 	  if((Key_back == PR_OK)&&(Key_change))
 	  {

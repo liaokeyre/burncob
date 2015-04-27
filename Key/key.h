@@ -2,7 +2,7 @@
 #define __KEY_H__
 #include "main.h"
 
-#define   KEY_SCAN_TIMES		(7/2)    //按键防抖的扫描次数
+#define   KEY_SCAN_TIMES		(4/2)    //按键防抖的扫描次数
 #define   KEY_SHORT_TIMES		(6)
 #define   KEY_LONG_TIMES		(0x12)	 //长按键的次数
 #define   KEY_HOLD_TIMES        (0x05)   //连按的频率次数

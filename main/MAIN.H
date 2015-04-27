@@ -9,9 +9,13 @@
 
 #define PASS  0
 #define NG	  1
+#define Res_OK  300//2000        //设置电阻判定值2000K=2M
+#define Res_NG  100//2000        //判断4052通道
 /*********************************************************************/
 #define PRINT_AUTHOR_INFO	   //打印作者信息
 #define SHOW_LOGO			   //显示屏显示logo
+
+#define PRINT_INFO
 
 #define	EEPROM_EN			   //使能2402存储
 /*********************************************************************///宏开关，控制以上功能选项
@@ -28,10 +32,10 @@
 #define ENABLE595()   	EN_595 = 0
 #define DSENABLE595()   EN_595 = 1
 /*******************************************************///74HC595 IO DEFINE
-#define A1_4052          P03		   
-#define B1_4052          P02
-#define A2_4052          P01		   
-#define B2_4052          P00		   
+#define B1_4052          P03		   
+#define A1_4052          P02
+#define B2_4052          P01		   
+#define A2_4052          P00		   
 /*******************************************************///CD4052 IO DEFINE
 #define BUS_1            P36
 #define BUS_2            P35
@@ -155,5 +159,7 @@ extern u32 OK_COUNT;
 extern u32 NG_COUNT; 
 extern u8 POP;
 extern u8 MODE;
+extern u8 Maxline;
+extern u32 MaxlineHex;
 void init_windows(u8 x ,u8 y,u8 with,u8 height,u8 * title,u8 * text,u8 * state);     
 #endif
