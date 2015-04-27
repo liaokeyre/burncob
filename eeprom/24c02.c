@@ -1,6 +1,6 @@
 #include	"main.h"
 #include    "24c02.h"
-
+#include    "oled.h"
 bool ACK = 1;  
 /*******************************************************************************************
     延时 10us 		  @11.0592MHz
@@ -184,7 +184,7 @@ void at24c02_wr(u8 address, u8 dat)
     i2c_sentbyte(address); 
     i2c_sentbyte(dat); 
     i2c_stop(); 
-    delay_10ms(); 
+//    delay_10ms();  //增加了进度条，删除死延时！
 }
 
 void at24c02_wrdat(u8 address, void *dat, u8 bytenum)
@@ -244,10 +244,13 @@ void at24c02_rddat(u8 address, void *dat, u8 bytenum)
 void Flush_24c02(void)
 {
   u8 i;
+  OLED_DrawRectangle(0, 26, 126, 30, 1);
   for(i=0;i<0xff;i++)
   {
     at24c02_wr(i,0);  //全部填充0
-  }
+	OLED_Draw_RectangleFill(1, 27, 1+i/2, 29, 1); 
+	OLED_Refresh_Gram();
+  } 
 }
 /****************************************************************/
 //获取地址码

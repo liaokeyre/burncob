@@ -606,14 +606,14 @@ void OLED_ShowString(u8 x,u8 y,const u8 *p,u8 size, u8 mode)
 		}
 		else if(size == 12)
 		{
-	        if(x>122){x=0;y+=16;}	//换行
+	        if(x>122){x=0;y+=12;}	//换行
 	        if(y>32){y=x=0;OLED_Clear();} //换页
 	        OLED_ShowChar(x,y,*p,12,mode);	 
 	        x+=6;		
 		}
 		else
 		{
-	        if(x>122){x=0;y+=16;}	//换行
+	        if(x>122){x=0;y+=8;}	//换行
 	        if(y>32){y=x=0;OLED_Clear();} //换页
 	        OLED_ShowChar(x,y,*p,7,mode);	 
 	        x+=6;		
@@ -735,19 +735,19 @@ void Disp_Menu_Main(u8 num)
 	{
 	    OLED_DrawICON(10,0,0,set_ico);
 	    OLED_DrawICON(48,0,1,cut_ico);
-	    OLED_DrawICON(86,0,1,rst_ico);
+	    OLED_DrawICON(86,0,1,test_ico);
 	} 
 	else if(num == 1)
 	{
 	    OLED_DrawICON(10,0,1,set_ico);
 	    OLED_DrawICON(48,0,0,cut_ico);
-	    OLED_DrawICON(86,0,1,rst_ico);
+	    OLED_DrawICON(86,0,1,test_ico);
 	}
 	else
 	{
 	    OLED_DrawICON(10,0,1,set_ico);
 	    OLED_DrawICON(48,0,1,cut_ico);
-	    OLED_DrawICON(86,0,0,rst_ico);
+	    OLED_DrawICON(86,0,0,test_ico);
 	}
 //	OLED_Refresh_Gram();
 }
@@ -783,6 +783,38 @@ void Disp_Menu_1(u8 num)
 	    OLED_ShowString(78,0,"3.COB",12,1);
 	    OLED_ShowString(78,15,"4.RETURN",12,0);
 	}
+}
+
+void Disp_Menu_0(u8 num)
+{
+	if(num == 0)
+	{
+	    OLED_ShowString(0,0,"1.SET SEN",12,0);
+	    OLED_ShowString(0,15,"2.SET ADD",12,1);
+	    OLED_ShowString(78,0,"3.ERASE",12,1);
+	    OLED_ShowString(78,15,"4.RETURN",12,1);
+	} 
+	else if(num == 1)
+	{
+	    OLED_ShowString(0,0,"1.SET SEN",12,1);
+	    OLED_ShowString(0,15,"2.SET ADD",12,0);
+	    OLED_ShowString(78,0,"3.ERASE",12,1);
+	    OLED_ShowString(78,15,"4.RETURN",12,1);
+	}
+	else if(num == 2)
+	{
+	    OLED_ShowString(0,0,"1.SET SEN",12,1);
+	    OLED_ShowString(0,15,"2.SET ADD",12,1);
+	    OLED_ShowString(78,0,"3.ERASE",12,0);
+	    OLED_ShowString(78,15,"4.RETURN",12,1);
+	}
+	else
+	{
+	    OLED_ShowString(0,0,"1.SET SEN",12,1);
+	    OLED_ShowString(0,15,"2.SET ADD",12,1);
+	    OLED_ShowString(78,0,"3.ERASE",12,1);
+	    OLED_ShowString(78,15,"4.RETURN",12,0);
+	} 
 }
 /*******************************************************************************************
 函数名: void OLED_ShowAdd(u8 x,u8 y,u32 Add1,u32 Add2)

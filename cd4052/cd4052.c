@@ -12,6 +12,47 @@ CobPad PN_TMP;//临时存放不同封装地址码
 CobPad PN_CUT;//存放烧码后的地址，此地址码是实际烧出来的，不是预设码；需要和预设码对比
 Pad_Res RES;
 extern WINDOWS windemo;
+void PN_Mirro(void)
+{
+  u32 tmp0,tmp2;
+  u8 i;
+  tmp0 = 0;
+  tmp2 = 0;
+  i = 0;
+  for(i=0;i<24;i++)
+  {
+    tmp0 = (PN.PadByte>>i)&0x01;	   //低位
+	tmp2 |= (tmp0 << (23-i)) ;
+  }
+  PN.PadByte = tmp2;
+}
+void InitSign(void)
+{
+  BUS_6 = 0; //成功失败标志！
+  BUS_5 = 0;//输出第一位
+  BUS_4 = 0;//输出第二位
+  BUS_3 = 0;//输出第三位
+  BUS_2 = 0;//输出第四位
+  BUS_1 = 0;//输出第五位
+}
+void SignOut(u8 status,u32 xornum)
+{
+  u8 tmp,i;
+  tmp = 0;
+  for(i=0;i<24;i++)	//转信号码
+  {
+    if((xornum>>i)&0x01)
+	{
+	  tmp+=i;
+	}
+  }
+  BUS_6 = status; //成功失败标志！
+  BUS_5 = tmp&0x01;//输出第一位
+  BUS_4 = (tmp>>1)&0x01;//输出第二位
+  BUS_3 = (tmp>>2)&0x01;//输出第三位
+  BUS_2 = (tmp>>3)&0x01;//输出第四位
+  BUS_1 = (tmp>>4)&0x01;//输出第五位
+}
 /********************************************
 函数功能： ADC初始化
 返回 ： void
@@ -105,13 +146,13 @@ void GetPadRes(void)
   B2_4052 = 1;
   delay_10ms();	  //一定要延时等待4052开关切换ok
   RES.Pad1 = Adc2Res(GetADCResult(CH0));
-//  printf_u8(RES.Pad1>>8);
-//  printf_u8(RES.Pad1);
+  printf_u8(RES.Pad1>>8);
+  printf_u8(RES.Pad1);
   NOP4();
   RES.Pad5 = Adc2Res(GetADCResult(CH1));
   NOP4();
-  printf_u8(RES.Pad5>>8);
-  printf_u8(RES.Pad5);
+//  printf_u8(RES.Pad5>>8);
+//  printf_u8(RES.Pad5);
   RES.Pad9 = Adc2Res(GetADCResult(CH2));
   NOP4();
   RES.Pad13 = Adc2Res(GetADCResult(CH3));
@@ -708,32 +749,66 @@ u8 Hex2Dat(u8 dat)
 /************************************************************************************************
 比对烧码地址
 ************************************************************************************************/
-void Decode(void)
+void Decode(u8 status)
 {
+    u32 IRtmp;
+	u32 Xornum;
+	u8 i;
     EnDecode();
-    delay_10ms();	 
+    delay_10ms(); 
+	K1_OUT = 1;
 	memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
 	init_windows(0,0,120,32,"Code No.:",0,0);
-	OLED_Draw_WindowsDraw(&windemo);
+	OLED_Draw_WindowsDraw(&windemo);	
+	for(i=0;i<30;i++)
+	{
+		if((ReIRcode & 0x0f) != 0)
+		{
+		  IRtmp = ReIRcode;
+		  break;
+		}
+	}
+    OLED_ShowChar(22,16,Hex2Dat(((IRtmp >>16)>>4)&0x0f),12,1);
+    OLED_ShowChar(30,16,Hex2Dat(((IRtmp>>16)&0x0f)),12,1);
 
-    OLED_ShowChar(22,16,Hex2Dat(((ReIRcode>>16)>>4)&0x0f),12,1);
-    OLED_ShowChar(30,16,Hex2Dat(((ReIRcode>>16)&0x0f)),12,1);
+	OLED_ShowChar(42,16,Hex2Dat(((IRtmp >>8)>>4)&0x0f),12,1);
+	OLED_ShowChar(50,16,Hex2Dat(((IRtmp >>8)&0x0f)),12,1);
 
-	OLED_ShowChar(42,16,Hex2Dat(((ReIRcode>>8)>>4)&0x0f),12,1);
-	OLED_ShowChar(50,16,Hex2Dat(((ReIRcode>>8)&0x0f)),12,1);
-
-	OLED_ShowChar(62,16,Hex2Dat(((ReIRcode)>>4)&0x0f),12,1);
- 	OLED_ShowChar(70,16,Hex2Dat(((ReIRcode)&0x0f)),12,1);
+	OLED_ShowChar(62,16,Hex2Dat(((IRtmp)>>4)&0x0f),12,1);
+ 	OLED_ShowChar(70,16,Hex2Dat(((IRtmp)&0x0f)),12,1);
 
 	POP = 1;
 	OLED_Refresh_Gram();
+	PN_Mirro();
+	Xornum = (PN.PadByte |0x4)^IRtmp;
+	SignOut(status,Xornum);
+
+//  printf_u8((PN.PadByte )>>16);
+//  printf_u8((PN.PadByte)>>8);
+//  printf_u8(PN.PadByte );
+//  put_char('\n');
+//  printf_u8(((PN.PadByte )|0x4)>>16);
+//  printf_u8(((PN.PadByte )|0x4)>>8);
+//  printf_u8(((PN.PadByte )|0x4));
+//  put_char('\n');
+//  printf_u8(IRtmp>>16);
+//  printf_u8(IRtmp>>8);
+//  printf_u8(IRtmp);
+//  put_char('\n');
+//  printf_u8(Xornum>>16);
+//  printf_u8(Xornum>>8);
+//  printf_u8(Xornum);
+//  put_char('\n');
 }
+
 void compareAdd(void)
 {
   u32 tmp;
   u32 countmp;
+  u8 status;
   if(BurnCheck() == 0)  //判断烧码脚烧码失败
   {
+    status = NG;
 	tmp = PN.PadByte^PN_CUT.PadByte;  //tmp 存放异常地址码 可以判断出在哪一位出现异常
     OLED_ShowChar(0,8,Hex2Dat(((tmp>>16)>>4)&0x0f),7,1);
     OLED_ShowChar(6,8,Hex2Dat(((tmp>>16)&0x0f)),7,1);
@@ -775,6 +850,7 @@ void compareAdd(void)
   }
   else
   {
+    status = PASS;
     OLED_ShowString(0,8,"      ",7,1);
     OLED_ShowString(0,24,"PASS!!",7,1);
     OLED_Refresh_Gram();
@@ -832,7 +908,7 @@ void compareAdd(void)
 #endif
 /*****************************************************************************************************/
   }
-   Decode(); 
+   Decode(status); 
 }
 /************************************************************************************************
 烧码
@@ -924,18 +1000,44 @@ void CutRun(u8 package)
 	memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
   while(!Done)
   {
-	  if((Key_back == PR_MOD)&&(Key_change))
+	  if((Key_back == PR_START)&&(Key_change))
 	  {
 	   Key_change=0; 
 	   BeepFlag =1;	
+	   InitSign();
        StartCut(package);
+
 	  }
 	  if((Key_back == PR_OK)&&(Key_change))
 	  {
 	   Key_change=0; 
 	   BeepFlag =1;
 	   ShowInfo();
-	  }	    
+	  }	 
+	  if((Key_back == PR_MOD)&&(Key_change))
+	  {
+	   Key_change=0; 
+	   BeepFlag =1;
+	   Done = 1;
+	  }	
+	  if((Key_back == PR_SUB)&&(Key_change))
+	  {
+	   Key_change=0; 
+	   BeepFlag =1;
+	   PN_TMP.PadByte ++;
+	   OLED_Clear();
+       OLED_ShowAdd(0,0,PN_TMP.PadByte,PN_TMP.PadByte);
+       OLED_Refresh_Gram();
+	  }	
+	  if((Key_back == PR_ADD)&&(Key_change))
+	  {
+	   Key_change=0; 
+	   BeepFlag =1;
+	   PN_TMP.PadByte --;
+	   OLED_Clear();
+       OLED_ShowAdd(0,0,PN_TMP.PadByte,PN_TMP.PadByte);
+       OLED_Refresh_Gram();
+	  }		  	     
   }
 }
 /*

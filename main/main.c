@@ -111,6 +111,7 @@ void sysInit(void)
 {
 	ioInit();
 	InitADC();
+	InitSign();
 	UartInit();
 	oledInit();
 	timerInit();
@@ -129,6 +130,12 @@ void set_mode(void)
 {
     u8 Done;
 	u8 InMode;
+	u8 menucnt;
+	u8 Eraseflag;
+	u8 YesNo;
+	YesNo = 0;
+	Eraseflag = 0;    //删除内存的二次确认
+	menucnt = 0;
 	InMode = 0;
 	Done = 0;
 	Disp_Menu_Main(setmode);
@@ -144,11 +151,25 @@ void set_mode(void)
 		        BeepFlag =1;
 				if(InMode)
 				{
-				
+				  if(Eraseflag == 1)
+				  {
+					  if(YesNo ++ >=1)
+					  YesNo = 0;
+					  OLED_ShowString(70,20,"YES",12,!YesNo);
+					  OLED_ShowString(110,20,"NO",12,YesNo);
+					  OLED_Refresh_Gram();	
+				  }
+				  else
+				  {
+					  if(menucnt --<=0)
+					  menucnt = 3;
+					  Disp_Menu_0(menucnt);
+		              OLED_Refresh_Gram();				  
+				  }				
 				}
 				else
 				{
-				  MODE = rstmode;
+				  MODE = testmode;
 				  Done = 1;
 				}
 		  break;
@@ -157,7 +178,21 @@ void set_mode(void)
 		        BeepFlag =1;
 				if(InMode)
 				{
-				
+				  if(Eraseflag == 1)
+				  {
+					  if(YesNo -- <= 0)
+					  YesNo = 1;
+					  OLED_ShowString(70,20,"YES",12,!YesNo);
+					  OLED_ShowString(110,20,"NO",12,YesNo);
+					  OLED_Refresh_Gram();
+				  }
+				  else
+				  {
+					  if(menucnt ++>=3)
+					  menucnt = 0;
+					  Disp_Menu_0(menucnt);
+		              OLED_Refresh_Gram();
+				  }					
 				}
 				else
 				{
@@ -170,17 +205,71 @@ void set_mode(void)
 		        BeepFlag =1;
 				if(InMode)
 				{
-				
+					  if(menucnt ==2)	 
+					  {
+					      if(Eraseflag == 1)
+						  {
+					        
+							if(YesNo)
+							{
+							    OLED_Clear();
+						  	    OLED_ShowString(2,10,"ERASE MEMORRY...",12,1);					 
+								OLED_Refresh_Gram();
+							    Flush_24c02();
+							    OLED_Clear();
+						  	    OLED_ShowString(2,10,"ERASE DONE!",12,1);					 
+								OLED_Refresh_Gram();
+
+							}
+
+						    OLED_Clear();
+						    Disp_Menu_0(menucnt);
+							OLED_Refresh_Gram();						    
+							Eraseflag = 0;
+							YesNo = 0;
+						  }
+						  else
+						  {
+						    Eraseflag = 1;
+					        OLED_Clear();
+					  	    OLED_ShowString(2,0,"Do you want clear all memorry?",12,1);	
+							OLED_ShowString(70,20,"YES",12,1);
+							OLED_ShowString(110,20,"NO",12,0);				 
+		 	                OLED_Refresh_Gram();						  
+						  }
+						  				    
+					  }
+/*					  else if(menucnt ==1)	 
+					  {
+						  memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
+				          init_windows(20,0,80,32,"Notice"," VT62538-B2",0);
+				          OLED_Draw_WindowsDraw(&windemo);
+						  POP = 1;
+		 	              OLED_Refresh_Gram();					    
+					  }
+					  else if(menucnt ==2
+					  {
+						  memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
+				          init_windows(20,0,80,32,"Notice"," COB",0);
+				          OLED_Draw_WindowsDraw(&windemo);
+						  POP = 1;
+		 	              OLED_Refresh_Gram();					    
+					  }	 
+*/					  				
 				}
 				else
 				{
-				  memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
-		          init_windows(30,0,60,32,"Notice"," NO MENU!",0);
-		          OLED_Draw_WindowsDraw(&windemo);
-				  POP = 1;
- 	              OLED_Refresh_Gram();
-				  //InMode = 1;
+				  OLED_Clear();
+				  Disp_Menu_0(menucnt);
+	              OLED_Refresh_Gram();
+				  InMode = 1;
 				}
+		  break;
+		  case PR_MOD:
+		  		Key_change=0; 
+		        BeepFlag =1;
+				OLED_Clear();
+				Done = 1;
 		  break;
 		}
 	  
@@ -232,7 +321,7 @@ void cut_mode(void)
 				}
 				else
 				{
-				  MODE = rstmode;
+				  MODE = testmode;
 				  Done = 1;
 				}
 		  break;
@@ -249,6 +338,7 @@ void cut_mode(void)
 				  }
 				  else
 				  {
+				  /*
 					  if(menucnt ==0)	 //PKG-1
 					  {
 						  memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
@@ -272,37 +362,71 @@ void cut_mode(void)
 				          OLED_Draw_WindowsDraw(&windemo);
 						  POP = 1;
 		 	              OLED_Refresh_Gram();					    
-					  }
+					  }	 
+					  */
 					  OLED_Clear();
 					  PKG = menucnt; //注意增加型号需要判断是否对应
 					  OK_COUNT = 0;
 					  NG_COUNT = 0;
-					  CutRun(PKG);
+					  CutRun(PKG);	  
+				      OLED_Clear();	  //退出了割码操作
+				      Disp_Menu_1(menucnt);
+	                  OLED_Refresh_Gram();
 				  }
 				}
 				else
 				{
 				  OLED_Clear();
-				  Disp_Menu_1(0);
+				  Disp_Menu_1(menucnt);
 	              OLED_Refresh_Gram();
 				  InMode = 1;
 				}
+		  break;
+		  case PR_MOD:
+		  		Key_change=0; 
+		        BeepFlag =1;
+				OLED_Clear();
+				Done = 1;
 		  break;
 		}
 	  
 	  }
 	}
 }
-void rst_mode(void)
+void test_mode(void)
 {
     u8 Done;
 	u8 InMode;
+	u32 IRtmp;
+	IRtmp = 0;
 	InMode = 0;
 	Done = 0;
-	Disp_Menu_Main(rstmode);
+	DsDecode();
+	Disp_Menu_Main(testmode);
 	OLED_Refresh_Gram();
 	while(!Done)
 	{
+	  if(InMode)
+	  {
+
+	    if((ReIRcode & 0xf) != 0)
+		{
+		   IRtmp = ReIRcode;
+		}
+		if(IRtmp)
+		{
+		    OLED_ShowChar(36,16,Hex2Dat(((IRtmp>>16)>>4)&0x0f),12,1);
+		    OLED_ShowChar(42,16,Hex2Dat(((IRtmp>>16)&0x0f)),12,1);
+		
+			OLED_ShowChar(54,16,Hex2Dat(((IRtmp>>8)>>4)&0x0f),12,1);
+			OLED_ShowChar(60,16,Hex2Dat(((IRtmp>>8)&0x0f)),12,1);
+		
+			OLED_ShowChar(72,16,Hex2Dat(((IRtmp)>>4)&0x0f),12,1);
+		 	OLED_ShowChar(78,16,Hex2Dat(((IRtmp)&0x0f)),12,1);
+			OLED_Refresh_Gram();
+		}   
+	  }
+
 	  if(Key_change)
 	  {
 	  	switch(Key_back)
@@ -338,18 +462,30 @@ void rst_mode(void)
 		        BeepFlag =1;
 				if(InMode)
 				{
-				
+
 				}
 				else
 				{
+				 /*
 				  Flush_24c02();
 				  memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
 		          init_windows(10,0,100,32,"Notice"," FLUSH 2402 OK!",0);
 		          OLED_Draw_WindowsDraw(&windemo);
 				  POP = 1;
  	              OLED_Refresh_Gram();
-				  //InMode = 1;
+				  */
+				  EnDecode();
+				  OLED_Clear();
+				  OLED_ShowString(46,0,"DECODE",12,1);
+				  OLED_Refresh_Gram();
+				  InMode = 1;
 				}
+		  break;
+		  case PR_MOD:
+		  		Key_change=0; 
+		        BeepFlag =1;
+				OLED_Clear();
+				Done = 1;
 		  break;
 		}
 	  
@@ -384,8 +520,8 @@ void main(void)
 	   	 case cutmode:
 		   cut_mode();
 		 break;
-	   	 case rstmode:
-		   rst_mode();
+	   	 case testmode:
+		   test_mode();
 		 break;
 	   }
 

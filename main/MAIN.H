@@ -5,8 +5,10 @@
 #include <string.h>
 #define setmode 0
 #define cutmode 1
-#define rstmode 2
+#define testmode 2
 
+#define PASS  0
+#define NG	  1
 /*********************************************************************/
 #define PRINT_AUTHOR_INFO	   //打印作者信息
 #define SHOW_LOGO			   //显示屏显示logo
@@ -152,6 +154,6 @@ extern u8 PKG;		   //封装型号
 extern u32 OK_COUNT;
 extern u32 NG_COUNT; 
 extern u8 POP;
-
+extern u8 MODE;
 void init_windows(u8 x ,u8 y,u8 with,u8 height,u8 * title,u8 * text,u8 * state);     
 #endif
