@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 1   
+C51 COMPILER V9.00   CD4052                                                                05/06/2015 14:06:26 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE CD4052
@@ -57,1158 +57,1167 @@ line level    source
   47   1      //      }
   48   1      //  }
   49   1        BUS_2 = status; //成功失败标志！
-  50   1        BUS_1 = 0; //成功失败标志
-  51   1      //  BUS_3 = tmp&0x01;//输出第一位
-  52   1      //  BUS_4 = (tmp>>1)&0x01;//输出第二位
-  53   1      //  BUS_5 = (tmp>>2)&0x01;//输出第三位
-  54   1      //  BUS_6 = (tmp>>3)&0x01;//输出第四位
-C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 2   
+  50   1        BUS_1 = 0;      //结束信号
+  51   1        Cutflag = 3;
+  52   1        delay_10ms();
+  53   1        delay_10ms();   //10ms延时
+  54   1        BUS_1 = 1;
+C51 COMPILER V9.00   CD4052                                                                05/06/2015 14:06:26 PAGE 2   
 
-  55   1      }
+  55   1      //  BUS_3 = tmp&0x01;//输出第一位
+  56   1      //  BUS_4 = (tmp>>1)&0x01;//输出第二位
+  57   1      //  BUS_5 = (tmp>>2)&0x01;//输出第三位
+  58   1      //  BUS_6 = (tmp>>3)&0x01;//输出第四位
+  59   1      }
 *** WARNING C280 IN LINE 38 OF CD4052\CD4052.C: 'xornum': unreferenced local variable
-  56          /********************************************
-  57          函数功能： ADC初始化
-  58          返回 ： void
-  59          备注  ：无
-  60          *********************************************/
-  61          void InitADC(void)
-  62          {
-  63   1          P1ASF = 0xff;                   //设置P1口为AD口
-  64   1          ADC_RES = 0;                    //清除结果寄存器
-  65   1              ADC_RESL = 0; 
-  66   1          ADC_CONTR = ADC_POWER | ADC_SPEEDLL;
-  67   1      }
-  68          
-  69          /********************************************
-  70          函数功能： 获取ADC转换值
-  71          返回 ： ADC值，10位ADC
-  72          备注  ：无
-  73          *********************************************/
-  74          u16 GetADCResult(u8 Chanel)
-  75          {
-  76   1          ADC_CONTR = ADC_POWER | ADC_SPEEDLL | Chanel | ADC_START;
-  77   1          _nop_();                        //等待4个NOP
-  78   1          _nop_();
-  79   1          _nop_();
-  80   1          _nop_();
-  81   1          while (!(ADC_CONTR & ADC_FLAG));//等待ADC转换完成
-  82   1          ADC_CONTR &= ~ADC_FLAG;         //Close ADC
-  83   1          return ((ADC_RES<<2)+ADC_RESL);  //返回ADC结果  10bit
-  84   1      }
-  85          /******************************************************************************************
-  86          AD值转换为电阻值
-  87          R2=AD*R1/(1024-AD)        R1 = 1M = 1000K
-  88          返回的是PAD脚对地阻值大小，单位为K欧
-  89          ******************************************************************************************/
-  90          u16 Adc2Res(u16 adValue)
-  91          {
-  92   1        return (((u32)adValue*1000/(1024-adValue)));
-  93   1      }
-  94          /*******************************************************************************************
-  95          ADC通道列表，对应不同PAD脚
-  96          //A1            0                 0                1             1
-  97          //B1            0                 1                0             1
-  98          //A2            0                 0                1             1
-  99          //B2            0                 1                0             1
- 100          //--------------------------------------------------------------------------------------------
- 101          //AD0      PAD0          PAD1     PAD2          PAD3
- 102          //AD1      PAD4          PAD5     PAD6          PAD7
- 103          //AD2      PAD8          PAD9     PAD10         PAD11
- 104          //AD3      PAD12         PAD13    PAD14         PAD15
- 105          //-------------------------------------------------------------------------------------------
- 106          //AD4      PAD16
- 107          //AD5      PAD17
- 108          //AD6      PAD18
- 109          //AD7      PAD19
- 110          *******************************************************************************************/
- 111          void GetPadRes(void)
- 112          {
- 113   1        u8 i;
- 114   1        A1_4052 = 0;
- 115   1        A2_4052 = 0;
-C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 3   
+  60          /********************************************
+  61          函数功能： ADC初始化
+  62          返回 ： void
+  63          备注  ：无
+  64          *********************************************/
+  65          void InitADC(void)
+  66          {
+  67   1          P1ASF = 0xff;                   //设置P1口为AD口
+  68   1          ADC_RES = 0;                    //清除结果寄存器
+  69   1              ADC_RESL = 0; 
+  70   1          ADC_CONTR = ADC_POWER | ADC_SPEEDLL;
+  71   1      }
+  72          
+  73          /********************************************
+  74          函数功能： 获取ADC转换值
+  75          返回 ： ADC值，10位ADC
+  76          备注  ：无
+  77          *********************************************/
+  78          u16 GetADCResult(u8 Chanel)
+  79          {
+  80   1          ADC_CONTR = ADC_POWER | ADC_SPEEDLL | Chanel | ADC_START;
+  81   1          _nop_();                        //等待4个NOP
+  82   1          _nop_();
+  83   1          _nop_();
+  84   1          _nop_();
+  85   1          while (!(ADC_CONTR & ADC_FLAG));//等待ADC转换完成
+  86   1          ADC_CONTR &= ~ADC_FLAG;         //Close ADC
+  87   1          return ((ADC_RES<<2)+ADC_RESL);  //返回ADC结果  10bit
+  88   1      }
+  89          /******************************************************************************************
+  90          AD值转换为电阻值
+  91          R2=AD*R1/(1024-AD)        R1 = 1M = 1000K
+  92          返回的是PAD脚对地阻值大小，单位为K欧
+  93          ******************************************************************************************/
+  94          u16 Adc2Res(u16 adValue)
+  95          {
+  96   1        return (((u32)adValue*1000/(1024-adValue)));
+  97   1      }
+  98          /*******************************************************************************************
+  99          ADC通道列表，对应不同PAD脚
+ 100          //A1            0                 0                1             1
+ 101          //B1            0                 1                0             1
+ 102          //A2            0                 0                1             1
+ 103          //B2            0                 1                0             1
+ 104          //--------------------------------------------------------------------------------------------
+ 105          //AD0      PAD0          PAD1     PAD2          PAD3
+ 106          //AD1      PAD4          PAD5     PAD6          PAD7
+ 107          //AD2      PAD8          PAD9     PAD10         PAD11
+ 108          //AD3      PAD12         PAD13    PAD14         PAD15
+ 109          //-------------------------------------------------------------------------------------------
+ 110          //AD4      PAD16
+ 111          //AD5      PAD17
+ 112          //AD6      PAD18
+ 113          //AD7      PAD19
+ 114          *******************************************************************************************/
+ 115          void GetPadRes(void)
+C51 COMPILER V9.00   CD4052                                                                05/06/2015 14:06:26 PAGE 3   
 
- 116   1        B1_4052 = 0;
- 117   1        B2_4052 = 0;
- 118   1        delay_10ms();
- 119   1        delay_10ms();
- 120   1        delay_10ms();   //一定要延时等待4052开关切换ok
- 121   1        RES.Pad0 = Adc2Res(GetADCResult(CH0));
- 122   1        NOP4();
- 123   1        RES.Pad4 = Adc2Res(GetADCResult(CH1));
- 124   1      //  printf_u8(RES.Pad4>>8);
- 125   1      //  printf_u8(RES.Pad4);
+ 116          {
+ 117   1      //  u8 i;
+ 118   1        A1_4052 = 0;
+ 119   1        A2_4052 = 0;
+ 120   1        B1_4052 = 0;
+ 121   1        B2_4052 = 0;
+ 122   1        delay_10ms();
+ 123   1        delay_10ms();
+ 124   1        delay_10ms();   //一定要延时等待4052开关切换ok
+ 125   1        RES.Pad0 = Adc2Res(GetADCResult(CH0));
  126   1        NOP4();
- 127   1        RES.Pad8 = Adc2Res(GetADCResult(CH2));
- 128   1        NOP4();
- 129   1        RES.Pad12 = Adc2Res(GetADCResult(CH3));
+ 127   1        RES.Pad4 = Adc2Res(GetADCResult(CH1));
+ 128   1      //  printf_u8(RES.Pad4>>8);
+ 129   1      //  printf_u8(RES.Pad4);
  130   1        NOP4();
- 131   1      
- 132   1        RES.Pad16 = Adc2Res(GetADCResult(CH4));
- 133   1      //  printf_u8(RES.Pad16>>8);
- 134   1      //  printf_u8(RES.Pad16);
- 135   1        NOP4();
- 136   1        RES.Pad17 = Adc2Res(GetADCResult(CH5));
- 137   1        NOP4();
- 138   1        RES.Pad18 = Adc2Res(GetADCResult(CH6));
+ 131   1        RES.Pad8 = Adc2Res(GetADCResult(CH2));
+ 132   1        NOP4();
+ 133   1        RES.Pad12 = Adc2Res(GetADCResult(CH3));
+ 134   1        NOP4();
+ 135   1      
+ 136   1        RES.Pad16 = Adc2Res(GetADCResult(CH4));
+ 137   1      //  printf_u8(RES.Pad16>>8);
+ 138   1      //  printf_u8(RES.Pad16);
  139   1        NOP4();
- 140   1        RES.Pad19 = Adc2Res(GetADCResult(CH7));
- 141   1      
- 142   1      //i=200;
- 143   1      //while(i--)
- 144   1      {
- 145   2        A1_4052 = 0;
- 146   2        A2_4052 = 0;
- 147   2        B1_4052 = 1;
- 148   2        B2_4052 = 1;
- 149   2        delay_10ms();
- 150   2        delay_10ms();
- 151   2        delay_10ms();   //一定要延时等待4052开关切换ok
- 152   2        RES.Pad1 = Adc2Res(GetADCResult(CH0));
- 153   2      //  printf_u8(RES.Pad1>>8);
- 154   2      //  printf_u8(RES.Pad1);
- 155   2        NOP4();
- 156   2        RES.Pad5 = Adc2Res(GetADCResult(CH1));
- 157   2        NOP4();
- 158   2      //  printf_u8(RES.Pad5>>8);
- 159   2      //  printf_u8(RES.Pad5);
- 160   2        RES.Pad9 = Adc2Res(GetADCResult(CH2));
+ 140   1        RES.Pad17 = Adc2Res(GetADCResult(CH5));
+ 141   1        NOP4();
+ 142   1        RES.Pad18 = Adc2Res(GetADCResult(CH6));
+ 143   1        NOP4();
+ 144   1        RES.Pad19 = Adc2Res(GetADCResult(CH7));
+ 145   1      
+ 146   1      //i=200;
+ 147   1      //while(i--)
+ 148   1      {
+ 149   2        A1_4052 = 0;
+ 150   2        A2_4052 = 0;
+ 151   2        B1_4052 = 1;
+ 152   2        B2_4052 = 1;
+ 153   2        delay_10ms();
+ 154   2        delay_10ms();
+ 155   2        delay_10ms();   //一定要延时等待4052开关切换ok
+ 156   2        RES.Pad1 = Adc2Res(GetADCResult(CH0));
+ 157   2      //  printf_u8(RES.Pad1>>8);
+ 158   2      //  printf_u8(RES.Pad1);
+ 159   2        NOP4();
+ 160   2        RES.Pad5 = Adc2Res(GetADCResult(CH1));
  161   2        NOP4();
- 162   2        RES.Pad13 = Adc2Res(GetADCResult(CH3));
- 163   2      }
- 164   1        A1_4052 = 1;
- 165   1        A2_4052 = 1;
- 166   1        B1_4052 = 0;
- 167   1        B2_4052 = 0;
- 168   1        delay_10ms();
- 169   1        delay_10ms();
- 170   1        delay_10ms();   //一定要延时等待4052开关切换ok
- 171   1        RES.Pad2 = Adc2Res(GetADCResult(CH0));
- 172   1        NOP4();
- 173   1        RES.Pad6 = Adc2Res(GetADCResult(CH1));
- 174   1        NOP4();
- 175   1        RES.Pad10 = Adc2Res(GetADCResult(CH2));
+ 162   2      //  printf_u8(RES.Pad5>>8);
+ 163   2      //  printf_u8(RES.Pad5);
+ 164   2        RES.Pad9 = Adc2Res(GetADCResult(CH2));
+ 165   2        NOP4();
+ 166   2        RES.Pad13 = Adc2Res(GetADCResult(CH3));
+ 167   2      }
+ 168   1        A1_4052 = 1;
+ 169   1        A2_4052 = 1;
+ 170   1        B1_4052 = 0;
+ 171   1        B2_4052 = 0;
+ 172   1        delay_10ms();
+ 173   1        delay_10ms();
+ 174   1        delay_10ms();   //一定要延时等待4052开关切换ok
+ 175   1        RES.Pad2 = Adc2Res(GetADCResult(CH0));
  176   1        NOP4();
- 177   1        RES.Pad14 = Adc2Res(GetADCResult(CH3));
-C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 4   
+ 177   1        RES.Pad6 = Adc2Res(GetADCResult(CH1));
+C51 COMPILER V9.00   CD4052                                                                05/06/2015 14:06:26 PAGE 4   
 
- 178   1      
- 179   1        A1_4052 = 1;
- 180   1        A2_4052 = 1;
- 181   1        B1_4052 = 1;
- 182   1        B2_4052 = 1;
- 183   1        delay_10ms();
- 184   1        delay_10ms();
- 185   1        delay_10ms();   //一定要延时等待4052开关切换ok
- 186   1        RES.Pad3 = Adc2Res(GetADCResult(CH0));
- 187   1        NOP4();
- 188   1        RES.Pad7 = Adc2Res(GetADCResult(CH1));
- 189   1        NOP4();
- 190   1        RES.Pad11 = Adc2Res(GetADCResult(CH2));
- 191   1      //  printf_u8(RES.Pad11>>8);
- 192   1      //  printf_u8(RES.Pad11);
+ 178   1        NOP4();
+ 179   1        RES.Pad10 = Adc2Res(GetADCResult(CH2));
+ 180   1        NOP4();
+ 181   1        RES.Pad14 = Adc2Res(GetADCResult(CH3));
+ 182   1      
+ 183   1        A1_4052 = 1;
+ 184   1        A2_4052 = 1;
+ 185   1        B1_4052 = 1;
+ 186   1        B2_4052 = 1;
+ 187   1        delay_10ms();
+ 188   1        delay_10ms();
+ 189   1        delay_10ms();   //一定要延时等待4052开关切换ok
+ 190   1        RES.Pad3 = Adc2Res(GetADCResult(CH0));
+ 191   1        NOP4();
+ 192   1        RES.Pad7 = Adc2Res(GetADCResult(CH1));
  193   1        NOP4();
- 194   1        RES.Pad15 = Adc2Res(GetADCResult(CH3));
- 195   1      }
-*** WARNING C280 IN LINE 113 OF CD4052\CD4052.C: 'i': unreferenced local variable
- 196          /*****************************************************************************************
- 197          功能：将不同封装临时地址码转换为真正的芯片地址码
- 198          
- 199          ******************************************************************************************/
- 200          void PnMask(u8 package)
- 201          {
- 202   1        PN.PadByte = 0;   //复位地址码,没割码状态
- 203   1        if(package == Package_2)                                       //封装1
- 204   1        {
- 205   2       //    PN.Px.P_XXH.Pad0 = PN_TMP.Px.P_XXH.Pad0;
- 206   2           PN.Px.P_XXH.Pad1 = PN_TMP.Px.P_XXH.Pad0;
- 207   2           PN.Px.P_XXH.Pad3 = PN_TMP.Px.P_XXH.Pad1;
- 208   2           PN.Px.P_XXH.Pad5 = PN_TMP.Px.P_XXH.Pad2;
- 209   2           
- 210   2           PN.Px.P_XXH.Pad7= PN_TMP.Px.P_XXH.Pad3;
- 211   2           PN.Px.P_XHX.Pad1= PN_TMP.Px.P_XXH.Pad4;
- 212   2           PN.Px.P_XHX.Pad3= PN_TMP.Px.P_XXH.Pad5;
- 213   2           PN.Px.P_XHX.Pad4 = PN_TMP.Px.P_XXH.Pad6; 
- 214   2      /*
- 215   2           PN.Px.P_XHX.Pad7 = PN_TMP.Px.P_XHX.Pad0;
- 216   2           
- 217   2           PN.Px.P_HXX.Pad1 = PN_TMP.Px.P_XHX.Pad1;
- 218   2           PN.Px.P_HXX.Pad2 = PN_TMP.Px.P_XHX.Pad2;
- 219   2           PN.Px.P_HXX.Pad3 = PN_TMP.Px.P_XHX.Pad3; 
- 220   2      */                               
- 221   2        }
- 222   1        else if(package == Package_1)                     //封装2
- 223   1        {
- 224   2           PN.Px.P_XXH.Pad0 = PN_TMP.Px.P_XXH.Pad0;
- 225   2           PN.Px.P_XXH.Pad2 = PN_TMP.Px.P_XXH.Pad1;
- 226   2           PN.Px.P_XXH.Pad4 = PN_TMP.Px.P_XXH.Pad2;
- 227   2           PN.Px.P_XXH.Pad6 = PN_TMP.Px.P_XXH.Pad3;
- 228   2           
- 229   2           PN.Px.P_XHX.Pad0 = PN_TMP.Px.P_XXH.Pad4;
- 230   2           PN.Px.P_XHX.Pad2 = PN_TMP.Px.P_XXH.Pad5;
- 231   2           PN.Px.P_XHX.Pad3 = PN_TMP.Px.P_XXH.Pad6;
- 232   2           PN.Px.P_XHX.Pad4 = PN_TMP.Px.P_XXH.Pad7;  
- 233   2        }
- 234   1        else
- 235   1        {
- 236   2         PN.PadByte = PN_TMP.PadByte;               //无错位直接转换
+ 194   1        RES.Pad11 = Adc2Res(GetADCResult(CH2));
+ 195   1      //  printf_u8(RES.Pad11>>8);
+ 196   1      //  printf_u8(RES.Pad11);
+ 197   1        NOP4();
+ 198   1        RES.Pad15 = Adc2Res(GetADCResult(CH3));
+ 199   1      }
+ 200          /*****************************************************************************************
+ 201          功能：将不同封装临时地址码转换为真正的芯片地址码
+ 202          
+ 203          ******************************************************************************************/
+ 204          void PnMask(u8 package)
+ 205          {
+ 206   1        PN.PadByte = 0;   //复位地址码,没割码状态
+ 207   1        if(package == Package_2)                                       //封装1
+ 208   1        {
+ 209   2       //    PN.Px.P_XXH.Pad0 = PN_TMP.Px.P_XXH.Pad0;
+ 210   2           PN.Px.P_XXH.Pad1 = PN_TMP.Px.P_XXH.Pad0;
+ 211   2           PN.Px.P_XXH.Pad3 = PN_TMP.Px.P_XXH.Pad1;
+ 212   2           PN.Px.P_XXH.Pad5 = PN_TMP.Px.P_XXH.Pad2;
+ 213   2           
+ 214   2           PN.Px.P_XXH.Pad7= PN_TMP.Px.P_XXH.Pad3;
+ 215   2           PN.Px.P_XHX.Pad1= PN_TMP.Px.P_XXH.Pad4;
+ 216   2           PN.Px.P_XHX.Pad3= PN_TMP.Px.P_XXH.Pad5;
+ 217   2           PN.Px.P_XHX.Pad4 = PN_TMP.Px.P_XXH.Pad6; 
+ 218   2      /*
+ 219   2           PN.Px.P_XHX.Pad7 = PN_TMP.Px.P_XHX.Pad0;
+ 220   2           
+ 221   2           PN.Px.P_HXX.Pad1 = PN_TMP.Px.P_XHX.Pad1;
+ 222   2           PN.Px.P_HXX.Pad2 = PN_TMP.Px.P_XHX.Pad2;
+ 223   2           PN.Px.P_HXX.Pad3 = PN_TMP.Px.P_XHX.Pad3; 
+ 224   2      */                               
+ 225   2        }
+ 226   1        else if(package == Package_1)                     //封装2
+ 227   1        {
+ 228   2           PN.Px.P_XXH.Pad0 = PN_TMP.Px.P_XXH.Pad0;
+ 229   2           PN.Px.P_XXH.Pad2 = PN_TMP.Px.P_XXH.Pad1;
+ 230   2           PN.Px.P_XXH.Pad4 = PN_TMP.Px.P_XXH.Pad2;
+ 231   2           PN.Px.P_XXH.Pad6 = PN_TMP.Px.P_XXH.Pad3;
+ 232   2           
+ 233   2           PN.Px.P_XHX.Pad0 = PN_TMP.Px.P_XXH.Pad4;
+ 234   2           PN.Px.P_XHX.Pad2 = PN_TMP.Px.P_XXH.Pad5;
+ 235   2           PN.Px.P_XHX.Pad3 = PN_TMP.Px.P_XXH.Pad6;
+ 236   2           PN.Px.P_XHX.Pad4 = PN_TMP.Px.P_XXH.Pad7;  
  237   2        }
- 238   1      }
-C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 5   
+ 238   1        else
+ 239   1        {
+C51 COMPILER V9.00   CD4052                                                                05/06/2015 14:06:26 PAGE 5   
 
- 239          /************************************************************************************************
- 240          只判断要求被烧码PAD
- 241          烧码结果： 1：成功    ；   0：失败
- 242          ************************************************************************************************/
- 243          bool BurnCheck(void)
- 244          {
- 245   1        bool ret;
- 246   1        ret = 1;
- 247   1        PN_CUT.PadByte = 0;                   //复位检测码
- 248   1      
- 249   1        if(PN_TMP.Px.P_XXH.Pad0== 1)
- 250   1        {
- 251   2          if(RES.Pad0 >= Res_OK)                    //烧码成功
- 252   2          {
- 253   3           PN_CUT.Px.P_XXH.Pad0= 1;
- 254   3              }
- 255   2              else                                     //烧码失败
- 256   2              {
- 257   3           ret = 0;                                      //需要直接返回吗
+ 240   2         PN.PadByte = PN_TMP.PadByte;               //无错位直接转换
+ 241   2        }
+ 242   1      }
+ 243          /************************************************************************************************
+ 244          只判断要求被烧码PAD
+ 245          烧码结果： 1：成功    ；   0：失败
+ 246          ************************************************************************************************/
+ 247          bool BurnCheck(void)
+ 248          {
+ 249   1        bool ret;
+ 250   1        ret = 1;
+ 251   1        PN_CUT.PadByte = 0;                   //复位检测码
+ 252   1      
+ 253   1        if(PN_TMP.Px.P_XXH.Pad0== 1)
+ 254   1        {
+ 255   2          if(RES.Pad0 >= Res_OK)                    //烧码成功
+ 256   2          {
+ 257   3           PN_CUT.Px.P_XXH.Pad0= 1;
  258   3              }
- 259   2        }
- 260   1      
- 261   1        if(PN_TMP.Px.P_XXH.Pad1 == 1)
- 262   1        {
- 263   2          if(RES.Pad1 >= Res_OK)                    //烧码成功
- 264   2          {
- 265   3           PN_CUT.Px.P_XXH.Pad1= 1;
- 266   3              }
- 267   2              else                                     //烧码失败
- 268   2              {
- 269   3           ret = 0;                                       //需要直接返回吗
+ 259   2              else                                     //烧码失败
+ 260   2              {
+ 261   3           ret = 0;                                      //需要直接返回吗
+ 262   3              }
+ 263   2        }
+ 264   1      
+ 265   1        if(PN_TMP.Px.P_XXH.Pad1 == 1)
+ 266   1        {
+ 267   2          if(RES.Pad1 >= Res_OK)                    //烧码成功
+ 268   2          {
+ 269   3           PN_CUT.Px.P_XXH.Pad1= 1;
  270   3              }
- 271   2        }
- 272   1      
- 273   1        if(PN_TMP.Px.P_XXH.Pad2== 1)
- 274   1        {
- 275   2          if(RES.Pad2 >= Res_OK)                    //烧码成功
- 276   2          {
- 277   3           PN_CUT.Px.P_XXH.Pad2 = 1;
- 278   3              }
- 279   2              else                                     //烧码失败
- 280   2              {
- 281   3           ret = 0;                                       //需要直接返回吗
+ 271   2              else                                     //烧码失败
+ 272   2              {
+ 273   3           ret = 0;                                       //需要直接返回吗
+ 274   3              }
+ 275   2        }
+ 276   1      
+ 277   1        if(PN_TMP.Px.P_XXH.Pad2== 1)
+ 278   1        {
+ 279   2          if(RES.Pad2 >= Res_OK)                    //烧码成功
+ 280   2          {
+ 281   3           PN_CUT.Px.P_XXH.Pad2 = 1;
  282   3              }
- 283   2        }
- 284   1      
- 285   1        if(PN_TMP.Px.P_XXH.Pad3 == 1)
- 286   1        {
- 287   2          if(RES.Pad3 >= Res_OK)                    //烧码成功
- 288   2          {
- 289   3           PN_CUT.Px.P_XXH.Pad3 = 1;
- 290   3              }
- 291   2              else                                     //烧码失败
- 292   2              {
- 293   3           ret = 0;                                       //需要直接返回吗
+ 283   2              else                                     //烧码失败
+ 284   2              {
+ 285   3           ret = 0;                                       //需要直接返回吗
+ 286   3              }
+ 287   2        }
+ 288   1      
+ 289   1        if(PN_TMP.Px.P_XXH.Pad3 == 1)
+ 290   1        {
+ 291   2          if(RES.Pad3 >= Res_OK)                    //烧码成功
+ 292   2          {
+ 293   3           PN_CUT.Px.P_XXH.Pad3 = 1;
  294   3              }
- 295   2        }
- 296   1      
- 297   1        if(PN_TMP.Px.P_XXH.Pad4 == 1)
- 298   1        {
- 299   2          if(RES.Pad4 >= Res_OK)                    //烧码成功
- 300   2          {
-C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 6   
+ 295   2              else                                     //烧码失败
+ 296   2              {
+ 297   3           ret = 0;                                       //需要直接返回吗
+ 298   3              }
+ 299   2        }
+ 300   1      
+ 301   1        if(PN_TMP.Px.P_XXH.Pad4 == 1)
+C51 COMPILER V9.00   CD4052                                                                05/06/2015 14:06:26 PAGE 6   
 
- 301   3           PN_CUT.Px.P_XXH.Pad4 = 1;
- 302   3              }
- 303   2              else                                     //烧码失败
- 304   2              {
- 305   3           ret = 0;                                       //需要直接返回吗
+ 302   1        {
+ 303   2          if(RES.Pad4 >= Res_OK)                    //烧码成功
+ 304   2          {
+ 305   3           PN_CUT.Px.P_XXH.Pad4 = 1;
  306   3              }
- 307   2        }
- 308   1      
- 309   1        if(PN_TMP.Px.P_XXH.Pad5 == 1)
- 310   1        {
- 311   2          if(RES.Pad5 >= Res_OK)                    //烧码成功
- 312   2          {
- 313   3           PN_CUT.Px.P_XXH.Pad5 = 1;
- 314   3              }
- 315   2              else                                     //烧码失败
- 316   2              {
- 317   3           ret = 0;                                       //需要直接返回吗
+ 307   2              else                                     //烧码失败
+ 308   2              {
+ 309   3           ret = 0;                                       //需要直接返回吗
+ 310   3              }
+ 311   2        }
+ 312   1      
+ 313   1        if(PN_TMP.Px.P_XXH.Pad5 == 1)
+ 314   1        {
+ 315   2          if(RES.Pad5 >= Res_OK)                    //烧码成功
+ 316   2          {
+ 317   3           PN_CUT.Px.P_XXH.Pad5 = 1;
  318   3              }
- 319   2        }
- 320   1      
- 321   1        if(PN_TMP.Px.P_XXH.Pad6 == 1)
- 322   1        {
- 323   2          if(RES.Pad6 >= Res_OK)                    //烧码成功
- 324   2          {
- 325   3           PN_CUT.Px.P_XXH.Pad6 = 1;
- 326   3              }
- 327   2              else                                     //烧码失败
- 328   2              {
- 329   3           ret = 0;                                       //需要直接返回吗
+ 319   2              else                                     //烧码失败
+ 320   2              {
+ 321   3           ret = 0;                                       //需要直接返回吗
+ 322   3              }
+ 323   2        }
+ 324   1      
+ 325   1        if(PN_TMP.Px.P_XXH.Pad6 == 1)
+ 326   1        {
+ 327   2          if(RES.Pad6 >= Res_OK)                    //烧码成功
+ 328   2          {
+ 329   3           PN_CUT.Px.P_XXH.Pad6 = 1;
  330   3              }
- 331   2        }
- 332   1      
- 333   1        if(PN_TMP.Px.P_XXH.Pad7 == 1)
- 334   1        {
- 335   2          if(RES.Pad7 >= Res_OK)                    //烧码成功
- 336   2          {
- 337   3           PN_CUT.Px.P_XXH.Pad7 = 1;
- 338   3              }
- 339   2              else                                     //烧码失败
- 340   2              {
- 341   3           ret = 0;                                       //需要直接返回吗
+ 331   2              else                                     //烧码失败
+ 332   2              {
+ 333   3           ret = 0;                                       //需要直接返回吗
+ 334   3              }
+ 335   2        }
+ 336   1      
+ 337   1        if(PN_TMP.Px.P_XXH.Pad7 == 1)
+ 338   1        {
+ 339   2          if(RES.Pad7 >= Res_OK)                    //烧码成功
+ 340   2          {
+ 341   3           PN_CUT.Px.P_XXH.Pad7 = 1;
  342   3              }
- 343   2        }
- 344   1      
- 345   1        if(PN_TMP.Px.P_XHX.Pad0== 1)
- 346   1        {
- 347   2          if(RES.Pad8 >= Res_OK)                    //烧码成功
- 348   2          {
- 349   3           PN_CUT.Px.P_XHX.Pad0 = 1;
- 350   3              }
- 351   2              else                                     //烧码失败
- 352   2              {
- 353   3           ret = 0;                                       //需要直接返回吗
+ 343   2              else                                     //烧码失败
+ 344   2              {
+ 345   3           ret = 0;                                       //需要直接返回吗
+ 346   3              }
+ 347   2        }
+ 348   1      
+ 349   1        if(PN_TMP.Px.P_XHX.Pad0== 1)
+ 350   1        {
+ 351   2          if(RES.Pad8 >= Res_OK)                    //烧码成功
+ 352   2          {
+ 353   3           PN_CUT.Px.P_XHX.Pad0 = 1;
  354   3              }
- 355   2        }
- 356   1      
- 357   1        if(PN_TMP.Px.P_XHX.Pad1 == 1)
- 358   1        {
- 359   2          if(RES.Pad9 >= Res_OK)                    //烧码成功
- 360   2          {
- 361   3           PN_CUT.Px.P_XHX.Pad1 = 1;
- 362   3              }
-C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 7   
+ 355   2              else                                     //烧码失败
+ 356   2              {
+ 357   3           ret = 0;                                       //需要直接返回吗
+ 358   3              }
+ 359   2        }
+ 360   1      
+ 361   1        if(PN_TMP.Px.P_XHX.Pad1 == 1)
+ 362   1        {
+ 363   2          if(RES.Pad9 >= Res_OK)                    //烧码成功
+C51 COMPILER V9.00   CD4052                                                                05/06/2015 14:06:26 PAGE 7   
 
- 363   2              else                                     //烧码失败
- 364   2              {
- 365   3           ret = 0;                                       //需要直接返回吗
+ 364   2          {
+ 365   3           PN_CUT.Px.P_XHX.Pad1 = 1;
  366   3              }
- 367   2        }
- 368   1      
- 369   1        if(PN_TMP.Px.P_XHX.Pad2 == 1)
- 370   1        {
- 371   2          if(RES.Pad10 >= Res_OK)                    //烧码成功
- 372   2          {
- 373   3           PN_CUT.Px.P_XHX.Pad2 = 1;
- 374   3              }
- 375   2              else                                     //烧码失败
- 376   2              {
- 377   3           ret = 0;                                       //需要直接返回吗
+ 367   2              else                                     //烧码失败
+ 368   2              {
+ 369   3           ret = 0;                                       //需要直接返回吗
+ 370   3              }
+ 371   2        }
+ 372   1      
+ 373   1        if(PN_TMP.Px.P_XHX.Pad2 == 1)
+ 374   1        {
+ 375   2          if(RES.Pad10 >= Res_OK)                    //烧码成功
+ 376   2          {
+ 377   3           PN_CUT.Px.P_XHX.Pad2 = 1;
  378   3              }
- 379   2        }
- 380   1      
- 381   1        if(PN_TMP.Px.P_XHX.Pad3 == 1)
- 382   1        {
- 383   2          if(RES.Pad11 >= Res_OK)                    //烧码成功
- 384   2          {
- 385   3           PN_CUT.Px.P_XHX.Pad3 = 1;
- 386   3              }
- 387   2              else                                     //烧码失败
- 388   2              {
- 389   3           ret = 0;                                       //需要直接返回吗
+ 379   2              else                                     //烧码失败
+ 380   2              {
+ 381   3           ret = 0;                                       //需要直接返回吗
+ 382   3              }
+ 383   2        }
+ 384   1      
+ 385   1        if(PN_TMP.Px.P_XHX.Pad3 == 1)
+ 386   1        {
+ 387   2          if(RES.Pad11 >= Res_OK)                    //烧码成功
+ 388   2          {
+ 389   3           PN_CUT.Px.P_XHX.Pad3 = 1;
  390   3              }
- 391   2        }
- 392   1      
- 393   1        if(PN_TMP.Px.P_XHX.Pad4 == 1)
- 394   1        {
- 395   2          if(RES.Pad12 >= Res_OK)                    //烧码成功
- 396   2          {
- 397   3           PN_CUT.Px.P_XHX.Pad4 = 1;
- 398   3              }
- 399   2              else                                     //烧码失败
- 400   2              {
- 401   3           ret = 0;                                       //需要直接返回吗
+ 391   2              else                                     //烧码失败
+ 392   2              {
+ 393   3           ret = 0;                                       //需要直接返回吗
+ 394   3              }
+ 395   2        }
+ 396   1      
+ 397   1        if(PN_TMP.Px.P_XHX.Pad4 == 1)
+ 398   1        {
+ 399   2          if(RES.Pad12 >= Res_OK)                    //烧码成功
+ 400   2          {
+ 401   3           PN_CUT.Px.P_XHX.Pad4 = 1;
  402   3              }
- 403   2        }
- 404   1      
- 405   1        if(PN_TMP.Px.P_XHX.Pad5 == 1)
- 406   1        {
- 407   2          if(RES.Pad13 >= Res_OK)                    //烧码成功
- 408   2          {
- 409   3           PN_CUT.Px.P_XHX.Pad5 = 1;
- 410   3              }
- 411   2              else                                     //烧码失败
- 412   2              {
- 413   3           ret = 0;                                       //需要直接返回吗
+ 403   2              else                                     //烧码失败
+ 404   2              {
+ 405   3           ret = 0;                                       //需要直接返回吗
+ 406   3              }
+ 407   2        }
+ 408   1      
+ 409   1        if(PN_TMP.Px.P_XHX.Pad5 == 1)
+ 410   1        {
+ 411   2          if(RES.Pad13 >= Res_OK)                    //烧码成功
+ 412   2          {
+ 413   3           PN_CUT.Px.P_XHX.Pad5 = 1;
  414   3              }
- 415   2        }
- 416   1      
- 417   1        if(PN_TMP.Px.P_XHX.Pad6 == 1)
- 418   1        {
- 419   2          if(RES.Pad14 >= Res_OK)                    //烧码成功
- 420   2          {
- 421   3           PN_CUT.Px.P_XHX.Pad6 = 1;
- 422   3              }
- 423   2              else                                     //烧码失败
- 424   2              {
-C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 8   
+ 415   2              else                                     //烧码失败
+ 416   2              {
+ 417   3           ret = 0;                                       //需要直接返回吗
+ 418   3              }
+ 419   2        }
+ 420   1      
+ 421   1        if(PN_TMP.Px.P_XHX.Pad6 == 1)
+ 422   1        {
+ 423   2          if(RES.Pad14 >= Res_OK)                    //烧码成功
+ 424   2          {
+ 425   3           PN_CUT.Px.P_XHX.Pad6 = 1;
+C51 COMPILER V9.00   CD4052                                                                05/06/2015 14:06:26 PAGE 8   
 
- 425   3           ret = 0;                                       //需要直接返回吗
  426   3              }
- 427   2        }
- 428   1      
- 429   1        if(PN_TMP.Px.P_XHX.Pad7 == 1)
- 430   1        {
- 431   2          if(RES.Pad15 >= Res_OK)                    //烧码成功
- 432   2          {
- 433   3           PN_CUT.Px.P_XHX.Pad7 = 1;
- 434   3              }
- 435   2              else                                     //烧码失败
- 436   2              {
- 437   3           ret = 0;                                       //需要直接返回吗
+ 427   2              else                                     //烧码失败
+ 428   2              {
+ 429   3           ret = 0;                                       //需要直接返回吗
+ 430   3              }
+ 431   2        }
+ 432   1      
+ 433   1        if(PN_TMP.Px.P_XHX.Pad7 == 1)
+ 434   1        {
+ 435   2          if(RES.Pad15 >= Res_OK)                    //烧码成功
+ 436   2          {
+ 437   3           PN_CUT.Px.P_XHX.Pad7 = 1;
  438   3              }
- 439   2        }
- 440   1      
- 441   1        if(PN_TMP.Px.P_HXX.Pad0== 1)
- 442   1        {
- 443   2          if(RES.Pad16 >= Res_OK)                    //烧码成功
- 444   2          {
- 445   3           PN_CUT.Px.P_HXX.Pad0 = 1;
- 446   3              }
- 447   2              else                                     //烧码失败
- 448   2              {
- 449   3           ret = 0;                                       //需要直接返回吗
+ 439   2              else                                     //烧码失败
+ 440   2              {
+ 441   3           ret = 0;                                       //需要直接返回吗
+ 442   3              }
+ 443   2        }
+ 444   1      
+ 445   1        if(PN_TMP.Px.P_HXX.Pad0== 1)
+ 446   1        {
+ 447   2          if(RES.Pad16 >= Res_OK)                    //烧码成功
+ 448   2          {
+ 449   3           PN_CUT.Px.P_HXX.Pad0 = 1;
  450   3              }
- 451   2        }
- 452   1      
- 453   1        if(PN_TMP.Px.P_HXX.Pad1 == 1)
- 454   1        {
- 455   2          if(RES.Pad17 >= Res_OK)                    //烧码成功
- 456   2          {
- 457   3           PN_CUT.Px.P_HXX.Pad1 = 1;
- 458   3              }
- 459   2              else                                     //烧码失败
- 460   2              {
- 461   3           ret = 0;                                       //需要直接返回吗
+ 451   2              else                                     //烧码失败
+ 452   2              {
+ 453   3           ret = 0;                                       //需要直接返回吗
+ 454   3              }
+ 455   2        }
+ 456   1      
+ 457   1        if(PN_TMP.Px.P_HXX.Pad1 == 1)
+ 458   1        {
+ 459   2          if(RES.Pad17 >= Res_OK)                    //烧码成功
+ 460   2          {
+ 461   3           PN_CUT.Px.P_HXX.Pad1 = 1;
  462   3              }
- 463   2        }
- 464   1      
- 465   1        if(PN_TMP.Px.P_HXX.Pad2 == 1)
- 466   1        {
- 467   2          if(RES.Pad18 >= Res_OK)                    //烧码成功
- 468   2          {
- 469   3           PN_CUT.Px.P_HXX.Pad2 = 1;
- 470   3              }
- 471   2              else                                     //烧码失败
- 472   2              {
- 473   3           ret = 0;                                       //需要直接返回吗
+ 463   2              else                                     //烧码失败
+ 464   2              {
+ 465   3           ret = 0;                                       //需要直接返回吗
+ 466   3              }
+ 467   2        }
+ 468   1      
+ 469   1        if(PN_TMP.Px.P_HXX.Pad2 == 1)
+ 470   1        {
+ 471   2          if(RES.Pad18 >= Res_OK)                    //烧码成功
+ 472   2          {
+ 473   3           PN_CUT.Px.P_HXX.Pad2 = 1;
  474   3              }
- 475   2        }
- 476   1      
- 477   1        if(PN_TMP.Px.P_HXX.Pad3 == 1)
- 478   1        {
- 479   2          if(RES.Pad19 >= Res_OK)                    //烧码成功
- 480   2          {
- 481   3           PN_CUT.Px.P_HXX.Pad3 = 1;
- 482   3              }
- 483   2              else                                     //烧码失败
- 484   2              {
- 485   3           ret = 0;                                       //需要直接返回吗
+ 475   2              else                                     //烧码失败
+ 476   2              {
+ 477   3           ret = 0;                                       //需要直接返回吗
+ 478   3              }
+ 479   2        }
+ 480   1      
+ 481   1        if(PN_TMP.Px.P_HXX.Pad3 == 1)
+ 482   1        {
+ 483   2          if(RES.Pad19 >= Res_OK)                    //烧码成功
+ 484   2          {
+ 485   3           PN_CUT.Px.P_HXX.Pad3 = 1;
  486   3              }
-C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 9   
+ 487   2              else                                     //烧码失败
+C51 COMPILER V9.00   CD4052                                                                05/06/2015 14:06:26 PAGE 9   
 
- 487   2        }
- 488   1        OLED_ShowAdd(0,0,PN_TMP.PadByte,PN_CUT.PadByte);
- 489   1        OLED_Refresh_Gram();
- 490   1        return   ret;
- 491   1      }
- 492          
- 493          /*
- 494          bool BurnCheck(void)
- 495          {
- 496            bool ret;
- 497            ret = 1;
- 498            PN_CUT.PadByte = 0;                   //复位检测码
- 499          
- 500            if(PN.Px.P_XXH.Pad0== 1)
- 501            {
- 502              if(RES.Pad0 >= Res_OK)                    //烧码成功
- 503              {
- 504               PN_CUT.Px.P_XXH.Pad0= 1;
- 505                  }
- 506                  else                                     //烧码失败
- 507                  {
- 508               ret = 0;                                      //需要直接返回吗
+ 488   2              {
+ 489   3           ret = 0;                                       //需要直接返回吗
+ 490   3              }
+ 491   2        }
+ 492   1        OLED_ShowAdd(0,0,PN_TMP.PadByte,PN_CUT.PadByte);
+ 493   1        OLED_Refresh_Gram();
+ 494   1        return   ret;
+ 495   1      }
+ 496          
+ 497          /*
+ 498          bool BurnCheck(void)
+ 499          {
+ 500            bool ret;
+ 501            ret = 1;
+ 502            PN_CUT.PadByte = 0;                   //复位检测码
+ 503          
+ 504            if(PN.Px.P_XXH.Pad0== 1)
+ 505            {
+ 506              if(RES.Pad0 >= Res_OK)                    //烧码成功
+ 507              {
+ 508               PN_CUT.Px.P_XXH.Pad0= 1;
  509                  }
- 510            }
- 511          
- 512            if(PN.Px.P_XXH.Pad1 == 1)
- 513            {
- 514              if(RES.Pad1 >= Res_OK)                    //烧码成功
- 515              {
- 516               PN_CUT.Px.P_XXH.Pad1= 1;
- 517                  }
- 518                  else                                     //烧码失败
- 519                  {
- 520               ret = 0;                                       //需要直接返回吗
+ 510                  else                                     //烧码失败
+ 511                  {
+ 512               ret = 0;                                      //需要直接返回吗
+ 513                  }
+ 514            }
+ 515          
+ 516            if(PN.Px.P_XXH.Pad1 == 1)
+ 517            {
+ 518              if(RES.Pad1 >= Res_OK)                    //烧码成功
+ 519              {
+ 520               PN_CUT.Px.P_XXH.Pad1= 1;
  521                  }
- 522            }
- 523          
- 524            if(PN.Px.P_XXH.Pad2== 1)
- 525            {
- 526              if(RES.Pad2 >= Res_OK)                    //烧码成功
- 527              {
- 528               PN_CUT.Px.P_XXH.Pad2 = 1;
- 529                  }
- 530                  else                                     //烧码失败
- 531                  {
- 532               ret = 0;                                       //需要直接返回吗
+ 522                  else                                     //烧码失败
+ 523                  {
+ 524               ret = 0;                                       //需要直接返回吗
+ 525                  }
+ 526            }
+ 527          
+ 528            if(PN.Px.P_XXH.Pad2== 1)
+ 529            {
+ 530              if(RES.Pad2 >= Res_OK)                    //烧码成功
+ 531              {
+ 532               PN_CUT.Px.P_XXH.Pad2 = 1;
  533                  }
- 534            }
- 535          
- 536            if(PN.Px.P_XXH.Pad3 == 1)
- 537            {
- 538              if(RES.Pad3 >= Res_OK)                    //烧码成功
- 539              {
- 540               PN_CUT.Px.P_XXH.Pad3 = 1;
- 541                  }
- 542                  else                                     //烧码失败
- 543                  {
- 544               ret = 0;                                       //需要直接返回吗
+ 534                  else                                     //烧码失败
+ 535                  {
+ 536               ret = 0;                                       //需要直接返回吗
+ 537                  }
+ 538            }
+ 539          
+ 540            if(PN.Px.P_XXH.Pad3 == 1)
+ 541            {
+ 542              if(RES.Pad3 >= Res_OK)                    //烧码成功
+ 543              {
+ 544               PN_CUT.Px.P_XXH.Pad3 = 1;
  545                  }
- 546            }
- 547          
- 548            if(PN.Px.P_XXH.Pad4 == 1)
-C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 10  
+ 546                  else                                     //烧码失败
+ 547                  {
+ 548               ret = 0;                                       //需要直接返回吗
+ 549                  }
+C51 COMPILER V9.00   CD4052                                                                05/06/2015 14:06:26 PAGE 10  
 
- 549            {
- 550              if(RES.Pad4 >= Res_OK)                    //烧码成功
- 551              {
- 552               PN_CUT.Px.P_XXH.Pad4 = 1;
- 553                  }
- 554                  else                                     //烧码失败
- 555                  {
- 556               ret = 0;                                       //需要直接返回吗
+ 550            }
+ 551          
+ 552            if(PN.Px.P_XXH.Pad4 == 1)
+ 553            {
+ 554              if(RES.Pad4 >= Res_OK)                    //烧码成功
+ 555              {
+ 556               PN_CUT.Px.P_XXH.Pad4 = 1;
  557                  }
- 558            }
- 559          
- 560            if(PN.Px.P_XXH.Pad5 == 1)
- 561            {
- 562              if(RES.Pad5 >= Res_OK)                    //烧码成功
- 563              {
- 564               PN_CUT.Px.P_XXH.Pad5 = 1;
- 565                  }
- 566                  else                                     //烧码失败
- 567                  {
- 568               ret = 0;                                       //需要直接返回吗
+ 558                  else                                     //烧码失败
+ 559                  {
+ 560               ret = 0;                                       //需要直接返回吗
+ 561                  }
+ 562            }
+ 563          
+ 564            if(PN.Px.P_XXH.Pad5 == 1)
+ 565            {
+ 566              if(RES.Pad5 >= Res_OK)                    //烧码成功
+ 567              {
+ 568               PN_CUT.Px.P_XXH.Pad5 = 1;
  569                  }
- 570            }
- 571          
- 572            if(PN.Px.P_XXH.Pad6 == 1)
- 573            {
- 574              if(RES.Pad6 >= Res_OK)                    //烧码成功
- 575              {
- 576               PN_CUT.Px.P_XXH.Pad6 = 1;
- 577                  }
- 578                  else                                     //烧码失败
- 579                  {
- 580               ret = 0;                                       //需要直接返回吗
+ 570                  else                                     //烧码失败
+ 571                  {
+ 572               ret = 0;                                       //需要直接返回吗
+ 573                  }
+ 574            }
+ 575          
+ 576            if(PN.Px.P_XXH.Pad6 == 1)
+ 577            {
+ 578              if(RES.Pad6 >= Res_OK)                    //烧码成功
+ 579              {
+ 580               PN_CUT.Px.P_XXH.Pad6 = 1;
  581                  }
- 582            }
- 583          
- 584            if(PN.Px.P_XXH.Pad7 == 1)
- 585            {
- 586              if(RES.Pad7 >= Res_OK)                    //烧码成功
- 587              {
- 588               PN_CUT.Px.P_XXH.Pad7 = 1;
- 589                  }
- 590                  else                                     //烧码失败
- 591                  {
- 592               ret = 0;                                       //需要直接返回吗
+ 582                  else                                     //烧码失败
+ 583                  {
+ 584               ret = 0;                                       //需要直接返回吗
+ 585                  }
+ 586            }
+ 587          
+ 588            if(PN.Px.P_XXH.Pad7 == 1)
+ 589            {
+ 590              if(RES.Pad7 >= Res_OK)                    //烧码成功
+ 591              {
+ 592               PN_CUT.Px.P_XXH.Pad7 = 1;
  593                  }
- 594            }
- 595          
- 596            if(PN.Px.P_XHX.Pad0== 1)
- 597            {
- 598              if(RES.Pad8 >= Res_OK)                    //烧码成功
- 599              {
- 600               PN_CUT.Px.P_XHX.Pad0 = 1;
- 601                  }
- 602                  else                                     //烧码失败
- 603                  {
- 604               ret = 0;                                       //需要直接返回吗
+ 594                  else                                     //烧码失败
+ 595                  {
+ 596               ret = 0;                                       //需要直接返回吗
+ 597                  }
+ 598            }
+ 599          
+ 600            if(PN.Px.P_XHX.Pad0== 1)
+ 601            {
+ 602              if(RES.Pad8 >= Res_OK)                    //烧码成功
+ 603              {
+ 604               PN_CUT.Px.P_XHX.Pad0 = 1;
  605                  }
- 606            }
- 607          
- 608            if(PN.Px.P_XHX.Pad1 == 1)
- 609            {
- 610              if(RES.Pad9 >= Res_OK)                    //烧码成功
-C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 11  
+ 606                  else                                     //烧码失败
+ 607                  {
+ 608               ret = 0;                                       //需要直接返回吗
+ 609                  }
+ 610            }
+ 611          
+C51 COMPILER V9.00   CD4052                                                                05/06/2015 14:06:26 PAGE 11  
 
- 611              {
- 612               PN_CUT.Px.P_XHX.Pad1 = 1;
- 613                  }
- 614                  else                                     //烧码失败
- 615                  {
- 616               ret = 0;                                       //需要直接返回吗
+ 612            if(PN.Px.P_XHX.Pad1 == 1)
+ 613            {
+ 614              if(RES.Pad9 >= Res_OK)                    //烧码成功
+ 615              {
+ 616               PN_CUT.Px.P_XHX.Pad1 = 1;
  617                  }
- 618            }
- 619          
- 620            if(PN.Px.P_XHX.Pad2 == 1)
- 621            {
- 622              if(RES.Pad10 >= Res_OK)                    //烧码成功
- 623              {
- 624               PN_CUT.Px.P_XHX.Pad2 = 1;
- 625                  }
- 626                  else                                     //烧码失败
- 627                  {
- 628               ret = 0;                                       //需要直接返回吗
+ 618                  else                                     //烧码失败
+ 619                  {
+ 620               ret = 0;                                       //需要直接返回吗
+ 621                  }
+ 622            }
+ 623          
+ 624            if(PN.Px.P_XHX.Pad2 == 1)
+ 625            {
+ 626              if(RES.Pad10 >= Res_OK)                    //烧码成功
+ 627              {
+ 628               PN_CUT.Px.P_XHX.Pad2 = 1;
  629                  }
- 630            }
- 631          
- 632            if(PN.Px.P_XHX.Pad3 == 1)
- 633            {
- 634              if(RES.Pad11 >= Res_OK)                    //烧码成功
- 635              {
- 636               PN_CUT.Px.P_XHX.Pad3 = 1;
- 637                  }
- 638                  else                                     //烧码失败
- 639                  {
- 640               ret = 0;                                       //需要直接返回吗
+ 630                  else                                     //烧码失败
+ 631                  {
+ 632               ret = 0;                                       //需要直接返回吗
+ 633                  }
+ 634            }
+ 635          
+ 636            if(PN.Px.P_XHX.Pad3 == 1)
+ 637            {
+ 638              if(RES.Pad11 >= Res_OK)                    //烧码成功
+ 639              {
+ 640               PN_CUT.Px.P_XHX.Pad3 = 1;
  641                  }
- 642            }
- 643          
- 644            if(PN.Px.P_XHX.Pad4 == 1)
- 645            {
- 646              if(RES.Pad12 >= Res_OK)                    //烧码成功
- 647              {
- 648               PN_CUT.Px.P_XHX.Pad4 = 1;
- 649                  }
- 650                  else                                     //烧码失败
- 651                  {
- 652               ret = 0;                                       //需要直接返回吗
+ 642                  else                                     //烧码失败
+ 643                  {
+ 644               ret = 0;                                       //需要直接返回吗
+ 645                  }
+ 646            }
+ 647          
+ 648            if(PN.Px.P_XHX.Pad4 == 1)
+ 649            {
+ 650              if(RES.Pad12 >= Res_OK)                    //烧码成功
+ 651              {
+ 652               PN_CUT.Px.P_XHX.Pad4 = 1;
  653                  }
- 654            }
- 655          
- 656            if(PN.Px.P_XHX.Pad5 == 1)
- 657            {
- 658              if(RES.Pad13 >= Res_OK)                    //烧码成功
- 659              {
- 660               PN_CUT.Px.P_XHX.Pad5 = 1;
- 661                  }
- 662                  else                                     //烧码失败
- 663                  {
- 664               ret = 0;                                       //需要直接返回吗
+ 654                  else                                     //烧码失败
+ 655                  {
+ 656               ret = 0;                                       //需要直接返回吗
+ 657                  }
+ 658            }
+ 659          
+ 660            if(PN.Px.P_XHX.Pad5 == 1)
+ 661            {
+ 662              if(RES.Pad13 >= Res_OK)                    //烧码成功
+ 663              {
+ 664               PN_CUT.Px.P_XHX.Pad5 = 1;
  665                  }
- 666            }
- 667          
- 668            if(PN.Px.P_XHX.Pad6 == 1)
- 669            {
- 670              if(RES.Pad14 >= Res_OK)                    //烧码成功
- 671              {
- 672               PN_CUT.Px.P_XHX.Pad6 = 1;
-C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 12  
+ 666                  else                                     //烧码失败
+ 667                  {
+ 668               ret = 0;                                       //需要直接返回吗
+ 669                  }
+ 670            }
+ 671          
+ 672            if(PN.Px.P_XHX.Pad6 == 1)
+ 673            {
+C51 COMPILER V9.00   CD4052                                                                05/06/2015 14:06:26 PAGE 12  
 
- 673                  }
- 674                  else                                     //烧码失败
- 675                  {
- 676               ret = 0;                                       //需要直接返回吗
+ 674              if(RES.Pad14 >= Res_OK)                    //烧码成功
+ 675              {
+ 676               PN_CUT.Px.P_XHX.Pad6 = 1;
  677                  }
- 678            }
- 679          
- 680            if(PN.Px.P_XHX.Pad7 == 1)
- 681            {
- 682              if(RES.Pad15 >= Res_OK)                    //烧码成功
- 683              {
- 684               PN_CUT.Px.P_XHX.Pad7 = 1;
- 685                  }
- 686                  else                                     //烧码失败
- 687                  {
- 688               ret = 0;                                       //需要直接返回吗
+ 678                  else                                     //烧码失败
+ 679                  {
+ 680               ret = 0;                                       //需要直接返回吗
+ 681                  }
+ 682            }
+ 683          
+ 684            if(PN.Px.P_XHX.Pad7 == 1)
+ 685            {
+ 686              if(RES.Pad15 >= Res_OK)                    //烧码成功
+ 687              {
+ 688               PN_CUT.Px.P_XHX.Pad7 = 1;
  689                  }
- 690            }
- 691          
- 692            if(PN.Px.P_HXX.Pad0== 1)
- 693            {
- 694              if(RES.Pad16 >= Res_OK)                    //烧码成功
- 695              {
- 696               PN_CUT.Px.P_HXX.Pad0 = 1;
- 697                  }
- 698                  else                                     //烧码失败
- 699                  {
- 700               ret = 0;                                       //需要直接返回吗
+ 690                  else                                     //烧码失败
+ 691                  {
+ 692               ret = 0;                                       //需要直接返回吗
+ 693                  }
+ 694            }
+ 695          
+ 696            if(PN.Px.P_HXX.Pad0== 1)
+ 697            {
+ 698              if(RES.Pad16 >= Res_OK)                    //烧码成功
+ 699              {
+ 700               PN_CUT.Px.P_HXX.Pad0 = 1;
  701                  }
- 702            }
- 703          
- 704            if(PN.Px.P_HXX.Pad1 == 1)
- 705            {
- 706              if(RES.Pad17 >= Res_OK)                    //烧码成功
- 707              {
- 708               PN_CUT.Px.P_HXX.Pad1 = 1;
- 709                  }
- 710                  else                                     //烧码失败
- 711                  {
- 712               ret = 0;                                       //需要直接返回吗
+ 702                  else                                     //烧码失败
+ 703                  {
+ 704               ret = 0;                                       //需要直接返回吗
+ 705                  }
+ 706            }
+ 707          
+ 708            if(PN.Px.P_HXX.Pad1 == 1)
+ 709            {
+ 710              if(RES.Pad17 >= Res_OK)                    //烧码成功
+ 711              {
+ 712               PN_CUT.Px.P_HXX.Pad1 = 1;
  713                  }
- 714            }
- 715          
- 716            if(PN.Px.P_HXX.Pad2 == 1)
- 717            {
- 718              if(RES.Pad18 >= Res_OK)                    //烧码成功
- 719              {
- 720               PN_CUT.Px.P_HXX.Pad2 = 1;
- 721                  }
- 722                  else                                     //烧码失败
- 723                  {
- 724               ret = 0;                                       //需要直接返回吗
+ 714                  else                                     //烧码失败
+ 715                  {
+ 716               ret = 0;                                       //需要直接返回吗
+ 717                  }
+ 718            }
+ 719          
+ 720            if(PN.Px.P_HXX.Pad2 == 1)
+ 721            {
+ 722              if(RES.Pad18 >= Res_OK)                    //烧码成功
+ 723              {
+ 724               PN_CUT.Px.P_HXX.Pad2 = 1;
  725                  }
- 726            }
- 727          
- 728            if(PN.Px.P_HXX.Pad3 == 1)
- 729            {
- 730              if(RES.Pad19 >= Res_OK)                    //烧码成功
- 731              {
- 732               PN_CUT.Px.P_HXX.Pad3 = 1;
- 733                  }
- 734                  else                                     //烧码失败
-C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 13  
+ 726                  else                                     //烧码失败
+ 727                  {
+ 728               ret = 0;                                       //需要直接返回吗
+ 729                  }
+ 730            }
+ 731          
+ 732            if(PN.Px.P_HXX.Pad3 == 1)
+ 733            {
+ 734              if(RES.Pad19 >= Res_OK)                    //烧码成功
+ 735              {
+C51 COMPILER V9.00   CD4052                                                                05/06/2015 14:06:26 PAGE 13  
 
- 735                  {
- 736               ret = 0;                                       //需要直接返回吗
+ 736               PN_CUT.Px.P_HXX.Pad3 = 1;
  737                  }
- 738            }
- 739            OLED_ShowAdd(0,0,PN.PadByte,PN_CUT.PadByte);
- 740            OLED_Refresh_Gram();
- 741            return   ret;
- 742          }
- 743           */
- 744          u8 Hex2Dat(u8 dat)
- 745          {
- 746   1         u8 dat0;
- 747   1         if(dat<0x0a)
- 748   1         {
- 749   2             dat0 = dat+'0';
- 750   2         }
- 751   1         else
+ 738                  else                                     //烧码失败
+ 739                  {
+ 740               ret = 0;                                       //需要直接返回吗
+ 741                  }
+ 742            }
+ 743            OLED_ShowAdd(0,0,PN.PadByte,PN_CUT.PadByte);
+ 744            OLED_Refresh_Gram();
+ 745            return   ret;
+ 746          }
+ 747           */
+ 748          u8 Hex2Dat(u8 dat)
+ 749          {
+ 750   1         u8 dat0;
+ 751   1         if(dat<0x0a)
  752   1         {
- 753   2             dat0 = dat+'A'-10;
+ 753   2             dat0 = dat+'0';
  754   2         }
- 755   1         return dat0;
- 756   1      }  
- 757          /************************************************************************************************
- 758          比对烧码地址
- 759          ************************************************************************************************/
- 760          void Decode(u8 status)
- 761          {
- 762   1          u32 IRtmp[3];
- 763   1              u32 Xornum;
- 764   1              u8 i,j;
- 765   1              ReIRcode = 0;
- 766   1          EnDecode();
- 767   1          delay_10ms(); 
- 768   1          delay_10ms(); 
- 769   1              K1_OUT_HIGH();
- 770   1          delay_10ms(); 
+ 755   1         else
+ 756   1         {
+ 757   2             dat0 = dat+'A'-10;
+ 758   2         }
+ 759   1         return dat0;
+ 760   1      }  
+ 761          /************************************************************************************************
+ 762          比对烧码地址
+ 763          ************************************************************************************************/
+ 764          void Decode(u8 status)
+ 765          {
+ 766   1      //      u32 IRtmp[3];
+ 767   1              u32 Xornum;
+ 768   1      //      u8 i,j;
+ 769   1        /*   ReIRcode = 0;
+ 770   1          EnDecode();
  771   1          delay_10ms(); 
  772   1          delay_10ms(); 
- 773   1          delay_10ms(); 
+ 773   1              K1_OUT_HIGH();
  774   1          delay_10ms(); 
  775   1          delay_10ms(); 
  776   1          delay_10ms(); 
- 777   1       
+ 777   1          delay_10ms(); 
  778   1          delay_10ms(); 
  779   1          delay_10ms(); 
  780   1          delay_10ms(); 
- 781   1          delay_10ms(); 
- 782   1      
- 783   1              memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
- 784   1              init_windows(0,0,120,32,"Code No.:",0,0);
- 785   1              OLED_Draw_WindowsDraw(&windemo);
- 786   1              i = 200;
- 787   1              j = 0;  
- 788   1          while(i--)
- 789   1              {
- 790   2                      if((ReIRcode & 0x0f) != 0)
- 791   2                      {
- 792   3                        IRtmp[j++] = ReIRcode;
- 793   3                        if(j>2) 
- 794   3                        { 
- 795   4                          j = 0;
- 796   4                          if(IRtmp[1]==IRtmp[2])
-C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 14  
+ 781   1       
+ 782   1          delay_10ms(); 
+ 783   1          delay_10ms(); 
+ 784   1          delay_10ms(); 
+ 785   1          delay_10ms(); 
+ 786   1      
+ 787   1              memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
+ 788   1              init_windows(0,0,120,32,"Code No.:",0,0);
+ 789   1              OLED_Draw_WindowsDraw(&windemo);
+ 790   1      
+ 791   1              i = 200;
+ 792   1              j = 0;  
+ 793   1          while(i--)
+ 794   1              {
+ 795   1                      if((ReIRcode & 0x0f) != 0)
+ 796   1                      {
+ 797   1                        IRtmp[j++] = ReIRcode;
+C51 COMPILER V9.00   CD4052                                                                05/06/2015 14:06:26 PAGE 14  
 
- 797   4                          break;
- 798   4                        }
- 799   3                      }
- 800   2      
- 801   2              }
- 802   1          OLED_ShowChar(22,16,Hex2Dat(((IRtmp[1] >>16)>>4)&0x0f),12,1);
- 803   1          OLED_ShowChar(30,16,Hex2Dat(((IRtmp[1]>>16)&0x0f)),12,1);
- 804   1      
- 805   1              OLED_ShowChar(42,16,Hex2Dat(((IRtmp[1] >>8)>>4)&0x0f),12,1);
- 806   1              OLED_ShowChar(50,16,Hex2Dat(((IRtmp[1] >>8)&0x0f)),12,1);
- 807   1      
- 808   1              OLED_ShowChar(62,16,Hex2Dat(((IRtmp[1])>>4)&0x0f),12,1);
- 809   1              OLED_ShowChar(70,16,Hex2Dat(((IRtmp[1])&0x0f)),12,1);
- 810   1      
- 811   1              POP = 1;
- 812   1              OLED_Refresh_Gram();
- 813   1              PN_Mirro();
- 814   1              Xornum = (PN.PadByte |0x4)^IRtmp[1];
- 815   1              SignOut(status,Xornum);
- 816   1      
- 817   1      //  printf_u8((PN.PadByte )>>16);
- 818   1      //  printf_u8((PN.PadByte)>>8);
- 819   1      //  printf_u8(PN.PadByte );
- 820   1      //  put_char('\n');
- 821   1      //  printf_u8(((PN.PadByte )|0x4)>>16);
- 822   1      //  printf_u8(((PN.PadByte )|0x4)>>8);
- 823   1      //  printf_u8(((PN.PadByte )|0x4));
- 824   1      //  put_char('\n');
- 825   1      //  printf_u8(IRtmp>>16);
- 826   1      //  printf_u8(IRtmp>>8);
- 827   1      //  printf_u8(IRtmp);
- 828   1      //  put_char('\n');
- 829   1      //  printf_u8(Xornum>>16);
- 830   1      //  printf_u8(Xornum>>8);
- 831   1      //  printf_u8(Xornum);
- 832   1      //  put_char('\n');
- 833   1      }
- 834          
- 835          void compareAdd(void)
- 836          {
- 837   1        u32 tmp;
- 838   1        u32 countmp;
- 839   1        u8 status;
- 840   1        if(BurnCheck() == 0)  //判断烧码脚烧码失败
- 841   1        {
- 842   2          status = NG;
- 843   2              tmp = PN.PadByte^PN_CUT.PadByte;  //tmp 存放异常地址码 可以判断出在哪一位出现异常
- 844   2          OLED_ShowChar(0,8,Hex2Dat(((tmp>>16)>>4)&0x0f),7,1);
- 845   2          OLED_ShowChar(6,8,Hex2Dat(((tmp>>16)&0x0f)),7,1);
- 846   2      
- 847   2              OLED_ShowChar(12,8,Hex2Dat(((tmp>>8)>>4)&0x0f),7,1);
- 848   2              OLED_ShowChar(18,8,Hex2Dat(((tmp>>8)&0x0f)),7,1);
- 849   2      
- 850   2              OLED_ShowChar(24,8,Hex2Dat(((tmp)>>4)&0x0f),7,1);
- 851   2              OLED_ShowChar(30,8,Hex2Dat(((tmp)&0x0f)),7,1);
- 852   2          OLED_ShowString(0,24," NG!! ",7,1);
- 853   2          OLED_Refresh_Gram();
- 854   2                 //这里添加烧码失败操作 显示 给信号测试机   地址码不变
- 855   2      /**********************************************************************************************/
- 856   2              NG_COUNT++;
- 857   2      #ifdef EEPROM_EN
- 858   2              if(PKG == Package_1)
-C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 15  
+ 798   1                        if(j>2) 
+ 799   1                        { 
+ 800   1                          j = 0;
+ 801   1                          if(IRtmp[1]==IRtmp[2])
+ 802   1                          break;
+ 803   1                        }
+ 804   1                      }
+ 805   1      
+ 806   1              }
+ 807   1       /*   OLED_ShowChar(22,16,Hex2Dat(((IRtmp[1] >>16)>>4)&0x0f),12,1);
+ 808   1          OLED_ShowChar(30,16,Hex2Dat(((IRtmp[1]>>16)&0x0f)),12,1);
+ 809   1      
+ 810   1              OLED_ShowChar(42,16,Hex2Dat(((IRtmp[1] >>8)>>4)&0x0f),12,1);
+ 811   1              OLED_ShowChar(50,16,Hex2Dat(((IRtmp[1] >>8)&0x0f)),12,1);
+ 812   1      
+ 813   1              OLED_ShowChar(62,16,Hex2Dat(((IRtmp[1])>>4)&0x0f),12,1);
+ 814   1              OLED_ShowChar(70,16,Hex2Dat(((IRtmp[1])&0x0f)),12,1);
+ 815   1      
+ 816   1              POP = 1;
+ 817   1              OLED_Refresh_Gram();
+ 818   1      
+ 819   1              PN_Mirro();
+ 820   1              Xornum = (PN.PadByte |0x4)^IRtmp[1];
+ 821   1      */
+ 822   1              SignOut(status,Xornum);
+ 823   1      
+ 824   1      //  printf_u8((PN.PadByte )>>16);
+ 825   1      //  printf_u8((PN.PadByte)>>8);
+ 826   1      //  printf_u8(PN.PadByte );
+ 827   1      //  put_char('\n');
+ 828   1      //  printf_u8(((PN.PadByte )|0x4)>>16);
+ 829   1      //  printf_u8(((PN.PadByte )|0x4)>>8);
+ 830   1      //  printf_u8(((PN.PadByte )|0x4));
+ 831   1      //  put_char('\n');
+ 832   1      //  printf_u8(IRtmp>>16);
+ 833   1      //  printf_u8(IRtmp>>8);
+ 834   1      //  printf_u8(IRtmp);
+ 835   1      //  put_char('\n');
+ 836   1      //  printf_u8(Xornum>>16);
+ 837   1      //  printf_u8(Xornum>>8);
+ 838   1      //  printf_u8(Xornum);
+ 839   1      //  put_char('\n');
+ 840   1      }
+ 841          
+ 842          void compareAdd(void)
+ 843          {
+ 844   1        u32 tmp;
+ 845   1        u32 countmp;
+ 846   1        u8 status;
+ 847   1        if(BurnCheck() == 0)  //判断烧码脚烧码失败
+ 848   1        {
+ 849   2          status = NG;
+ 850   2              tmp = PN.PadByte^PN_CUT.PadByte;  //tmp 存放异常地址码 可以判断出在哪一位出现异常
+ 851   2          OLED_ShowChar(0,8,Hex2Dat(((tmp>>16)>>4)&0x0f),7,1);
+ 852   2          OLED_ShowChar(6,8,Hex2Dat(((tmp>>16)&0x0f)),7,1);
+ 853   2      
+ 854   2              OLED_ShowChar(12,8,Hex2Dat(((tmp>>8)>>4)&0x0f),7,1);
+ 855   2              OLED_ShowChar(18,8,Hex2Dat(((tmp>>8)&0x0f)),7,1);
+ 856   2      
+ 857   2              OLED_ShowChar(24,8,Hex2Dat(((tmp)>>4)&0x0f),7,1);
+ 858   2              OLED_ShowChar(30,8,Hex2Dat(((tmp)&0x0f)),7,1);
+ 859   2          OLED_ShowString(0,24," NG!! ",7,1);
+C51 COMPILER V9.00   CD4052                                                                05/06/2015 14:06:26 PAGE 15  
 
- 859   2              {
- 860   3                at24c02_rddat(COUNT1_NG_ADD,&countmp,4);
- 861   3                countmp++;
- 862   3            at24c02_wrdat(COUNT1_NG_ADD,&countmp,4);    //累加 NG数量
- 863   3              }
- 864   2              else if(PKG == Package_2)
- 865   2              {
- 866   3                at24c02_rddat(COUNT2_NG_ADD,&countmp,4);
- 867   3                countmp++;
- 868   3            at24c02_wrdat(COUNT2_NG_ADD,&countmp,4);    //累加 NG数量
- 869   3              }
- 870   2              else if(PKG == Package_3)
- 871   2              {
- 872   3                at24c02_rddat(COUNT3_NG_ADD,&countmp,4);
- 873   3                countmp ++;
- 874   3            at24c02_wrdat(COUNT3_NG_ADD,&countmp,4);    //累加 NG数量
- 875   3              }
- 876   2              at24c02_rddat(COUNTALL_NG_ADD,&countmp,4);
- 877   2              countmp ++;
- 878   2              at24c02_wrdat(COUNTALL_NG_ADD,&countmp,4);    //累加 NG数量  
- 879   2      #endif
- 880   2      /***********************************************************************************************/
- 881   2        }
- 882   1        else
- 883   1        {
- 884   2          status = PASS;
- 885   2          OLED_ShowString(0,8,"      ",7,1);
- 886   2          OLED_ShowString(0,24,"PASS!!",7,1);
- 887   2          OLED_Refresh_Gram();
- 888   2                 //解码判断码值和地址码匹配
- 889   2                 //这里添加烧码成功操作 显示  给信号测试机   地址码自加1
- 890   2              PN_TMP.PadByte ++;
- 891   2              if((PKG == Package_1)||(PKG == Package_2))
- 892   2              {
- 893   3                if(PN_TMP.PadByte > 0xff)        //2^8 不能超出地址空间
- 894   3                PN_TMP.PadByte = 0;
- 895   3      #ifdef EEPROM_EN
- 896   3                if(PKG == Package_1)
- 897   3                {
- 898   4                  at24c02_wrdat(PKG1_ADD,&PN_TMP.PadByte,4);                   //储存割码地址到2402
- 899   4                }
- 900   3                else
- 901   3                {
- 902   4                  at24c02_wrdat(PKG2_ADD,&PN_TMP.PadByte,4);                   //储存割码地址到2402
- 903   4                }
- 904   3      #endif
- 905   3              }
- 906   2              else if(PKG == Package_3)
- 907   2              {
- 908   3                 if(PN_TMP.PadByte >= MaxlineHex)       //2^20  不能超出地址空间
- 909   3                 PN_TMP.PadByte = 0;
- 910   3      #ifdef EEPROM_EN
- 911   3                 at24c02_wrdat(PKG3_ADD,&PN_TMP.PadByte,4);                    //储存割码地址到2402
- 912   3      #endif                  
- 913   3              }
- 914   2      
- 915   2      /*****************************************************************************************/
- 916   2              OK_COUNT++;
- 917   2      #ifdef EEPROM_EN
- 918   2              if(PKG == Package_1)
- 919   2              {
- 920   3                at24c02_rddat(COUNT1_OK_ADD,&countmp,4);
-C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 16  
+ 860   2          OLED_Refresh_Gram();
+ 861   2                 //这里添加烧码失败操作 显示 给信号测试机   地址码不变
+ 862   2      /**********************************************************************************************/
+ 863   2              NG_COUNT++;
+ 864   2      #ifdef EEPROM_EN
+ 865   2              if(PKG == Package_1)
+ 866   2              {
+ 867   3                at24c02_rddat(COUNT1_NG_ADD,&countmp,4);
+ 868   3                countmp++;
+ 869   3            at24c02_wrdat(COUNT1_NG_ADD,&countmp,4);    //累加 NG数量
+ 870   3              }
+ 871   2              else if(PKG == Package_2)
+ 872   2              {
+ 873   3                at24c02_rddat(COUNT2_NG_ADD,&countmp,4);
+ 874   3                countmp++;
+ 875   3            at24c02_wrdat(COUNT2_NG_ADD,&countmp,4);    //累加 NG数量
+ 876   3              }
+ 877   2              else if(PKG == Package_3)
+ 878   2              {
+ 879   3                at24c02_rddat(COUNT3_NG_ADD,&countmp,4);
+ 880   3                countmp ++;
+ 881   3            at24c02_wrdat(COUNT3_NG_ADD,&countmp,4);    //累加 NG数量
+ 882   3              }
+ 883   2              at24c02_rddat(COUNTALL_NG_ADD,&countmp,4);
+ 884   2              countmp ++;
+ 885   2              at24c02_wrdat(COUNTALL_NG_ADD,&countmp,4);    //累加 NG数量  
+ 886   2      #endif
+ 887   2      /***********************************************************************************************/
+ 888   2        }
+ 889   1        else
+ 890   1        {
+ 891   2          status = PASS;
+ 892   2          OLED_ShowString(0,8,"      ",7,1);
+ 893   2          OLED_ShowString(0,24,"PASS!!",7,1);
+ 894   2          OLED_Refresh_Gram();
+ 895   2                 //解码判断码值和地址码匹配
+ 896   2                 //这里添加烧码成功操作 显示  给信号测试机   地址码自加1
+ 897   2              PN_TMP.PadByte ++;
+ 898   2              if((PKG == Package_1)||(PKG == Package_2))
+ 899   2              {
+ 900   3                if(PN_TMP.PadByte > 0xff)        //2^8 不能超出地址空间
+ 901   3                PN_TMP.PadByte = 0;
+ 902   3      #ifdef EEPROM_EN
+ 903   3                if(PKG == Package_1)
+ 904   3                {
+ 905   4                  at24c02_wrdat(PKG1_ADD,&PN_TMP.PadByte,4);                   //储存割码地址到2402
+ 906   4                }
+ 907   3                else
+ 908   3                {
+ 909   4                  at24c02_wrdat(PKG2_ADD,&PN_TMP.PadByte,4);                   //储存割码地址到2402
+ 910   4                }
+ 911   3      #endif
+ 912   3              }
+ 913   2              else if(PKG == Package_3)
+ 914   2              {
+ 915   3                 if(PN_TMP.PadByte >= MaxlineHex)       //2^20  不能超出地址空间
+ 916   3                 PN_TMP.PadByte = 0;
+ 917   3      #ifdef EEPROM_EN
+ 918   3                 at24c02_wrdat(PKG3_ADD,&PN_TMP.PadByte,4);                    //储存割码地址到2402
+ 919   3      #endif                  
+ 920   3              }
+ 921   2      
+C51 COMPILER V9.00   CD4052                                                                05/06/2015 14:06:26 PAGE 16  
 
- 921   3                countmp ++;
- 922   3            at24c02_wrdat(COUNT1_OK_ADD,&countmp,4);    //累加 OK数量
- 923   3              }
- 924   2              else if(PKG == Package_2)
- 925   2              {
- 926   3                at24c02_rddat(COUNT2_OK_ADD,&countmp,4);
- 927   3                countmp ++;
- 928   3            at24c02_wrdat(COUNT2_OK_ADD,&countmp,4);    //累加 OK数量
- 929   3              }
- 930   2              else if(PKG == Package_3)
- 931   2              {
- 932   3                at24c02_rddat(COUNT3_OK_ADD,&countmp,4);
- 933   3                countmp ++;
- 934   3            at24c02_wrdat(COUNT3_OK_ADD,&countmp,4);    //累加 OK数量
- 935   3              }
- 936   2              at24c02_rddat(COUNTALL_OK_ADD,&countmp,4);
- 937   2              countmp ++;
- 938   2              at24c02_wrdat(COUNTALL_OK_ADD,&countmp,4);    //累加 OK数量  
- 939   2      #endif
- 940   2      /*****************************************************************************************************/
- 941   2        }
- 942   1         Decode(status); 
- 943   1      }
- 944          /************************************************************************************************
- 945          烧码
- 946          ************************************************************************************************/
- 947          void CobCuting(u32 Add)
- 948          {
- 949   1              storge595(&Add,4);
- 950   1              ENVMOS();                     // 开mos电源
- 951   1              ENABLE595();              // 开595控制mos开关
- 952   1              Cutflag = 1;
- 953   1      }
- 954          
- 955          void StartCut(u8 package)
- 956          {
- 957   1        DSENVSOC();
- 958   1        PnMask(package);                //转码
- 959   1        CobCuting(PN_TMP.PadByte);      //开始割码
- 960   1        while(Cutflag)                          //等待割码完成 才可以去读引脚阻值
- 961   1        NOP1();
- 962   1        GetPadRes();                //读引脚阻值
- 963   1        OLED_Clear();
- 964   1        compareAdd();               //比较地址
- 965   1      //  ENVSOC();
- 966   1      }
- 967          void ShowInfo(void)
- 968          {
- 969   1          u32 tmp;
- 970   1      
- 971   1              memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
- 972   1              init_windows(0,0,120,32,"Info",0,0);
- 973   1              OLED_Draw_WindowsDraw(&windemo);
- 974   1              tmp = Get_Pkg_CNT(PKG,0);
- 975   1              if(PKG == Package_1)            OLED_ShowString(30,2,"VT62538-B1",7,1);   
- 976   1              else if(PKG == Package_2)               OLED_ShowString(30,2,"VT62538-B2",7,1);
- 977   1              else  OLED_ShowString(30,2,"COB",7,1);
- 978   1              OLED_ShowString(2,11,"OK:",7,1);   //Disp ok!
- 979   1          OLED_ShowChar(22,11,Hex2Dat(((tmp>>16)>>4)&0x0f),7,1);
- 980   1          OLED_ShowChar(28,11,Hex2Dat(((tmp>>16)&0x0f)),7,1);
- 981   1      
- 982   1              OLED_ShowChar(34,11,Hex2Dat(((tmp>>8)>>4)&0x0f),7,1);
-C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 17  
+ 922   2      /*****************************************************************************************/
+ 923   2              OK_COUNT++;
+ 924   2      #ifdef EEPROM_EN
+ 925   2              if(PKG == Package_1)
+ 926   2              {
+ 927   3                at24c02_rddat(COUNT1_OK_ADD,&countmp,4);
+ 928   3                countmp ++;
+ 929   3            at24c02_wrdat(COUNT1_OK_ADD,&countmp,4);    //累加 OK数量
+ 930   3              }
+ 931   2              else if(PKG == Package_2)
+ 932   2              {
+ 933   3                at24c02_rddat(COUNT2_OK_ADD,&countmp,4);
+ 934   3                countmp ++;
+ 935   3            at24c02_wrdat(COUNT2_OK_ADD,&countmp,4);    //累加 OK数量
+ 936   3              }
+ 937   2              else if(PKG == Package_3)
+ 938   2              {
+ 939   3                at24c02_rddat(COUNT3_OK_ADD,&countmp,4);
+ 940   3                countmp ++;
+ 941   3            at24c02_wrdat(COUNT3_OK_ADD,&countmp,4);    //累加 OK数量
+ 942   3              }
+ 943   2              at24c02_rddat(COUNTALL_OK_ADD,&countmp,4);
+ 944   2              countmp ++;
+ 945   2              at24c02_wrdat(COUNTALL_OK_ADD,&countmp,4);    //累加 OK数量  
+ 946   2      #endif
+ 947   2      /*****************************************************************************************************/
+ 948   2        }
+ 949   1         Decode(status); 
+ 950   1      }
+ 951          /************************************************************************************************
+ 952          烧码
+ 953          ************************************************************************************************/
+ 954          void CobCuting(u32 Add)
+ 955          {
+ 956   1              storge595(&Add,4);
+ 957   1              ENVMOS();                     // 开mos电源
+ 958   1              ENABLE595();              // 开595控制mos开关
+ 959   1      }
+ 960          
+ 961          void StartCut(u8 package)
+ 962          {
+ 963   1        DSENVSOC();
+ 964   1        PnMask(package);                //转码
+ 965   1        CobCuting(PN_TMP.PadByte);      //开始割码
+ 966   1        while(Cutflag == 1)                     //等待割码完成 才可以去读引脚阻值
+ 967   1        NOP1();
+ 968   1        GetPadRes();                //读引脚阻值
+ 969   1        OLED_Clear();
+ 970   1        compareAdd();               //比较地址
+ 971   1      //  ENVSOC();
+ 972   1      }
+ 973          void ShowInfo(void)
+ 974          {
+ 975   1          u32 tmp;
+ 976   1      
+ 977   1              memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
+ 978   1              init_windows(0,0,120,32,"Info",0,0);
+ 979   1              OLED_Draw_WindowsDraw(&windemo);
+ 980   1              tmp = Get_Pkg_CNT(PKG,0);
+ 981   1              if(PKG == Package_1)            OLED_ShowString(30,2,"VT62538-B1",7,1);   
+ 982   1              else if(PKG == Package_2)               OLED_ShowString(30,2,"VT62538-B2",7,1);
+ 983   1              else  OLED_ShowString(30,2,"COB",7,1);
+C51 COMPILER V9.00   CD4052                                                                05/06/2015 14:06:26 PAGE 17  
 
- 983   1              OLED_ShowChar(40,11,Hex2Dat(((tmp>>8)&0x0f)),7,1);
- 984   1      
- 985   1              OLED_ShowChar(46,11,Hex2Dat(((tmp)>>4)&0x0f),7,1);
- 986   1              OLED_ShowChar(52,11,Hex2Dat(((tmp)&0x0f)),7,1);
+ 984   1              OLED_ShowString(2,11,"OK:",7,1);   //Disp ok!
+ 985   1          OLED_ShowChar(22,11,Hex2Dat(((tmp>>16)>>4)&0x0f),7,1);
+ 986   1          OLED_ShowChar(28,11,Hex2Dat(((tmp>>16)&0x0f)),7,1);
  987   1      
- 988   1              tmp = Get_Pkg_CNT(PKG,1);
- 989   1              OLED_ShowString(62,11,"NG:",7,1);   //Disp ok!
- 990   1          OLED_ShowChar(82,11,Hex2Dat(((tmp>>16)>>4)&0x0f),7,1);
- 991   1          OLED_ShowChar(88,11,Hex2Dat(((tmp>>16)&0x0f)),7,1);
- 992   1      
- 993   1              OLED_ShowChar(94,11,Hex2Dat(((tmp>>8)>>4)&0x0f),7,1);
- 994   1              OLED_ShowChar(100,11,Hex2Dat(((tmp>>8)&0x0f)),7,1);
- 995   1      
- 996   1              OLED_ShowChar(106,11,Hex2Dat(((tmp)>>4)&0x0f),7,1);
- 997   1              OLED_ShowChar(112,11,Hex2Dat(((tmp)&0x0f)),7,1);
+ 988   1              OLED_ShowChar(34,11,Hex2Dat(((tmp>>8)>>4)&0x0f),7,1);
+ 989   1              OLED_ShowChar(40,11,Hex2Dat(((tmp>>8)&0x0f)),7,1);
+ 990   1      
+ 991   1              OLED_ShowChar(46,11,Hex2Dat(((tmp)>>4)&0x0f),7,1);
+ 992   1              OLED_ShowChar(52,11,Hex2Dat(((tmp)&0x0f)),7,1);
+ 993   1      
+ 994   1              tmp = Get_Pkg_CNT(PKG,1);
+ 995   1              OLED_ShowString(62,11,"NG:",7,1);   //Disp ok!
+ 996   1          OLED_ShowChar(82,11,Hex2Dat(((tmp>>16)>>4)&0x0f),7,1);
+ 997   1          OLED_ShowChar(88,11,Hex2Dat(((tmp>>16)&0x0f)),7,1);
  998   1      
- 999   1              tmp = Get_Pkg_Add(PKG);
-1000   1              OLED_ShowString(2,20,"ADD:",7,1);   //Disp ok!
-1001   1          OLED_ShowChar(28,20,Hex2Dat(((tmp>>16)>>4)&0x0f),7,1);
-1002   1          OLED_ShowChar(34,20,Hex2Dat(((tmp>>16)&0x0f)),7,1);
-1003   1      
-1004   1              OLED_ShowChar(40,20,Hex2Dat(((tmp>>8)>>4)&0x0f),7,1);
-1005   1              OLED_ShowChar(46,20,Hex2Dat(((tmp>>8)&0x0f)),7,1);
-1006   1      
-1007   1              OLED_ShowChar(52,20,Hex2Dat(((tmp)>>4)&0x0f),7,1);
-1008   1              OLED_ShowChar(58,20,Hex2Dat(((tmp)&0x0f)),7,1);
+ 999   1              OLED_ShowChar(94,11,Hex2Dat(((tmp>>8)>>4)&0x0f),7,1);
+1000   1              OLED_ShowChar(100,11,Hex2Dat(((tmp>>8)&0x0f)),7,1);
+1001   1      
+1002   1              OLED_ShowChar(106,11,Hex2Dat(((tmp)>>4)&0x0f),7,1);
+1003   1              OLED_ShowChar(112,11,Hex2Dat(((tmp)&0x0f)),7,1);
+1004   1      
+1005   1              tmp = Get_Pkg_Add(PKG);
+1006   1              OLED_ShowString(2,20,"ADD:",7,1);   //Disp ok!
+1007   1          OLED_ShowChar(28,20,Hex2Dat(((tmp>>16)>>4)&0x0f),7,1);
+1008   1          OLED_ShowChar(34,20,Hex2Dat(((tmp>>16)&0x0f)),7,1);
 1009   1      
-1010   1              POP = 2;
-1011   1              OLED_Refresh_Gram();      
-1012   1      }
-1013          void CutRun(u8 package)
-1014          {
-1015   1        u8 Done;
-1016   1        Done = 0;
-1017   1        //获取封装信息
-1018   1      #ifdef EEPROM_EN
-1019   1          PN_TMP.PadByte = Get_Pkg_Add(package); //获取到对应封装割码地址
-1020   1      #endif
-1021   1              OLED_ShowString(30,0,"SADD-No.:",12,1); 
-1022   1          OLED_ShowChar(0,15,Hex2Dat(((PN_TMP.PadByte>>16)>>4)&0x0f),12,1);
-1023   1          OLED_ShowChar(8,15,Hex2Dat(((PN_TMP.PadByte>>16)&0x0f)),12,1);
-1024   1      
-1025   1              OLED_ShowChar(16,15,Hex2Dat(((PN_TMP.PadByte>>8)>>4)&0x0f),12,1);
-1026   1              OLED_ShowChar(24,15,Hex2Dat(((PN_TMP.PadByte>>8)&0x0f)),12,1);
-1027   1      
-1028   1              OLED_ShowChar(32,15,Hex2Dat(((PN_TMP.PadByte)>>4)&0x0f),12,1);
-1029   1              OLED_ShowChar(40,15,Hex2Dat(((PN_TMP.PadByte)&0x0f)),12,1);
-1030   1          OLED_Refresh_Gram();
-1031   1              memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
-1032   1        while(!Done)
-1033   1        {
-1034   2                if((Key_back == PR_START)&&(Key_change))
-1035   2                {
-1036   3                 Key_change=0; 
-1037   3                 BeepFlag =1; 
-1038   3                 InitSign();
-1039   3      #ifdef PRINT_INFO
-1040   3          send_string ("\n开始割码--->\n");
-1041   3      #endif
-1042   3             StartCut(package);
-1043   3      #ifdef PRINT_INFO
-1044   3          send_string ("\n完成割码\n");
-C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 18  
+1010   1              OLED_ShowChar(40,20,Hex2Dat(((tmp>>8)>>4)&0x0f),7,1);
+1011   1              OLED_ShowChar(46,20,Hex2Dat(((tmp>>8)&0x0f)),7,1);
+1012   1      
+1013   1              OLED_ShowChar(52,20,Hex2Dat(((tmp)>>4)&0x0f),7,1);
+1014   1              OLED_ShowChar(58,20,Hex2Dat(((tmp)&0x0f)),7,1);
+1015   1      
+1016   1              POP = 2;
+1017   1              OLED_Refresh_Gram();      
+1018   1      }
+1019          void CutRun(u8 package)
+1020          {
+1021   1        u8 Done;
+1022   1        Done = 0;
+1023   1        //获取封装信息
+1024   1      #ifdef EEPROM_EN
+1025   1          PN_TMP.PadByte = Get_Pkg_Add(package); //获取到对应封装割码地址
+1026   1      #endif
+1027   1              OLED_ShowString(30,0,"SADD-No.:",12,1); 
+1028   1          OLED_ShowChar(0,15,Hex2Dat(((PN_TMP.PadByte>>16)>>4)&0x0f),12,1);
+1029   1          OLED_ShowChar(8,15,Hex2Dat(((PN_TMP.PadByte>>16)&0x0f)),12,1);
+1030   1      
+1031   1              OLED_ShowChar(16,15,Hex2Dat(((PN_TMP.PadByte>>8)>>4)&0x0f),12,1);
+1032   1              OLED_ShowChar(24,15,Hex2Dat(((PN_TMP.PadByte>>8)&0x0f)),12,1);
+1033   1      
+1034   1              OLED_ShowChar(32,15,Hex2Dat(((PN_TMP.PadByte)>>4)&0x0f),12,1);
+1035   1              OLED_ShowChar(40,15,Hex2Dat(((PN_TMP.PadByte)&0x0f)),12,1);
+1036   1          OLED_Refresh_Gram();
+1037   1              memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
+1038   1        while(!Done)
+1039   1        {
+1040   2                //if(((Key_back == PR_START)||(Key_back == PS_START))&&(Key_change))
+1041   2                if(Cutflag == 2)
+1042   2                {
+1043   3      //         Key_change=0; 
+1044   3             Cutflag = 1;
+1045   3                 BeepFlag =1; 
+C51 COMPILER V9.00   CD4052                                                                05/06/2015 14:06:26 PAGE 18  
 
-1045   3      #endif
-1046   3                }
-1047   2                if((Key_back == PR_OK)&&(Key_change))
-1048   2                {
-1049   3                 Key_change=0; 
-1050   3                 BeepFlag =1;
-1051   3                 ShowInfo();
-1052   3                }      
-1053   2                if((Key_back == PR_MOD)&&(Key_change))
-1054   2                {
-1055   3                 Key_change=0; 
-1056   3                 BeepFlag =1;
-1057   3                 Done = 1;
-1058   3                }     
-1059   2                if((Key_back == PR_SUB)&&(Key_change))
-1060   2                {
-1061   3                 Key_change=0; 
-1062   3                 BeepFlag =1;
-1063   3                 PN_TMP.PadByte ++;
-1064   3                 OLED_Clear();
-1065   3             OLED_ShowAdd(0,0,PN_TMP.PadByte,PN_TMP.PadByte);
-1066   3             OLED_Refresh_Gram();
-1067   3                }     
-1068   2                if((Key_back == PR_ADD)&&(Key_change))
-1069   2                {
-1070   3                 Key_change=0; 
-1071   3                 BeepFlag =1;
-1072   3                 PN_TMP.PadByte --;
-1073   3                 OLED_Clear();
-1074   3             OLED_ShowAdd(0,0,PN_TMP.PadByte,PN_TMP.PadByte);
-1075   3             OLED_Refresh_Gram();
-1076   3                }                          
-1077   2        }
-1078   1      }
-1079          /*
-1080          void TestPn(void)
-1081          {
-1082            static u8 Done = 0;
-1083            PN_TMP.PadByte = 0;
-1084            PN.PadByte = 0;
-1085            send_string("\nstart mask: package type 1 , PACK_ADD = 0 , IC_ADD = 0\n\n");
-1086          //  PN_TMP.Px.Pad0 = 1;
-1087          //  PN.Px.Pad1 = 1;
-1088          //  printf_u8(PN_TMP.PadByte);
-1089          //  printf_u8(PN.PadByte);
-1090          //      send_string("   ===>masking...\n");
-1091            while(!Done)
-1092            {
-1093                  PnMask(0);
-1094          //      send_string("start mask: ");
-1095          //      send_string("PACK_ADD=:");
-1096          //      printf_u8(PN_TMP.PadByte>>24);
-1097          //      printf_u8(PN_TMP.PadByte>>16);
-1098          //      printf_u8(PN_TMP.PadByte>>8);
-1099          //      printf_u8(PN_TMP.PadByte);
-1100          //      send_string("   IC_ADD=:");
-1101          //      printf_u8(PN.PadByte>>24);
-1102          //      printf_u8(PN.PadByte>>16);
-1103          //      printf_u8(PN.PadByte>>8);
-1104          //      printf_u8(PN.PadByte);
-1105          //      send_string("   ===>masking...\n");
-1106          //      send_string("PACK_ADD.BIT0 = \n");
-C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 19  
+1046   3                 InitSign();
+1047   3      #ifdef PRINT_INFO
+1048   3          send_string ("\n开始割码--->\n");
+1049   3      #endif
+1050   3             StartCut(package);
+1051   3      #ifdef PRINT_INFO
+1052   3          send_string ("\n完成割码\n");
+1053   3      #endif
+1054   3                }
+1055   2                if((Key_back == PR_OK)&&(Key_change))
+1056   2                {
+1057   3                 Key_change=0; 
+1058   3                 BeepFlag =1;
+1059   3                 ShowInfo();
+1060   3                }      
+1061   2                if((Key_back == PR_MOD)&&(Key_change))
+1062   2                {
+1063   3                 Key_change=0; 
+1064   3                 BeepFlag =1;
+1065   3                 Done = 1;
+1066   3                }     
+1067   2                if((Key_back == PR_SUB)&&(Key_change))
+1068   2                {
+1069   3                 Key_change=0; 
+1070   3                 BeepFlag =1;
+1071   3                 PN_TMP.PadByte ++;
+1072   3                 OLED_Clear();
+1073   3             OLED_ShowAdd(0,0,PN_TMP.PadByte,PN_TMP.PadByte);
+1074   3             OLED_Refresh_Gram();
+1075   3                }     
+1076   2                if((Key_back == PR_ADD)&&(Key_change))
+1077   2                {
+1078   3                 Key_change=0; 
+1079   3                 BeepFlag =1;
+1080   3                 PN_TMP.PadByte --;
+1081   3                 OLED_Clear();
+1082   3             OLED_ShowAdd(0,0,PN_TMP.PadByte,PN_TMP.PadByte);
+1083   3             OLED_Refresh_Gram();
+1084   3                }                          
+1085   2        }
+1086   1      }
+1087          /*
+1088          void TestPn(void)
+1089          {
+1090            static u8 Done = 0;
+1091            PN_TMP.PadByte = 0;
+1092            PN.PadByte = 0;
+1093            send_string("\nstart mask: package type 1 , PACK_ADD = 0 , IC_ADD = 0\n\n");
+1094          //  PN_TMP.Px.Pad0 = 1;
+1095          //  PN.Px.Pad1 = 1;
+1096          //  printf_u8(PN_TMP.PadByte);
+1097          //  printf_u8(PN.PadByte);
+1098          //      send_string("   ===>masking...\n");
+1099            while(!Done)
+1100            {
+1101                  PnMask(0);
+1102          //      send_string("start mask: ");
+1103          //      send_string("PACK_ADD=:");
+1104          //      printf_u8(PN_TMP.PadByte>>24);
+1105          //      printf_u8(PN_TMP.PadByte>>16);
+1106          //      printf_u8(PN_TMP.PadByte>>8);
+1107          //      printf_u8(PN_TMP.PadByte);
+C51 COMPILER V9.00   CD4052                                                                05/06/2015 14:06:26 PAGE 19  
 
-1107          //      printf_u8(PN_TMP.Px.Pad0);
-1108                  send_string("\n");
-1109                  send_string("PN_TMP BIT 15:0\n");
-1110                  printf_u8(PN_TMP.Px.P_XHX.Pad7);
-1111                  printf_u8(PN_TMP.Px.P_XHX.Pad6);
-1112                  printf_u8(PN_TMP.Px.P_XHX.Pad5);
-1113                  printf_u8(PN_TMP.Px.P_XHX.Pad4);
-1114                  printf_u8(PN_TMP.Px.P_XHX.Pad3);
-1115                  printf_u8(PN_TMP.Px.P_XHX.Pad2);
-1116                  printf_u8(PN_TMP.Px.P_XHX.Pad1);
-1117                  printf_u8(PN_TMP.Px.P_XHX.Pad0);        
-1118                  
-1119                  printf_u8(PN_TMP.Px.P_XXH.Pad7);
-1120                  printf_u8(PN_TMP.Px.P_XXH.Pad6);
-1121                  printf_u8(PN_TMP.Px.P_XXH.Pad5);
-1122                  printf_u8(PN_TMP.Px.P_XXH.Pad4);
-1123                  printf_u8(PN_TMP.Px.P_XXH.Pad3);
-1124                  printf_u8(PN_TMP.Px.P_XXH.Pad2);
-1125                  printf_u8(PN_TMP.Px.P_XXH.Pad1);
-1126                  printf_u8(PN_TMP.Px.P_XXH.Pad0);
-1127          //      send_string("\n");
-1128                  send_string("PN_TMP BIT 15:0\n");
-1129                  printf_u8(PN.Px.P_XHX.Pad7);
-1130                  printf_u8(PN.Px.P_XHX.Pad6);
-1131                  printf_u8(PN.Px.P_XHX.Pad5);
-1132                  printf_u8(PN.Px.P_XHX.Pad4);
-1133                  printf_u8(PN.Px.P_XHX.Pad3);
-1134                  printf_u8(PN.Px.P_XHX.Pad2);
-1135                  printf_u8(PN.Px.P_XHX.Pad1);
-1136                  printf_u8(PN.Px.P_XHX.Pad0);    
-1137                  
-1138                  printf_u8(PN.Px.P_XXH.Pad7);
-1139                  printf_u8(PN.Px.P_XXH.Pad6);
-1140                  printf_u8(PN.Px.P_XXH.Pad5);
-1141                  printf_u8(PN.Px.P_XXH.Pad4);
-1142                  printf_u8(PN.Px.P_XXH.Pad3);
-1143                  printf_u8(PN.Px.P_XXH.Pad2);
-1144                  printf_u8(PN.Px.P_XXH.Pad1);
-1145                  printf_u8(PN.Px.P_XXH.Pad0);
-1146                  send_string("\n");              
-1147                  if(PN_TMP.PadByte ++ >=0xfff)
-1148                  Done = 1;
-1149            }
-1150                  send_string("mask over!\n");
-1151          }
-1152          */
+1108          //      send_string("   IC_ADD=:");
+1109          //      printf_u8(PN.PadByte>>24);
+1110          //      printf_u8(PN.PadByte>>16);
+1111          //      printf_u8(PN.PadByte>>8);
+1112          //      printf_u8(PN.PadByte);
+1113          //      send_string("   ===>masking...\n");
+1114          //      send_string("PACK_ADD.BIT0 = \n");
+1115          //      printf_u8(PN_TMP.Px.Pad0);
+1116                  send_string("\n");
+1117                  send_string("PN_TMP BIT 15:0\n");
+1118                  printf_u8(PN_TMP.Px.P_XHX.Pad7);
+1119                  printf_u8(PN_TMP.Px.P_XHX.Pad6);
+1120                  printf_u8(PN_TMP.Px.P_XHX.Pad5);
+1121                  printf_u8(PN_TMP.Px.P_XHX.Pad4);
+1122                  printf_u8(PN_TMP.Px.P_XHX.Pad3);
+1123                  printf_u8(PN_TMP.Px.P_XHX.Pad2);
+1124                  printf_u8(PN_TMP.Px.P_XHX.Pad1);
+1125                  printf_u8(PN_TMP.Px.P_XHX.Pad0);        
+1126                  
+1127                  printf_u8(PN_TMP.Px.P_XXH.Pad7);
+1128                  printf_u8(PN_TMP.Px.P_XXH.Pad6);
+1129                  printf_u8(PN_TMP.Px.P_XXH.Pad5);
+1130                  printf_u8(PN_TMP.Px.P_XXH.Pad4);
+1131                  printf_u8(PN_TMP.Px.P_XXH.Pad3);
+1132                  printf_u8(PN_TMP.Px.P_XXH.Pad2);
+1133                  printf_u8(PN_TMP.Px.P_XXH.Pad1);
+1134                  printf_u8(PN_TMP.Px.P_XXH.Pad0);
+1135          //      send_string("\n");
+1136                  send_string("PN_TMP BIT 15:0\n");
+1137                  printf_u8(PN.Px.P_XHX.Pad7);
+1138                  printf_u8(PN.Px.P_XHX.Pad6);
+1139                  printf_u8(PN.Px.P_XHX.Pad5);
+1140                  printf_u8(PN.Px.P_XHX.Pad4);
+1141                  printf_u8(PN.Px.P_XHX.Pad3);
+1142                  printf_u8(PN.Px.P_XHX.Pad2);
+1143                  printf_u8(PN.Px.P_XHX.Pad1);
+1144                  printf_u8(PN.Px.P_XHX.Pad0);    
+1145                  
+1146                  printf_u8(PN.Px.P_XXH.Pad7);
+1147                  printf_u8(PN.Px.P_XXH.Pad6);
+1148                  printf_u8(PN.Px.P_XXH.Pad5);
+1149                  printf_u8(PN.Px.P_XXH.Pad4);
+1150                  printf_u8(PN.Px.P_XXH.Pad3);
+1151                  printf_u8(PN.Px.P_XXH.Pad2);
+1152                  printf_u8(PN.Px.P_XXH.Pad1);
+1153                  printf_u8(PN.Px.P_XXH.Pad0);
+1154                  send_string("\n");              
+1155                  if(PN_TMP.PadByte ++ >=0xfff)
+1156                  Done = 1;
+1157            }
+1158                  send_string("mask over!\n");
+1159          }
+1160          */
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   5258    ----
-   CONSTANT SIZE    =    111    ----
-   XDATA SIZE       =     52      53
+   CODE SIZE        =   4709    ----
+   CONSTANT SIZE    =    101    ----
+   XDATA SIZE       =     52      37
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
+C51 COMPILER V9.00   CD4052                                                                05/06/2015 14:06:26 PAGE 20  
+
    BIT SIZE         =   ----       1
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

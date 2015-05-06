@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 1   
+C51 COMPILER V9.00   OLED                                                                  05/06/2015 14:06:25 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE OLED
@@ -62,7 +62,7 @@ line level    source
   51   2                      ms--;
   52   2              }
   53   1      //      return;
-C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 2   
+C51 COMPILER V9.00   OLED                                                                  05/06/2015 14:06:25 PAGE 2   
 
   54   1      }
   55          #if OLED_MODE==1
@@ -126,7 +126,7 @@ line level    source
  113                  OLED_WR_Byte(0XAF,OLED_CMD);  //DISPLAY ON
  114          }
  115          //关闭OLED显示     
-C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 3   
+C51 COMPILER V9.00   OLED                                                                  05/06/2015 14:06:25 PAGE 3   
 
  116          void OLED_Display_Off(void)
  117          {
@@ -190,7 +190,7 @@ line level    source
  175   1              {
  176   2                      diry=1;
  177   2              }
-C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 4   
+C51 COMPILER V9.00   OLED                                                                  05/06/2015 14:06:25 PAGE 4   
 
  178   1              if(dx<0)
  179   1              {
@@ -254,7 +254,7 @@ line level    source
  237   2              temp = x1;
  238   2              x1 = x0;
  239   2              x0 = temp;
-C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 5   
+C51 COMPILER V9.00   OLED                                                                  05/06/2015 14:06:25 PAGE 5   
 
  240   2          }
  241   1          do
@@ -318,7 +318,7 @@ line level    source
  299          ****************************************************************************/
  300          void  OLED_Draw_RectangleFill(u8 x0, u8 y0, u8 x1, u8 y1, u8 t)
  301          {  u8  i;
-C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 6   
+C51 COMPILER V9.00   OLED                                                                  05/06/2015 14:06:25 PAGE 6   
 
  302   1      
  303   1         /* 先找出矩形左上角与右下角的两个点，保存在(x0,y0)，(x1,y1) */
@@ -382,7 +382,7 @@ line level    source
  361   1      }
  362          /****************************************************************************
  363          * 功能：多个点之间的连续连线。从第一点连到第二点，再连到第三点...
-C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 7   
+C51 COMPILER V9.00   OLED                                                                  05/06/2015 14:06:25 PAGE 7   
 
  364          * 入口参数：points  多个点坐标数据的指针，数据排列为(x0,y0)、(x1,y1)、(x2,y2)...
  365          *           no      点数目，至少要大于1
@@ -446,7 +446,7 @@ line level    source
  423          /****************************************************************************
  424          * 功能：显示窗口。根据提供的窗口参数进行画窗口。
  425          * 入口参数：win         窗口句柄
-C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 8   
+C51 COMPILER V9.00   OLED                                                                  05/06/2015 14:06:25 PAGE 8   
 
  426          * 出口参数：返回0表示操作失败，返回1表示操作成功
  427          ****************************************************************************/
@@ -510,7 +510,7 @@ line level    source
  484   2            /* 画状态栏 */
  485   2            OLED_Draw_HLine(win->x, win->y + win->hight - 10, win->x + win->with - 1, 1);
  486   2            
-C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 9   
+C51 COMPILER V9.00   OLED                                                                  05/06/2015 14:06:25 PAGE 9   
 
  487   2            str = win->state;
  488   2            bak = win->x + 3;
@@ -574,7 +574,7 @@ line level    source
  546   4                                      y=y0;
  547   4                                      x++;
  548   4                                      break;
-C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 10  
+C51 COMPILER V9.00   OLED                                                                  05/06/2015 14:06:25 PAGE 10  
 
  549   4                              }
  550   3                      }        
@@ -638,7 +638,7 @@ line level    source
  608   2                      else if(size == 12)
  609   2                      {
  610   3                      if(x>122){x=0;y+=12;}   //换行
-C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 11  
+C51 COMPILER V9.00   OLED                                                                  05/06/2015 14:06:25 PAGE 11  
 
  611   3                      if(y>32){y=x=0;OLED_Clear();} //换页
  612   3                      OLED_ShowChar(x,y,*p,12,mode);   
@@ -702,12 +702,12 @@ line level    source
  670          /*******************************************************************************************
  671          函数名: void OLED_DrawBar(u8 x1, u8 y1, u8 x2, u8 y2, u8 t)
  672          说明: 画进度条， 起始位置坐标  
-C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 12  
+C51 COMPILER V9.00   OLED                                                                  05/06/2015 14:06:25 PAGE 12  
 
  673          ********************************************************************************************/
  674          void OLED_DrawSetBar(u8 x1, u8 y1, u8 x2, u8 y2, u8 num, u8 num1,u8 t)
  675          { 
- 676   1        u8 i; 
+ 676   1      //  u8 i; 
  677   1        u8 xtmp;
  678   1        xtmp = (x2-x1)/num;
  679   1        OLED_Draw_RectangleFill(x1-3, y1-2, x2+4, y2+12, 0);                              
@@ -720,7 +720,6 @@ line level    source
  686   1        OLED_Refresh_Gram(); 
  687   1           
  688   1      }
-*** WARNING C280 IN LINE 676 OF OLED\OLED.C: 'i': unreferenced local variable
  689          /*******************************************************************************************
  690          函数名: void OLED_DrawBar(u8 x1, u8 y1, u8 x2, u8 y2, u8 t)
  691          说明: 画进度条， 起始位置坐标  
@@ -766,9 +765,9 @@ line level    source
  731          
  732          /*******************************************************************************************
  733          void OLED_DrawICON(u8 x,u8 y,u16 size ,u8 mode)
-C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 13  
-
  734          说明: 画位图 起始位置坐标 x,y
+C51 COMPILER V9.00   OLED                                                                  05/06/2015 14:06:25 PAGE 13  
+
  735          ********************************************************************************************/
  736          void OLED_DrawICON(u8 x,u8 y,u8 mode,void *icon)
  737          {                           
@@ -830,9 +829,9 @@ line level    source
  793   2                  OLED_ShowString(78,15,"4.RETURN",12,1);
  794   2              } 
  795   1              else if(num == 1)
-C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 14  
-
  796   1              {
+C51 COMPILER V9.00   OLED                                                                  05/06/2015 14:06:25 PAGE 14  
+
  797   2                  OLED_ShowString(0,0,"1.VT62538-B1",12,1);
  798   2                  OLED_ShowString(0,15,"2.VT62538-B2",12,0);
  799   2                  OLED_ShowString(78,0,"3.COB",12,1);
@@ -894,9 +893,9 @@ line level    source
  855          {                           
  856   1        OLED_ShowString(x+4,y,"SADD:",7,1);    //第一行字符
  857   1        OLED_ShowString(x+4,y+16,"RADD:",7,1);   //第三行字符 
-C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 15  
-
  858   1        OLED_DrawLine(38,0,38,31,1); 
+C51 COMPILER V9.00   OLED                                                                  05/06/2015 14:06:25 PAGE 15  
+
  859   1        OLED_DrawLine(38,0,40,0,1); 
  860   1        OLED_DrawLine(38,15,40,15,1);
  861   1        OLED_DrawLine(38,31,40,31,1);                  //画分割线
@@ -958,9 +957,9 @@ line level    source
  917   1        OLED_ShowChar(x+6*9,y+24,((Add2>>4)&0x01)+'0',7,1);
  918   1        OLED_ShowChar(x+6*10,y+24,'-',7,1);
  919   1        OLED_ShowChar(x+6*11,y+24,((Add2>>3)&0x01)+'0',7,1);
-C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 16  
-
  920   1        OLED_ShowChar(x+6*12,y+24,((Add2>>2)&0x01)+'0',7,1);
+C51 COMPILER V9.00   OLED                                                                  05/06/2015 14:06:25 PAGE 16  
+
  921   1        OLED_ShowChar(x+6*13,y+24,((Add2>>1)&0x01)+'0',7,1);
  922   1        OLED_ShowChar(x+6*14,y+24,((Add2)&0x01)+'0',7,1);    
  923   1      }
@@ -1022,9 +1021,9 @@ line level    source
  978   1      
  979   1              OLED_WR_Byte(0xD9,OLED_CMD);//设置预充电周期
  980   1              OLED_WR_Byte(0xF1,OLED_CMD);//默认[3:0],PHASE 1;[7:4],PHASE 2;
-C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 17  
-
  981   1      
+C51 COMPILER V9.00   OLED                                                                  05/06/2015 14:06:25 PAGE 17  
+
  982   1              OLED_WR_Byte(0x81,OLED_CMD);//对比度设置
  983   1              OLED_WR_Byte(0xBF,OLED_CMD);//1~255;默认0X7F (亮度设置,越大越亮)
  984   1      
@@ -1046,7 +1045,7 @@ line level    source
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =   8690    ----
    CONSTANT SIZE    =   4881    ----
-   XDATA SIZE       =   1024     160
+   XDATA SIZE       =   1024     159
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
@@ -1054,4 +1053,4 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

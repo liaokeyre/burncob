@@ -26,10 +26,10 @@ void CheckKey(u8 *flag)
 	 {
 	  	  *flag = KEY_MOD;	//4
 	 }
-	 else if(START == 0)
-	 {
-	  	  *flag = KEY_START; //5	
-	 }
+//	 else if(START == 0)
+//	 {
+//	  	  *flag = KEY_START; //5	
+//	 }
 	 else
 		 *flag = NO_KEY;
 }
@@ -83,10 +83,8 @@ void KeyScan(void)
         }
 
     }
-//	    if (key_return != NO_KEY)
-//	    {	   
-           
+	        
 	    Key_back =  key_return;
-//	    }
+
 
 }

@@ -80,13 +80,32 @@ void Int0Init(void)
 	IT0 = 0;                // 1：下降沿中断    0：允许上升沿和下降沿中断
 }
 
+void Int3Init(void)
+{
+    //配置int0输入模式  P3.2    XXXX,XHXX
+	P3M1 |= 0x80;
+	P3M0 &= ~0x80;
+    INT_CLKO |= 0x20;               //(EX3 = 1)使能INT3中断
+}
+
 void timerInit(void)
 {
 	Timer0Init();          //计数中断
 	Timer1Init();		   //计数中断
 	Timer1_InterruptEnable();//开定时器1中断
 	Int0Init();
-	EnDecode();
+    Int3Init();
+//	EnDecode();
+}
+
+void INT3_isr() interrupt INT3_VECTOR  //外部中断3 用来检测起始信号
+{
+/////////////////////////////////////////////////////////
+   if(Cutflag == 3)
+   {
+	  Cutflag = 2; 
+   }
+////////////////////////////////////////////////////////
 }
 void INT0_isr() interrupt INT0_VECTOR  //外部中断0 用来检测遥控码
 {
@@ -191,7 +210,7 @@ void T1_isr() interrupt TIMER1_VECTOR  //定时器1中断用来做实时事件处理	5ms扫描一
 	  cnt =0;
 	  LED0=!LED0;
 	} 
-	if(keycnt>15) 
+	if(keycnt>=4) 
 	{
 	 KeyScan();
 	 keycnt = 0;

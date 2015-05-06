@@ -47,7 +47,11 @@ void SignOut(u8 status,u32 xornum)
 //	}
 //  }
   BUS_2 = status; //成功失败标志！
-  BUS_1 = 0; //成功失败标志
+  BUS_1 = 0;      //结束信号
+  Cutflag = 3;
+  delay_10ms();
+  delay_10ms();	  //10ms延时
+  BUS_1 = 1;
 //  BUS_3 = tmp&0x01;//输出第一位
 //  BUS_4 = (tmp>>1)&0x01;//输出第二位
 //  BUS_5 = (tmp>>2)&0x01;//输出第三位
@@ -110,7 +114,7 @@ ADC通道列表，对应不同PAD脚
 *******************************************************************************************/
 void GetPadRes(void)
 {
-  u8 i;
+//  u8 i;
   A1_4052 = 0;
   A2_4052 = 0;
   B1_4052 = 0;
@@ -759,10 +763,10 @@ u8 Hex2Dat(u8 dat)
 ************************************************************************************************/
 void Decode(u8 status)
 {
-    u32 IRtmp[3];
+//	u32 IRtmp[3];
 	u32 Xornum;
-	u8 i,j;
-	ReIRcode = 0;
+//	u8 i,j;
+  /*   ReIRcode = 0;
     EnDecode();
     delay_10ms(); 
     delay_10ms(); 
@@ -783,6 +787,7 @@ void Decode(u8 status)
 	memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
 	init_windows(0,0,120,32,"Code No.:",0,0);
 	OLED_Draw_WindowsDraw(&windemo);
+
 	i = 200;
 	j = 0;	
     while(i--)
@@ -799,7 +804,7 @@ void Decode(u8 status)
 		}
 
 	}
-    OLED_ShowChar(22,16,Hex2Dat(((IRtmp[1] >>16)>>4)&0x0f),12,1);
+ /*   OLED_ShowChar(22,16,Hex2Dat(((IRtmp[1] >>16)>>4)&0x0f),12,1);
     OLED_ShowChar(30,16,Hex2Dat(((IRtmp[1]>>16)&0x0f)),12,1);
 
 	OLED_ShowChar(42,16,Hex2Dat(((IRtmp[1] >>8)>>4)&0x0f),12,1);
@@ -810,8 +815,10 @@ void Decode(u8 status)
 
 	POP = 1;
 	OLED_Refresh_Gram();
+
 	PN_Mirro();
 	Xornum = (PN.PadByte |0x4)^IRtmp[1];
+*/
 	SignOut(status,Xornum);
 
 //  printf_u8((PN.PadByte )>>16);
@@ -949,7 +956,6 @@ void CobCuting(u32 Add)
 	storge595(&Add,4);
 	ENVMOS();		      // 开mos电源
 	ENABLE595();  		  // 开595控制mos开关
-	Cutflag = 1;
 }
 
 void StartCut(u8 package)
@@ -957,7 +963,7 @@ void StartCut(u8 package)
   DSENVSOC();
   PnMask(package);                //转码
   CobCuting(PN_TMP.PadByte);      //开始割码
-  while(Cutflag)			  //等待割码完成 才可以去读引脚阻值
+  while(Cutflag == 1)			  //等待割码完成 才可以去读引脚阻值
   NOP1();
   GetPadRes();                //读引脚阻值
   OLED_Clear();
@@ -1031,9 +1037,11 @@ void CutRun(u8 package)
 	memcpy(OLED_GRAM_TMP,OLED_GRAM,512);
   while(!Done)
   {
-	  if((Key_back == PR_START)&&(Key_change))
+	  //if(((Key_back == PR_START)||(Key_back == PS_START))&&(Key_change))
+	  if(Cutflag == 2)
 	  {
-	   Key_change=0; 
+//	   Key_change=0; 
+       Cutflag = 1;
 	   BeepFlag =1;	
 	   InitSign();
 #ifdef PRINT_INFO

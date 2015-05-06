@@ -131,7 +131,7 @@ void sysInit(void)
 	NG_COUNT = 0;             //复位计数器
 	DSENVMOS();		          // 关mos电源
 	DSENABLE595();  		  // 关595控制mos开关
-	Cutflag = 0;
+	Cutflag = 3;
 	MODE = cutmode;
 	POP = 0;
 	DSENVSOC();
@@ -169,25 +169,27 @@ void SetLine(void)
 	while(!Done)
 	{
 	  	OLED_DrawSetBar(9, 15, 110, 19, 20,Linetmp, 1);
-		//OLED_ShowChar(x1-8,18,Hex2Dat(((PN_TMP.PadByte)&0x0f)),12,1);
-	    OLED_Refresh_Gram();
+//	    OLED_Refresh_Gram();
       if(Key_change)
 	  {
 	  	switch(Key_back)
 		{
 		  case PR_ADD:
+		  case PS_ADD:
 		  		Key_change=0; 
 		        BeepFlag =1;
 				if(Linetmp-- <= 1)
 				Linetmp = 20;
 		  break;
 		  case PR_SUB:
+		  case PS_SUB:
 		  		Key_change=0; 
 		        BeepFlag =1;
 				if(Linetmp++ >= 20)
 				Linetmp = 1;		
 		  break;
 		  case PR_OK:
+		  case PS_OK:
 		  		Key_change=0; 
 		        BeepFlag =1;
 	            init_windows(20,0,80,32,"Notice"," Set OK!",0);
@@ -209,6 +211,7 @@ void SetLine(void)
 				Done = 1;	
 		  break;
 		  case PR_MOD:
+		  case PS_MOD:
 		  		Key_change=0; 
 		        BeepFlag =1;
 				OLED_Clear();

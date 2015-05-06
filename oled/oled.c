@@ -673,7 +673,7 @@ void OLED_DrawTriangle(u8 x1, u8 y1, u8 len,u8 t)
 ********************************************************************************************/
 void OLED_DrawSetBar(u8 x1, u8 y1, u8 x2, u8 y2, u8 num, u8 num1,u8 t)
 { 
-  u8 i; 
+//  u8 i; 
   u8 xtmp;
   xtmp = (x2-x1)/num;
   OLED_Draw_RectangleFill(x1-3, y1-2, x2+4, y2+12, 0);   			    
