@@ -48,6 +48,8 @@
 #define IR_IN            P32	//检测遥控码
 #define VMOS_EN          P46	//控制割码电源
 #define K1_OUT           P55	//控制模拟测试芯片按键1被按下
+#define K1_OUT_HIGH()    P55 = 1
+#define K1_OUT_LOW()     P55 = 0; P5M1 |= BIT(5); P5M0 &= ~BIT(5)
 #define EN_VSOC          P47    //控制给测试芯片供电
 #define ENVMOS()   	     VMOS_EN = 1
 #define DSENVMOS()       VMOS_EN = 0

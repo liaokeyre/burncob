@@ -135,7 +135,7 @@ void sysInit(void)
 	MODE = cutmode;
 	POP = 0;
 	DSENVSOC();
-	K1_OUT = 0;
+	K1_OUT_LOW();
 	Maxline = at24c02_rd(LINE_NUM_ADD);
 	if((Maxline >20)||(Maxline < 1))
 	{
@@ -379,7 +379,7 @@ void cut_mode(void)
     u8 Done;
 	u8 InMode;
 	u8 menucnt;
-	menucnt = 0;
+	menucnt = 2;      //直接选择到晶元模式
 	InMode = 0;
 	Done = 0;
 	Disp_Menu_Main(cutmode);

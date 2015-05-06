@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   OLED                                                                  04/27/2015 19:27:07 PAGE 1   
+C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE OLED
@@ -62,7 +62,7 @@ line level    source
   51   2                      ms--;
   52   2              }
   53   1      //      return;
-C51 COMPILER V9.00   OLED                                                                  04/27/2015 19:27:07 PAGE 2   
+C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 2   
 
   54   1      }
   55          #if OLED_MODE==1
@@ -126,7 +126,7 @@ line level    source
  113                  OLED_WR_Byte(0XAF,OLED_CMD);  //DISPLAY ON
  114          }
  115          //关闭OLED显示     
-C51 COMPILER V9.00   OLED                                                                  04/27/2015 19:27:07 PAGE 3   
+C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 3   
 
  116          void OLED_Display_Off(void)
  117          {
@@ -190,7 +190,7 @@ line level    source
  175   1              {
  176   2                      diry=1;
  177   2              }
-C51 COMPILER V9.00   OLED                                                                  04/27/2015 19:27:07 PAGE 4   
+C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 4   
 
  178   1              if(dx<0)
  179   1              {
@@ -254,7 +254,7 @@ line level    source
  237   2              temp = x1;
  238   2              x1 = x0;
  239   2              x0 = temp;
-C51 COMPILER V9.00   OLED                                                                  04/27/2015 19:27:07 PAGE 5   
+C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 5   
 
  240   2          }
  241   1          do
@@ -318,7 +318,7 @@ line level    source
  299          ****************************************************************************/
  300          void  OLED_Draw_RectangleFill(u8 x0, u8 y0, u8 x1, u8 y1, u8 t)
  301          {  u8  i;
-C51 COMPILER V9.00   OLED                                                                  04/27/2015 19:27:07 PAGE 6   
+C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 6   
 
  302   1      
  303   1         /* 先找出矩形左上角与右下角的两个点，保存在(x0,y0)，(x1,y1) */
@@ -382,7 +382,7 @@ line level    source
  361   1      }
  362          /****************************************************************************
  363          * 功能：多个点之间的连续连线。从第一点连到第二点，再连到第三点...
-C51 COMPILER V9.00   OLED                                                                  04/27/2015 19:27:07 PAGE 7   
+C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 7   
 
  364          * 入口参数：points  多个点坐标数据的指针，数据排列为(x0,y0)、(x1,y1)、(x2,y2)...
  365          *           no      点数目，至少要大于1
@@ -446,7 +446,7 @@ line level    source
  423          /****************************************************************************
  424          * 功能：显示窗口。根据提供的窗口参数进行画窗口。
  425          * 入口参数：win         窗口句柄
-C51 COMPILER V9.00   OLED                                                                  04/27/2015 19:27:07 PAGE 8   
+C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 8   
 
  426          * 出口参数：返回0表示操作失败，返回1表示操作成功
  427          ****************************************************************************/
@@ -510,7 +510,7 @@ line level    source
  484   2            /* 画状态栏 */
  485   2            OLED_Draw_HLine(win->x, win->y + win->hight - 10, win->x + win->with - 1, 1);
  486   2            
-C51 COMPILER V9.00   OLED                                                                  04/27/2015 19:27:07 PAGE 9   
+C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 9   
 
  487   2            str = win->state;
  488   2            bak = win->x + 3;
@@ -574,7 +574,7 @@ line level    source
  546   4                                      y=y0;
  547   4                                      x++;
  548   4                                      break;
-C51 COMPILER V9.00   OLED                                                                  04/27/2015 19:27:07 PAGE 10  
+C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 10  
 
  549   4                              }
  550   3                      }        
@@ -638,7 +638,7 @@ line level    source
  608   2                      else if(size == 12)
  609   2                      {
  610   3                      if(x>122){x=0;y+=12;}   //换行
-C51 COMPILER V9.00   OLED                                                                  04/27/2015 19:27:07 PAGE 11  
+C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 11  
 
  611   3                      if(y>32){y=x=0;OLED_Clear();} //换页
  612   3                      OLED_ShowChar(x,y,*p,12,mode);   
@@ -702,7 +702,7 @@ line level    source
  670          /*******************************************************************************************
  671          函数名: void OLED_DrawBar(u8 x1, u8 y1, u8 x2, u8 y2, u8 t)
  672          说明: 画进度条， 起始位置坐标  
-C51 COMPILER V9.00   OLED                                                                  04/27/2015 19:27:07 PAGE 12  
+C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 12  
 
  673          ********************************************************************************************/
  674          void OLED_DrawSetBar(u8 x1, u8 y1, u8 x2, u8 y2, u8 num, u8 num1,u8 t)
@@ -717,421 +717,330 @@ line level    source
  683   1        OLED_Draw_RectangleFill(x1+1, y1+1, x1+xtmp*num1, y2-1, t);
  684   1        OLED_ShowChar(x1+xtmp*num1-6,y2+6,Hex2Dat(((num1/10)&0x0f)),7,1);
  685   1        OLED_ShowChar(x1+xtmp*num1,y2+6,Hex2Dat(((num1%10)&0x0f)),7,1);
- 686   1        /*
- 687   1        switch(num)
- 688   1        {
- 689   1          case 0:
- 690   1                 OLED_DrawTriangle(x1+1, y2+1, 3,1);
- 691   1      
- 692   1              break;
- 693   1          case 1:
- 694   1                 OLED_DrawTriangle(xtmp, y2+1, 3,1);
- 695   1                 OLED_Draw_RectangleFill(x1+1, y1+1, x1+xtmp, y2-1, t);
- 696   1              break;
- 697   1          case 2:
- 698   1                 OLED_DrawTriangle(2*xtmp, y2+1, 3,1);
- 699   1                 OLED_Draw_RectangleFill(x1+1, y1+1, x1+2*xtmp, y2-1, t);
- 700   1              break;
- 701   1          case 3:
- 702   1                 OLED_DrawTriangle(3*xtmp, y2+1, 3,1);
- 703   1                 OLED_Draw_RectangleFill(x1+1, y1+1, x1+3*xtmp, y2-1, t);
- 704   1              break;
- 705   1         case 4:
- 706   1                 OLED_DrawTriangle(4*xtmp, y2+1, 3,1);
- 707   1                 OLED_Draw_RectangleFill(x1+1, y1+1, x1+4*xtmp, y2-1, t);
- 708   1              break;
- 709   1          case 5:
- 710   1                 OLED_DrawTriangle(5*xtmp, y2+1, 3,1);
- 711   1                 OLED_Draw_RectangleFill(x1+1, y1+1, x1+5*xtmp, y2-1, t);
- 712   1              break;
- 713   1          case 6:
- 714   1                 OLED_DrawTriangle(6*xtmp, y2+1, 3,1);
- 715   1                 OLED_Draw_RectangleFill(x1+1, y1+1, x1+6*xtmp, y2-1, t);
- 716   1              break;
- 717   1          case 7:
- 718   1                 OLED_DrawTriangle(7*xtmp, y2+1, 3,1);
- 719   1                 OLED_Draw_RectangleFill(x1+1, y1+1, x1+7*xtmp, y2-1, t);
- 720   1              break;
- 721   1         case 8:
- 722   1                 OLED_DrawTriangle(8*xtmp, y2+1, 3,1);
- 723   1                 OLED_Draw_RectangleFill(x1+1, y1+1, x1+8*xtmp, y2-1, t);
- 724   1              break;
- 725   1          case 9:
- 726   1                 OLED_DrawTriangle(9*xtmp, y2+1, 3,1);
- 727   1                 OLED_Draw_RectangleFill(x1+1, y1+1, x1+9*xtmp, y2-1, t);
- 728   1              break;
- 729   1          case 10:
- 730   1                 OLED_DrawTriangle(10*xtmp, y2+1, 3,1);
- 731   1                 OLED_Draw_RectangleFill(x1+1, y1+1, x1+10*xtmp, y2-1, t);
- 732   1              break;
- 733   1          case 11:
- 734   1                 OLED_DrawTriangle(11*xtmp, y2+1, 3,1);
-C51 COMPILER V9.00   OLED                                                                  04/27/2015 19:27:07 PAGE 13  
-
- 735   1                 OLED_Draw_RectangleFill(x1+1, y1+1, x1+11*xtmp, y2-1, t);
- 736   1              break;
- 737   1         case 12:
- 738   1                 OLED_DrawTriangle(12*xtmp, y2+1, 3,1);
- 739   1                 OLED_Draw_RectangleFill(x1+1, y1+1, x1+12*xtmp, y2-1, t);
- 740   1              break;
- 741   1          case 13:
- 742   1                 OLED_DrawTriangle(13*xtmp, y2+1, 3,1);
- 743   1                 OLED_Draw_RectangleFill(x1+1, y1+1, x1+13*xtmp, y2-1, t);
- 744   1              break;
- 745   1          case 14:
- 746   1                 OLED_DrawTriangle(14*xtmp, y2+1, 3,1);
- 747   1                 OLED_Draw_RectangleFill(x1+1, y1+1, x1+14*xtmp, y2-1, t);
- 748   1              break;
- 749   1          case 15:
- 750   1                 OLED_DrawTriangle(15*xtmp, y2+1, 3,1);
- 751   1                 OLED_Draw_RectangleFill(x1+1, y1+1, x1+15*xtmp, y2-1, t);
- 752   1              break;
- 753   1         case 16:
- 754   1                 OLED_DrawTriangle(16*xtmp, y2+1, 3,1);
- 755   1                 OLED_Draw_RectangleFill(x1+1, y1+1, x1+16*xtmp, y2-1, t);
- 756   1              break;
- 757   1          case 17:
- 758   1                 OLED_DrawTriangle(17*xtmp, y2+1, 3,1);
- 759   1                 OLED_Draw_RectangleFill(x1+1, y1+1, x1+17*xtmp, y2-1, t);
- 760   1              break;
- 761   1          case 18:
- 762   1                 OLED_DrawTriangle(18*xtmp, y2+1, 3,1);
- 763   1                 OLED_Draw_RectangleFill(x1+1, y1+1, x1+18*xtmp, y2-1, t);
- 764   1              break;
- 765   1         case 19:
- 766   1                 OLED_DrawTriangle(19*xtmp, y2+1, 3,1);
- 767   1                 OLED_Draw_RectangleFill(x1+1, y1+1, x1+19*xtmp, y2-1, t);
- 768   1              break;
- 769   1          case 20:
- 770   1                 OLED_DrawTriangle(20*xtmp, y2+1, 3,1);
- 771   1                 OLED_Draw_RectangleFill(x1+1, y1+1, x1+20*xtmp, y2-1, t);
- 772   1              break;
- 773   1        }
- 774   1        */
- 775   1        OLED_Refresh_Gram(); 
- 776   1           
- 777   1      }
+ 686   1        OLED_Refresh_Gram(); 
+ 687   1           
+ 688   1      }
 *** WARNING C280 IN LINE 676 OF OLED\OLED.C: 'i': unreferenced local variable
- 778          /*******************************************************************************************
- 779          函数名: void OLED_DrawBar(u8 x1, u8 y1, u8 x2, u8 y2, u8 t)
- 780          说明: 画进度条， 起始位置坐标  
- 781          ********************************************************************************************/
- 782          void OLED_DrawBar(u8 x1, u8 y1, u8 x2, u8 y2, u8 t)
- 783          { 
- 784   1        u8 i;                             
- 785   1        OLED_DrawRectangle(x1, y1, x2, y2, t);
- 786   1        for(i=0;i<x2-x1;i++)
- 787   1        {
- 788   2          OLED_Draw_RectangleFill(x1+1, y1+1, x1+i, y2-1, t); 
- 789   2              OLED_Refresh_Gram();
- 790   2              delay_10ms();
- 791   2              delay_10ms();
- 792   2        }      
- 793   1      }
- 794          /*******************************************************************************************
- 795          函数名: void OLED_DrawBMP(u8 x,u8 y)
-C51 COMPILER V9.00   OLED                                                                  04/27/2015 19:27:07 PAGE 14  
+ 689          /*******************************************************************************************
+ 690          函数名: void OLED_DrawBar(u8 x1, u8 y1, u8 x2, u8 y2, u8 t)
+ 691          说明: 画进度条， 起始位置坐标  
+ 692          ********************************************************************************************/
+ 693          void OLED_DrawBar(u8 x1, u8 y1, u8 x2, u8 y2, u8 t)
+ 694          { 
+ 695   1        u8 i;                             
+ 696   1        OLED_DrawRectangle(x1, y1, x2, y2, t);
+ 697   1        for(i=0;i<x2-x1;i++)
+ 698   1        {
+ 699   2          OLED_Draw_RectangleFill(x1+1, y1+1, x1+i, y2-1, t); 
+ 700   2              OLED_Refresh_Gram();
+ 701   2              delay_10ms();
+ 702   2              delay_10ms();
+ 703   2        }      
+ 704   1      }
+ 705          /*******************************************************************************************
+ 706          函数名: void OLED_DrawBMP(u8 x,u8 y)
+ 707          说明: 画位图 起始位置坐标 x,y
+ 708          ********************************************************************************************/
+ 709          void OLED_DrawBMP(u8 x,u8 y,u8 mode)
+ 710          {                           
+ 711   1              u16 temp,t,t1;
+ 712   1              u16 y0=y;                                                                          
+ 713   1          for(t=0;t<512;t++)
+ 714   1          {  
+ 715   2                  temp = logo[t];                               
+ 716   2              for(t1=0;t1<8;t1++)
+ 717   2                      {
+ 718   3                              if(temp&0x80)OLED_DrawPoint(x,y,mode); 
+ 719   3                              else OLED_DrawPoint(x,y,!mode);            
+ 720   3                              temp<<=1;
+ 721   3                              y++;
+ 722   3                              if((y-y0)==32)
+ 723   3                              {
+ 724   4                                      y=y0;
+ 725   4                                      x++;
+ 726   4                                      break;
+ 727   4                              }
+ 728   3                      }        
+ 729   2          }          
+ 730   1      }
+ 731          
+ 732          /*******************************************************************************************
+ 733          void OLED_DrawICON(u8 x,u8 y,u16 size ,u8 mode)
+C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 13  
 
- 796          说明: 画位图 起始位置坐标 x,y
- 797          ********************************************************************************************/
- 798          void OLED_DrawBMP(u8 x,u8 y,u8 mode)
- 799          {                           
- 800   1              u16 temp,t,t1;
- 801   1              u16 y0=y;                                                                          
- 802   1          for(t=0;t<512;t++)
- 803   1          {  
- 804   2                  temp = logo[t];                               
- 805   2              for(t1=0;t1<8;t1++)
- 806   2                      {
- 807   3                              if(temp&0x80)OLED_DrawPoint(x,y,mode); 
- 808   3                              else OLED_DrawPoint(x,y,!mode);            
- 809   3                              temp<<=1;
- 810   3                              y++;
- 811   3                              if((y-y0)==32)
- 812   3                              {
- 813   4                                      y=y0;
- 814   4                                      x++;
- 815   4                                      break;
- 816   4                              }
- 817   3                      }        
- 818   2          }          
- 819   1      }
- 820          
- 821          /*******************************************************************************************
- 822          void OLED_DrawICON(u8 x,u8 y,u16 size ,u8 mode)
- 823          说明: 画位图 起始位置坐标 x,y
- 824          ********************************************************************************************/
- 825          void OLED_DrawICON(u8 x,u8 y,u8 mode,void *icon)
- 826          {                           
- 827   1              u16 temp,t,t1;
- 828   1              u16 y0=y;                                                                          
- 829   1          for(t=0;t<128;t++)
- 830   1          {  
- 831   2                  temp = *(u8*)icon ; 
- 832   2                      ((u8*)icon)++;                            
- 833   2              for(t1=0;t1<8;t1++)
- 834   2                      {
- 835   3                              if(temp&0x80)OLED_DrawPoint(x,y,mode); 
- 836   3                              else OLED_DrawPoint(x,y,!mode);            
- 837   3                              temp<<=1;
- 838   3                              y++;
- 839   3                              if((y-y0)==32)
- 840   3                              {
- 841   4                                      y=y0;
- 842   4                                      x++;
- 843   4                                      break;
- 844   4                              }
- 845   3                      }        
- 846   2          }          
- 847   1      }
- 848          
- 849          void Disp_Menu_Main(u8 num)
- 850          {
- 851   1          OLED_ShowChar(0,11,'<',12,1);
- 852   1          OLED_ShowChar(120,11,'>',12,1);
- 853   1              if(num == 0)
- 854   1              {
- 855   2                  OLED_DrawICON(10,0,0,set_ico);
- 856   2                  OLED_DrawICON(48,0,1,cut_ico);
- 857   2                  OLED_DrawICON(86,0,1,test_ico);
-C51 COMPILER V9.00   OLED                                                                  04/27/2015 19:27:07 PAGE 15  
+ 734          说明: 画位图 起始位置坐标 x,y
+ 735          ********************************************************************************************/
+ 736          void OLED_DrawICON(u8 x,u8 y,u8 mode,void *icon)
+ 737          {                           
+ 738   1              u16 temp,t,t1;
+ 739   1              u16 y0=y;                                                                          
+ 740   1          for(t=0;t<128;t++)
+ 741   1          {  
+ 742   2                  temp = *(u8*)icon ; 
+ 743   2                      ((u8*)icon)++;                            
+ 744   2              for(t1=0;t1<8;t1++)
+ 745   2                      {
+ 746   3                              if(temp&0x80)OLED_DrawPoint(x,y,mode); 
+ 747   3                              else OLED_DrawPoint(x,y,!mode);            
+ 748   3                              temp<<=1;
+ 749   3                              y++;
+ 750   3                              if((y-y0)==32)
+ 751   3                              {
+ 752   4                                      y=y0;
+ 753   4                                      x++;
+ 754   4                                      break;
+ 755   4                              }
+ 756   3                      }        
+ 757   2          }          
+ 758   1      }
+ 759          
+ 760          void Disp_Menu_Main(u8 num)
+ 761          {
+ 762   1          OLED_ShowChar(0,11,'<',12,1);
+ 763   1          OLED_ShowChar(120,11,'>',12,1);
+ 764   1              if(num == 0)
+ 765   1              {
+ 766   2                  OLED_DrawICON(10,0,0,set_ico);
+ 767   2                  OLED_DrawICON(48,0,1,cut_ico);
+ 768   2                  OLED_DrawICON(86,0,1,test_ico);
+ 769   2              } 
+ 770   1              else if(num == 1)
+ 771   1              {
+ 772   2                  OLED_DrawICON(10,0,1,set_ico);
+ 773   2                  OLED_DrawICON(48,0,0,cut_ico);
+ 774   2                  OLED_DrawICON(86,0,1,test_ico);
+ 775   2              }
+ 776   1              else
+ 777   1              {
+ 778   2                  OLED_DrawICON(10,0,1,set_ico);
+ 779   2                  OLED_DrawICON(48,0,1,cut_ico);
+ 780   2                  OLED_DrawICON(86,0,0,test_ico);
+ 781   2              }
+ 782   1      //      OLED_Refresh_Gram();
+ 783   1      }
+ 784          void Disp_Menu_1(u8 num)
+ 785          {
+ 786   1      //    OLED_ShowChar(0,11,'<',12,1);
+ 787   1      //    OLED_ShowChar(120,11,'>',12,1);
+ 788   1              if(num == 0)
+ 789   1              {
+ 790   2                  OLED_ShowString(0,0,"1.VT62538-B1",12,0);
+ 791   2                  OLED_ShowString(0,15,"2.VT62538-B2",12,1);
+ 792   2                  OLED_ShowString(78,0,"3.COB",12,1);
+ 793   2                  OLED_ShowString(78,15,"4.RETURN",12,1);
+ 794   2              } 
+ 795   1              else if(num == 1)
+C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 14  
 
- 858   2              } 
- 859   1              else if(num == 1)
- 860   1              {
- 861   2                  OLED_DrawICON(10,0,1,set_ico);
- 862   2                  OLED_DrawICON(48,0,0,cut_ico);
- 863   2                  OLED_DrawICON(86,0,1,test_ico);
- 864   2              }
- 865   1              else
- 866   1              {
- 867   2                  OLED_DrawICON(10,0,1,set_ico);
- 868   2                  OLED_DrawICON(48,0,1,cut_ico);
- 869   2                  OLED_DrawICON(86,0,0,test_ico);
- 870   2              }
- 871   1      //      OLED_Refresh_Gram();
- 872   1      }
- 873          void Disp_Menu_1(u8 num)
- 874          {
- 875   1      //    OLED_ShowChar(0,11,'<',12,1);
- 876   1      //    OLED_ShowChar(120,11,'>',12,1);
- 877   1              if(num == 0)
- 878   1              {
- 879   2                  OLED_ShowString(0,0,"1.VT62538-B1",12,0);
- 880   2                  OLED_ShowString(0,15,"2.VT62538-B2",12,1);
- 881   2                  OLED_ShowString(78,0,"3.COB",12,1);
- 882   2                  OLED_ShowString(78,15,"4.RETURN",12,1);
- 883   2              } 
- 884   1              else if(num == 1)
- 885   1              {
- 886   2                  OLED_ShowString(0,0,"1.VT62538-B1",12,1);
- 887   2                  OLED_ShowString(0,15,"2.VT62538-B2",12,0);
- 888   2                  OLED_ShowString(78,0,"3.COB",12,1);
- 889   2                  OLED_ShowString(78,15,"4.RETURN",12,1);
- 890   2              }
- 891   1              else if(num == 2)
- 892   1              {
- 893   2                  OLED_ShowString(0,0,"1.VT62538-B1",12,1);
- 894   2                  OLED_ShowString(0,15,"2.VT62538-B2",12,1);
- 895   2                  OLED_ShowString(78,0,"3.COB",12,0);
- 896   2                  OLED_ShowString(78,15,"4.RETURN",12,1);
- 897   2              }
- 898   1              else
- 899   1              {
- 900   2                  OLED_ShowString(0,0,"1.VT62538-B1",12,1);
- 901   2                  OLED_ShowString(0,15,"2.VT62538-B2",12,1);
- 902   2                  OLED_ShowString(78,0,"3.COB",12,1);
- 903   2                  OLED_ShowString(78,15,"4.RETURN",12,0);
- 904   2              }
- 905   1      }
- 906          
- 907          void Disp_Menu_0(u8 num)
- 908          {
- 909   1              if(num == 0)
- 910   1              {
- 911   2                  OLED_ShowString(0,0,"1.SET LINE",12,0);
- 912   2                  OLED_ShowString(0,15,"2.SET SENS",12,1);
- 913   2                  OLED_ShowString(78,0,"3.ERASE",12,1);
- 914   2                  OLED_ShowString(78,15,"4.RETURN",12,1);
- 915   2              } 
- 916   1              else if(num == 1)
- 917   1              {
- 918   2                  OLED_ShowString(0,0,"1.SET LINE",12,1);
- 919   2                  OLED_ShowString(0,15,"2.SET SENS",12,0);
-C51 COMPILER V9.00   OLED                                                                  04/27/2015 19:27:07 PAGE 16  
+ 796   1              {
+ 797   2                  OLED_ShowString(0,0,"1.VT62538-B1",12,1);
+ 798   2                  OLED_ShowString(0,15,"2.VT62538-B2",12,0);
+ 799   2                  OLED_ShowString(78,0,"3.COB",12,1);
+ 800   2                  OLED_ShowString(78,15,"4.RETURN",12,1);
+ 801   2              }
+ 802   1              else if(num == 2)
+ 803   1              {
+ 804   2                  OLED_ShowString(0,0,"1.VT62538-B1",12,1);
+ 805   2                  OLED_ShowString(0,15,"2.VT62538-B2",12,1);
+ 806   2                  OLED_ShowString(78,0,"3.COB",12,0);
+ 807   2                  OLED_ShowString(78,15,"4.RETURN",12,1);
+ 808   2              }
+ 809   1              else
+ 810   1              {
+ 811   2                  OLED_ShowString(0,0,"1.VT62538-B1",12,1);
+ 812   2                  OLED_ShowString(0,15,"2.VT62538-B2",12,1);
+ 813   2                  OLED_ShowString(78,0,"3.COB",12,1);
+ 814   2                  OLED_ShowString(78,15,"4.RETURN",12,0);
+ 815   2              }
+ 816   1      }
+ 817          
+ 818          void Disp_Menu_0(u8 num)
+ 819          {
+ 820   1              if(num == 0)
+ 821   1              {
+ 822   2                  OLED_ShowString(0,0,"1.SET LINE",12,0);
+ 823   2                  OLED_ShowString(0,15,"2.SET SENS",12,1);
+ 824   2                  OLED_ShowString(78,0,"3.ERASE",12,1);
+ 825   2                  OLED_ShowString(78,15,"4.RETURN",12,1);
+ 826   2              } 
+ 827   1              else if(num == 1)
+ 828   1              {
+ 829   2                  OLED_ShowString(0,0,"1.SET LINE",12,1);
+ 830   2                  OLED_ShowString(0,15,"2.SET SENS",12,0);
+ 831   2                  OLED_ShowString(78,0,"3.ERASE",12,1);
+ 832   2                  OLED_ShowString(78,15,"4.RETURN",12,1);
+ 833   2              }
+ 834   1              else if(num == 2)
+ 835   1              {
+ 836   2                  OLED_ShowString(0,0,"1.SET LINE",12,1);
+ 837   2                  OLED_ShowString(0,15,"2.SET SENS",12,1);
+ 838   2                  OLED_ShowString(78,0,"3.ERASE",12,0);
+ 839   2                  OLED_ShowString(78,15,"4.RETURN",12,1);
+ 840   2              }
+ 841   1              else
+ 842   1              {
+ 843   2                  OLED_ShowString(0,0,"1.SET LINE",12,1);
+ 844   2                  OLED_ShowString(0,15,"2.SET SENS",12,1);
+ 845   2                  OLED_ShowString(78,0,"3.ERASE",12,1);
+ 846   2                  OLED_ShowString(78,15,"4.RETURN",12,0);
+ 847   2              } 
+ 848   1      }
+ 849          
+ 850          /*******************************************************************************************
+ 851          函数名: void OLED_ShowAdd(u8 x,u8 y,u32 Add1,u32 Add2)
+ 852          说明: 画位图 起始位置坐标 x,y
+ 853          ********************************************************************************************/
+ 854          void OLED_ShowAdd(u8 x,u8 y,u32 Add1,u32 Add2)
+ 855          {                           
+ 856   1        OLED_ShowString(x+4,y,"SADD:",7,1);    //第一行字符
+ 857   1        OLED_ShowString(x+4,y+16,"RADD:",7,1);   //第三行字符 
+C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 15  
 
- 920   2                  OLED_ShowString(78,0,"3.ERASE",12,1);
- 921   2                  OLED_ShowString(78,15,"4.RETURN",12,1);
- 922   2              }
- 923   1              else if(num == 2)
- 924   1              {
- 925   2                  OLED_ShowString(0,0,"1.SET LINE",12,1);
- 926   2                  OLED_ShowString(0,15,"2.SET SENS",12,1);
- 927   2                  OLED_ShowString(78,0,"3.ERASE",12,0);
- 928   2                  OLED_ShowString(78,15,"4.RETURN",12,1);
- 929   2              }
- 930   1              else
- 931   1              {
- 932   2                  OLED_ShowString(0,0,"1.SET LINE",12,1);
- 933   2                  OLED_ShowString(0,15,"2.SET SENS",12,1);
- 934   2                  OLED_ShowString(78,0,"3.ERASE",12,1);
- 935   2                  OLED_ShowString(78,15,"4.RETURN",12,0);
- 936   2              } 
- 937   1      }
- 938          
- 939          /*******************************************************************************************
- 940          函数名: void OLED_ShowAdd(u8 x,u8 y,u32 Add1,u32 Add2)
- 941          说明: 画位图 起始位置坐标 x,y
- 942          ********************************************************************************************/
- 943          void OLED_ShowAdd(u8 x,u8 y,u32 Add1,u32 Add2)
- 944          {                           
- 945   1        OLED_ShowString(x+4,y,"SADD:",7,1);    //第一行字符
- 946   1        OLED_ShowString(x+4,y+16,"RADD:",7,1);   //第三行字符 
- 947   1        OLED_DrawLine(38,0,38,31,1); 
- 948   1        OLED_DrawLine(38,0,40,0,1); 
- 949   1        OLED_DrawLine(38,15,40,15,1);
- 950   1        OLED_DrawLine(38,31,40,31,1);                  //画分割线
- 951   1        x = x+36;
- 952   1        OLED_ShowChar(x+6,y,((Add1>>23)&0x01)+'0',7,1);
- 953   1        OLED_ShowChar(x+6*2,y,((Add1>>22)&0x01)+'0',7,1);
- 954   1        OLED_ShowChar(x+6*3,y,((Add1>>21)&0x01)+'0',7,1);
- 955   1        OLED_ShowChar(x+6*4,y,((Add1>>20)&0x01)+'0',7,1);
- 956   1        OLED_ShowChar(x+6*5,y,'-',7,1);
- 957   1        OLED_ShowChar(x+6*6,y,((Add1>>19)&0x01)+'0',7,1);
- 958   1        OLED_ShowChar(x+6*7,y,((Add1>>18)&0x01)+'0',7,1);
- 959   1        OLED_ShowChar(x+6*8,y,((Add1>>17)&0x01)+'0',7,1);
- 960   1        OLED_ShowChar(x+6*9,y,((Add1>>16)&0x01)+'0',7,1);
- 961   1        OLED_ShowChar(x+6*10,y,'-',7,1);
- 962   1        OLED_ShowChar(x+6*11,y,((Add1>>15)&0x01)+'0',7,1);
- 963   1        OLED_ShowChar(x+6*12,y,((Add1>>14)&0x01)+'0',7,1);
- 964   1        OLED_ShowChar(x+6*13,y,((Add1>>13)&0x01)+'0',7,1);
- 965   1        OLED_ShowChar(x+6*14,y,((Add1>>12)&0x01)+'0',7,1);
- 966   1       // OLED_ShowChar(x+6*15,y,'-',7,1);
- 967   1        OLED_ShowChar(x+6,y+8,((Add1>>11)&0x01)+'0',7,1);
- 968   1        OLED_ShowChar(x+6*2,y+8,((Add1>>10)&0x01)+'0',7,1);
- 969   1        OLED_ShowChar(x+6*3,y+8,((Add1>>9)&0x01)+'0',7,1);
- 970   1        OLED_ShowChar(x+6*4,y+8,((Add1>>8)&0x01)+'0',7,1);
- 971   1        OLED_ShowChar(x+6*5,y+8,'-',7,1);
- 972   1        OLED_ShowChar(x+6*6,y+8,((Add1>>7)&0x01)+'0',7,1);
- 973   1        OLED_ShowChar(x+6*7,y+8,((Add1>>6)&0x01)+'0',7,1);
- 974   1        OLED_ShowChar(x+6*8,y+8,((Add1>>5)&0x01)+'0',7,1);
- 975   1        OLED_ShowChar(x+6*9,y+8,((Add1>>4)&0x01)+'0',7,1);
- 976   1        OLED_ShowChar(x+6*10,y+8,'-',7,1);
- 977   1        OLED_ShowChar(x+6*11,y+8,((Add1>>3)&0x01)+'0',7,1);
- 978   1        OLED_ShowChar(x+6*12,y+8,((Add1>>2)&0x01)+'0',7,1);
- 979   1        OLED_ShowChar(x+6*13,y+8,((Add1>>1)&0x01)+'0',7,1);
- 980   1        OLED_ShowChar(x+6*14,y+8,((Add1)&0x01)+'0',7,1);
- 981   1      
-C51 COMPILER V9.00   OLED                                                                  04/27/2015 19:27:07 PAGE 17  
+ 858   1        OLED_DrawLine(38,0,38,31,1); 
+ 859   1        OLED_DrawLine(38,0,40,0,1); 
+ 860   1        OLED_DrawLine(38,15,40,15,1);
+ 861   1        OLED_DrawLine(38,31,40,31,1);                  //画分割线
+ 862   1        x = x+36;
+ 863   1        OLED_ShowChar(x+6,y,((Add1>>23)&0x01)+'0',7,1);
+ 864   1        OLED_ShowChar(x+6*2,y,((Add1>>22)&0x01)+'0',7,1);
+ 865   1        OLED_ShowChar(x+6*3,y,((Add1>>21)&0x01)+'0',7,1);
+ 866   1        OLED_ShowChar(x+6*4,y,((Add1>>20)&0x01)+'0',7,1);
+ 867   1        OLED_ShowChar(x+6*5,y,'-',7,1);
+ 868   1        OLED_ShowChar(x+6*6,y,((Add1>>19)&0x01)+'0',7,1);
+ 869   1        OLED_ShowChar(x+6*7,y,((Add1>>18)&0x01)+'0',7,1);
+ 870   1        OLED_ShowChar(x+6*8,y,((Add1>>17)&0x01)+'0',7,1);
+ 871   1        OLED_ShowChar(x+6*9,y,((Add1>>16)&0x01)+'0',7,1);
+ 872   1        OLED_ShowChar(x+6*10,y,'-',7,1);
+ 873   1        OLED_ShowChar(x+6*11,y,((Add1>>15)&0x01)+'0',7,1);
+ 874   1        OLED_ShowChar(x+6*12,y,((Add1>>14)&0x01)+'0',7,1);
+ 875   1        OLED_ShowChar(x+6*13,y,((Add1>>13)&0x01)+'0',7,1);
+ 876   1        OLED_ShowChar(x+6*14,y,((Add1>>12)&0x01)+'0',7,1);
+ 877   1       // OLED_ShowChar(x+6*15,y,'-',7,1);
+ 878   1        OLED_ShowChar(x+6,y+8,((Add1>>11)&0x01)+'0',7,1);
+ 879   1        OLED_ShowChar(x+6*2,y+8,((Add1>>10)&0x01)+'0',7,1);
+ 880   1        OLED_ShowChar(x+6*3,y+8,((Add1>>9)&0x01)+'0',7,1);
+ 881   1        OLED_ShowChar(x+6*4,y+8,((Add1>>8)&0x01)+'0',7,1);
+ 882   1        OLED_ShowChar(x+6*5,y+8,'-',7,1);
+ 883   1        OLED_ShowChar(x+6*6,y+8,((Add1>>7)&0x01)+'0',7,1);
+ 884   1        OLED_ShowChar(x+6*7,y+8,((Add1>>6)&0x01)+'0',7,1);
+ 885   1        OLED_ShowChar(x+6*8,y+8,((Add1>>5)&0x01)+'0',7,1);
+ 886   1        OLED_ShowChar(x+6*9,y+8,((Add1>>4)&0x01)+'0',7,1);
+ 887   1        OLED_ShowChar(x+6*10,y+8,'-',7,1);
+ 888   1        OLED_ShowChar(x+6*11,y+8,((Add1>>3)&0x01)+'0',7,1);
+ 889   1        OLED_ShowChar(x+6*12,y+8,((Add1>>2)&0x01)+'0',7,1);
+ 890   1        OLED_ShowChar(x+6*13,y+8,((Add1>>1)&0x01)+'0',7,1);
+ 891   1        OLED_ShowChar(x+6*14,y+8,((Add1)&0x01)+'0',7,1);
+ 892   1      
+ 893   1        OLED_ShowChar(x+6,y+16,((Add2>>23)&0x01)+'0',7,1);
+ 894   1        OLED_ShowChar(x+6*2,y+16,((Add2>>22)&0x01)+'0',7,1);
+ 895   1        OLED_ShowChar(x+6*3,y+16,((Add2>>21)&0x01)+'0',7,1);
+ 896   1        OLED_ShowChar(x+6*4,y+16,((Add2>>20)&0x01)+'0',7,1);
+ 897   1        OLED_ShowChar(x+6*5,y+16,'-',7,1);
+ 898   1        OLED_ShowChar(x+6*6,y+16,((Add2>>19)&0x01)+'0',7,1);
+ 899   1        OLED_ShowChar(x+6*7,y+16,((Add2>>18)&0x01)+'0',7,1);
+ 900   1        OLED_ShowChar(x+6*8,y+16,((Add2>>17)&0x01)+'0',7,1);
+ 901   1        OLED_ShowChar(x+6*9,y+16,((Add2>>16)&0x01)+'0',7,1);
+ 902   1        OLED_ShowChar(x+6*10,y+16,'-',7,1);
+ 903   1        OLED_ShowChar(x+6*11,y+16,((Add2>>15)&0x01)+'0',7,1);
+ 904   1        OLED_ShowChar(x+6*12,y+16,((Add2>>14)&0x01)+'0',7,1);
+ 905   1        OLED_ShowChar(x+6*13,y+16,((Add2>>13)&0x01)+'0',7,1);
+ 906   1        OLED_ShowChar(x+6*14,y+16,((Add2>>12)&0x01)+'0',7,1);
+ 907   1      //  OLED_ShowChar(x+6*15,y+16,'-',7,1);
+ 908   1      
+ 909   1        OLED_ShowChar(x+6,y+24,((Add2>>11)&0x01)+'0',7,1);
+ 910   1        OLED_ShowChar(x+6*2,y+24,((Add2>>10)&0x01)+'0',7,1);
+ 911   1        OLED_ShowChar(x+6*3,y+24,((Add2>>9)&0x01)+'0',7,1);
+ 912   1        OLED_ShowChar(x+6*4,y+24,((Add2>>8)&0x01)+'0',7,1);
+ 913   1        OLED_ShowChar(x+6*5,y+24,'-',7,1);
+ 914   1        OLED_ShowChar(x+6*6,y+24,((Add2>>7)&0x01)+'0',7,1);
+ 915   1        OLED_ShowChar(x+6*7,y+24,((Add2>>6)&0x01)+'0',7,1);
+ 916   1        OLED_ShowChar(x+6*8,y+24,((Add2>>5)&0x01)+'0',7,1);
+ 917   1        OLED_ShowChar(x+6*9,y+24,((Add2>>4)&0x01)+'0',7,1);
+ 918   1        OLED_ShowChar(x+6*10,y+24,'-',7,1);
+ 919   1        OLED_ShowChar(x+6*11,y+24,((Add2>>3)&0x01)+'0',7,1);
+C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 16  
 
- 982   1        OLED_ShowChar(x+6,y+16,((Add2>>23)&0x01)+'0',7,1);
- 983   1        OLED_ShowChar(x+6*2,y+16,((Add2>>22)&0x01)+'0',7,1);
- 984   1        OLED_ShowChar(x+6*3,y+16,((Add2>>21)&0x01)+'0',7,1);
- 985   1        OLED_ShowChar(x+6*4,y+16,((Add2>>20)&0x01)+'0',7,1);
- 986   1        OLED_ShowChar(x+6*5,y+16,'-',7,1);
- 987   1        OLED_ShowChar(x+6*6,y+16,((Add2>>19)&0x01)+'0',7,1);
- 988   1        OLED_ShowChar(x+6*7,y+16,((Add2>>18)&0x01)+'0',7,1);
- 989   1        OLED_ShowChar(x+6*8,y+16,((Add2>>17)&0x01)+'0',7,1);
- 990   1        OLED_ShowChar(x+6*9,y+16,((Add2>>16)&0x01)+'0',7,1);
- 991   1        OLED_ShowChar(x+6*10,y+16,'-',7,1);
- 992   1        OLED_ShowChar(x+6*11,y+16,((Add2>>15)&0x01)+'0',7,1);
- 993   1        OLED_ShowChar(x+6*12,y+16,((Add2>>14)&0x01)+'0',7,1);
- 994   1        OLED_ShowChar(x+6*13,y+16,((Add2>>13)&0x01)+'0',7,1);
- 995   1        OLED_ShowChar(x+6*14,y+16,((Add2>>12)&0x01)+'0',7,1);
- 996   1      //  OLED_ShowChar(x+6*15,y+16,'-',7,1);
- 997   1      
- 998   1        OLED_ShowChar(x+6,y+24,((Add2>>11)&0x01)+'0',7,1);
- 999   1        OLED_ShowChar(x+6*2,y+24,((Add2>>10)&0x01)+'0',7,1);
-1000   1        OLED_ShowChar(x+6*3,y+24,((Add2>>9)&0x01)+'0',7,1);
-1001   1        OLED_ShowChar(x+6*4,y+24,((Add2>>8)&0x01)+'0',7,1);
-1002   1        OLED_ShowChar(x+6*5,y+24,'-',7,1);
-1003   1        OLED_ShowChar(x+6*6,y+24,((Add2>>7)&0x01)+'0',7,1);
-1004   1        OLED_ShowChar(x+6*7,y+24,((Add2>>6)&0x01)+'0',7,1);
-1005   1        OLED_ShowChar(x+6*8,y+24,((Add2>>5)&0x01)+'0',7,1);
-1006   1        OLED_ShowChar(x+6*9,y+24,((Add2>>4)&0x01)+'0',7,1);
-1007   1        OLED_ShowChar(x+6*10,y+24,'-',7,1);
-1008   1        OLED_ShowChar(x+6*11,y+24,((Add2>>3)&0x01)+'0',7,1);
-1009   1        OLED_ShowChar(x+6*12,y+24,((Add2>>2)&0x01)+'0',7,1);
-1010   1        OLED_ShowChar(x+6*13,y+24,((Add2>>1)&0x01)+'0',7,1);
-1011   1        OLED_ShowChar(x+6*14,y+24,((Add2)&0x01)+'0',7,1);    
-1012   1      }
-1013          /*******************************************************************************************
-1014          函数名: void OLED_Init(void)
-1015          说明: OLED屏初始化
-1016          ********************************************************************************************/                               
-1017          void OLED_Init(void)
-1018          {
-1019   1          OLED_RST_Set();
-1020   1              delay_ms(100);
-1021   1              OLED_RST_Clr();
-1022   1              delay_ms(100);
-1023   1              OLED_RST_Set(); 
-1024   1      
-1025   1              OLED_WR_Byte(0xFD,OLED_CMD);//内部单片机写保护
-1026   1              OLED_WR_Byte(0x12,OLED_CMD);//默认关闭内部保护，允许接收所有指令，如开启保护则只接受FD指令 ？默认为0，为1
+ 920   1        OLED_ShowChar(x+6*12,y+24,((Add2>>2)&0x01)+'0',7,1);
+ 921   1        OLED_ShowChar(x+6*13,y+24,((Add2>>1)&0x01)+'0',7,1);
+ 922   1        OLED_ShowChar(x+6*14,y+24,((Add2)&0x01)+'0',7,1);    
+ 923   1      }
+ 924          /*******************************************************************************************
+ 925          函数名: void OLED_Init(void)
+ 926          说明: OLED屏初始化
+ 927          ********************************************************************************************/                               
+ 928          void OLED_Init(void)
+ 929          {
+ 930   1          OLED_RST_Set();
+ 931   1              delay_ms(100);
+ 932   1              OLED_RST_Clr();
+ 933   1              delay_ms(100);
+ 934   1              OLED_RST_Set(); 
+ 935   1      
+ 936   1              OLED_WR_Byte(0xFD,OLED_CMD);//内部单片机写保护
+ 937   1              OLED_WR_Byte(0x12,OLED_CMD);//默认关闭内部保护，允许接收所有指令，如开启保护则只接受FD指令 ？默认为0，为1
              -则保护 bit 0 0 0 1 0 ？1 0
-1027   1                      
-1028   1              OLED_WR_Byte(0xAE,OLED_CMD);//关闭显示
-1029   1      
-1030   1              OLED_WR_Byte(0x20,OLED_CMD);
-1031   1              OLED_WR_Byte(0x02,OLED_CMD);//page mode
-1032   1      
-1033   1              OLED_WR_Byte(0xB4,OLED_CMD);
-1034   1      
-1035   1              OLED_WR_Byte(0x00,OLED_CMD);//
-1036   1              OLED_WR_Byte(0x10,OLED_CMD);//
-1037   1      
-1038   1      //      OLED_WR_Byte(0x40,OLED_CMD);//设置显示开始行40H+0~63
-1039   1              OLED_WR_Byte(0x60,OLED_CMD);//设置显示开始行40H+0~63
-1040   1      
-1041   1              OLED_WR_Byte(0xD5,OLED_CMD);//设置时钟分频因子，振荡频率
-1042   1              OLED_WR_Byte(0xf0,OLED_CMD);//[3:0],分频因子;[7:4],震荡频率     默认0111 0000   PS大部分驱动都选择是0x80
-C51 COMPILER V9.00   OLED                                                                  04/27/2015 19:27:07 PAGE 18  
+ 938   1                      
+ 939   1              OLED_WR_Byte(0xAE,OLED_CMD);//关闭显示
+ 940   1      
+ 941   1              OLED_WR_Byte(0x20,OLED_CMD);
+ 942   1              OLED_WR_Byte(0x02,OLED_CMD);//page mode
+ 943   1      
+ 944   1              OLED_WR_Byte(0xB4,OLED_CMD);
+ 945   1      
+ 946   1              OLED_WR_Byte(0x00,OLED_CMD);//
+ 947   1              OLED_WR_Byte(0x10,OLED_CMD);//
+ 948   1      
+ 949   1      //      OLED_WR_Byte(0x40,OLED_CMD);//设置显示开始行40H+0~63
+ 950   1              OLED_WR_Byte(0x60,OLED_CMD);//设置显示开始行40H+0~63
+ 951   1      
+ 952   1              OLED_WR_Byte(0xD5,OLED_CMD);//设置时钟分频因子，振荡频率
+ 953   1              OLED_WR_Byte(0xf0,OLED_CMD);//[3:0],分频因子;[7:4],震荡频率     默认0111 0000   PS大部分驱动都选择是0x80
+ 954   1      
+ 955   1              OLED_WR_Byte(0xA8,OLED_CMD);//设置多重通道
+ 956   1              OLED_WR_Byte(0x1F,OLED_CMD);//默认0X3F
+ 957   1      
+ 958   1              OLED_WR_Byte(0xD3,OLED_CMD);//设置显示偏移
+ 959   1              OLED_WR_Byte(0x00,OLED_CMD);//默认不偏移[5:0]
+ 960   1      
+ 961   1      
+ 962   1      
+ 963   1              OLED_WR_Byte(0xA1,OLED_CMD);//段重定义设置,bit0:   0,0->0;  1,0->127
+ 964   1      
+ 965   1      //      OLED_WR_Byte(0xA0,OLED_CMD);//段重定义设置,bit0:   0,0->0;  1,0->127
+ 966   1      
+ 967   1      //      OLED_WR_Byte(0xC8,OLED_CMD);//设置COM扫描方向;bit3: 0,普通模式;1,重定义模式 COM[N-1]->COM0
+ 968   1      
+ 969   1          OLED_WR_Byte(0xC0,OLED_CMD);//设置COM扫描方向;bit3: 0,普通模式;1,重定义模式 COM[N-1]->COM0
+ 970   1      
+ 971   1              OLED_WR_Byte(0xD8,OLED_CMD);//
+ 972   1              OLED_WR_Byte(0x05,OLED_CMD);
+ 973   1      
+ 974   1              OLED_WR_Byte(0xDA,OLED_CMD);//设置COM硬件引脚配置
+ 975   1              OLED_WR_Byte(0x12,OLED_CMD);//默认[5:4]配置
+ 976   1      
+ 977   1      //      OLED_WR_Byte(0x00,OLED_CMD);// ？？？？没啥用吧........
+ 978   1      
+ 979   1              OLED_WR_Byte(0xD9,OLED_CMD);//设置预充电周期
+ 980   1              OLED_WR_Byte(0xF1,OLED_CMD);//默认[3:0],PHASE 1;[7:4],PHASE 2;
+C51 COMPILER V9.00   OLED                                                                  05/05/2015 10:51:29 PAGE 17  
 
-1043   1      
-1044   1              OLED_WR_Byte(0xA8,OLED_CMD);//设置多重通道
-1045   1              OLED_WR_Byte(0x1F,OLED_CMD);//默认0X3F
-1046   1      
-1047   1              OLED_WR_Byte(0xD3,OLED_CMD);//设置显示偏移
-1048   1              OLED_WR_Byte(0x00,OLED_CMD);//默认不偏移[5:0]
-1049   1      
-1050   1      
-1051   1      
-1052   1              OLED_WR_Byte(0xA1,OLED_CMD);//段重定义设置,bit0:   0,0->0;  1,0->127
-1053   1      
-1054   1      //      OLED_WR_Byte(0xA0,OLED_CMD);//段重定义设置,bit0:   0,0->0;  1,0->127
-1055   1      
-1056   1      //      OLED_WR_Byte(0xC8,OLED_CMD);//设置COM扫描方向;bit3: 0,普通模式;1,重定义模式 COM[N-1]->COM0
-1057   1      
-1058   1          OLED_WR_Byte(0xC0,OLED_CMD);//设置COM扫描方向;bit3: 0,普通模式;1,重定义模式 COM[N-1]->COM0
-1059   1      
-1060   1              OLED_WR_Byte(0xD8,OLED_CMD);//
-1061   1              OLED_WR_Byte(0x05,OLED_CMD);
-1062   1      
-1063   1              OLED_WR_Byte(0xDA,OLED_CMD);//设置COM硬件引脚配置
-1064   1              OLED_WR_Byte(0x12,OLED_CMD);//默认[5:4]配置
-1065   1      
-1066   1      //      OLED_WR_Byte(0x00,OLED_CMD);// ？？？？没啥用吧........
-1067   1      
-1068   1              OLED_WR_Byte(0xD9,OLED_CMD);//设置预充电周期
-1069   1              OLED_WR_Byte(0xF1,OLED_CMD);//默认[3:0],PHASE 1;[7:4],PHASE 2;
-1070   1      
-1071   1              OLED_WR_Byte(0x81,OLED_CMD);//对比度设置
-1072   1              OLED_WR_Byte(0xBF,OLED_CMD);//1~255;默认0X7F (亮度设置,越大越亮)
-1073   1      
-1074   1      //      OLED_WR_Byte(0xD9,OLED_CMD);//-Set Page Addressing Mode (0x00/0x01/0x02)
-1075   1      //      OLED_WR_Byte(0x25,OLED_CMD);//
-1076   1      
-1077   1              OLED_WR_Byte(0xDB,OLED_CMD);//设置VCOMH 电压倍率
-1078   1              OLED_WR_Byte(0x34,OLED_CMD);//[5:2] 0000,0.64*vcc;1101,0.78*vcc;1111,0.84*vcc;
-1079   1      
-1080   1              OLED_WR_Byte(0xA4,OLED_CMD);//全局显示开启;bit0:1,开启;0,关闭;(白屏/黑屏) A4/A5
-1081   1              OLED_WR_Byte(0xA6,OLED_CMD);//设置显示方式;bit0:1,反相显示;0,正常显示     A6/A7
-1082   1              OLED_WR_Byte(0xAF,OLED_CMD);//开启显示                                                            AE/AF
-1083   1      
-1084   1              OLED_Clear();
-1085   1              OLED_Set_Pos(0,0);                      
-1086   1      }  
+ 981   1      
+ 982   1              OLED_WR_Byte(0x81,OLED_CMD);//对比度设置
+ 983   1              OLED_WR_Byte(0xBF,OLED_CMD);//1~255;默认0X7F (亮度设置,越大越亮)
+ 984   1      
+ 985   1      //      OLED_WR_Byte(0xD9,OLED_CMD);//-Set Page Addressing Mode (0x00/0x01/0x02)
+ 986   1      //      OLED_WR_Byte(0x25,OLED_CMD);//
+ 987   1      
+ 988   1              OLED_WR_Byte(0xDB,OLED_CMD);//设置VCOMH 电压倍率
+ 989   1              OLED_WR_Byte(0x34,OLED_CMD);//[5:2] 0000,0.64*vcc;1101,0.78*vcc;1111,0.84*vcc;
+ 990   1      
+ 991   1              OLED_WR_Byte(0xA4,OLED_CMD);//全局显示开启;bit0:1,开启;0,关闭;(白屏/黑屏) A4/A5
+ 992   1              OLED_WR_Byte(0xA6,OLED_CMD);//设置显示方式;bit0:1,反相显示;0,正常显示     A6/A7
+ 993   1              OLED_WR_Byte(0xAF,OLED_CMD);//开启显示                                                            AE/AF
+ 994   1      
+ 995   1              OLED_Clear();
+ 996   1              OLED_Set_Pos(0,0);                      
+ 997   1      }  
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE

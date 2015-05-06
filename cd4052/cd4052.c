@@ -766,7 +766,7 @@ void Decode(u8 status)
     EnDecode();
     delay_10ms(); 
     delay_10ms(); 
-	K1_OUT = 1;
+	K1_OUT_HIGH();
     delay_10ms(); 
     delay_10ms(); 
     delay_10ms(); 

@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   CD4052                                                                04/27/2015 19:27:07 PAGE 1   
+C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE CD4052
@@ -62,7 +62,7 @@ line level    source
   52   1      //  BUS_4 = (tmp>>1)&0x01;//输出第二位
   53   1      //  BUS_5 = (tmp>>2)&0x01;//输出第三位
   54   1      //  BUS_6 = (tmp>>3)&0x01;//输出第四位
-C51 COMPILER V9.00   CD4052                                                                04/27/2015 19:27:07 PAGE 2   
+C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 2   
 
   55   1      }
 *** WARNING C280 IN LINE 38 OF CD4052\CD4052.C: 'xornum': unreferenced local variable
@@ -126,7 +126,7 @@ line level    source
  113   1        u8 i;
  114   1        A1_4052 = 0;
  115   1        A2_4052 = 0;
-C51 COMPILER V9.00   CD4052                                                                04/27/2015 19:27:07 PAGE 3   
+C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 3   
 
  116   1        B1_4052 = 0;
  117   1        B2_4052 = 0;
@@ -190,7 +190,7 @@ line level    source
  175   1        RES.Pad10 = Adc2Res(GetADCResult(CH2));
  176   1        NOP4();
  177   1        RES.Pad14 = Adc2Res(GetADCResult(CH3));
-C51 COMPILER V9.00   CD4052                                                                04/27/2015 19:27:07 PAGE 4   
+C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 4   
 
  178   1      
  179   1        A1_4052 = 1;
@@ -254,7 +254,7 @@ line level    source
  236   2         PN.PadByte = PN_TMP.PadByte;               //无错位直接转换
  237   2        }
  238   1      }
-C51 COMPILER V9.00   CD4052                                                                04/27/2015 19:27:07 PAGE 5   
+C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 5   
 
  239          /************************************************************************************************
  240          只判断要求被烧码PAD
@@ -318,7 +318,7 @@ line level    source
  298   1        {
  299   2          if(RES.Pad4 >= Res_OK)                    //烧码成功
  300   2          {
-C51 COMPILER V9.00   CD4052                                                                04/27/2015 19:27:07 PAGE 6   
+C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 6   
 
  301   3           PN_CUT.Px.P_XXH.Pad4 = 1;
  302   3              }
@@ -382,7 +382,7 @@ line level    source
  360   2          {
  361   3           PN_CUT.Px.P_XHX.Pad1 = 1;
  362   3              }
-C51 COMPILER V9.00   CD4052                                                                04/27/2015 19:27:07 PAGE 7   
+C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 7   
 
  363   2              else                                     //烧码失败
  364   2              {
@@ -446,7 +446,7 @@ line level    source
  422   3              }
  423   2              else                                     //烧码失败
  424   2              {
-C51 COMPILER V9.00   CD4052                                                                04/27/2015 19:27:07 PAGE 8   
+C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 8   
 
  425   3           ret = 0;                                       //需要直接返回吗
  426   3              }
@@ -510,7 +510,7 @@ line level    source
  484   2              {
  485   3           ret = 0;                                       //需要直接返回吗
  486   3              }
-C51 COMPILER V9.00   CD4052                                                                04/27/2015 19:27:07 PAGE 9   
+C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 9   
 
  487   2        }
  488   1        OLED_ShowAdd(0,0,PN_TMP.PadByte,PN_CUT.PadByte);
@@ -574,7 +574,7 @@ line level    source
  546            }
  547          
  548            if(PN.Px.P_XXH.Pad4 == 1)
-C51 COMPILER V9.00   CD4052                                                                04/27/2015 19:27:07 PAGE 10  
+C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 10  
 
  549            {
  550              if(RES.Pad4 >= Res_OK)                    //烧码成功
@@ -638,7 +638,7 @@ line level    source
  608            if(PN.Px.P_XHX.Pad1 == 1)
  609            {
  610              if(RES.Pad9 >= Res_OK)                    //烧码成功
-C51 COMPILER V9.00   CD4052                                                                04/27/2015 19:27:07 PAGE 11  
+C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 11  
 
  611              {
  612               PN_CUT.Px.P_XHX.Pad1 = 1;
@@ -702,7 +702,7 @@ line level    source
  670              if(RES.Pad14 >= Res_OK)                    //烧码成功
  671              {
  672               PN_CUT.Px.P_XHX.Pad6 = 1;
-C51 COMPILER V9.00   CD4052                                                                04/27/2015 19:27:07 PAGE 12  
+C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 12  
 
  673                  }
  674                  else                                     //烧码失败
@@ -766,7 +766,7 @@ line level    source
  732               PN_CUT.Px.P_HXX.Pad3 = 1;
  733                  }
  734                  else                                     //烧码失败
-C51 COMPILER V9.00   CD4052                                                                04/27/2015 19:27:07 PAGE 13  
+C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 13  
 
  735                  {
  736               ret = 0;                                       //需要直接返回吗
@@ -802,7 +802,7 @@ line level    source
  766   1          EnDecode();
  767   1          delay_10ms(); 
  768   1          delay_10ms(); 
- 769   1              K1_OUT = 1;
+ 769   1              K1_OUT_HIGH();
  770   1          delay_10ms(); 
  771   1          delay_10ms(); 
  772   1          delay_10ms(); 
@@ -830,7 +830,7 @@ line level    source
  794   3                        { 
  795   4                          j = 0;
  796   4                          if(IRtmp[1]==IRtmp[2])
-C51 COMPILER V9.00   CD4052                                                                04/27/2015 19:27:07 PAGE 14  
+C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 14  
 
  797   4                          break;
  798   4                        }
@@ -894,7 +894,7 @@ line level    source
  856   2              NG_COUNT++;
  857   2      #ifdef EEPROM_EN
  858   2              if(PKG == Package_1)
-C51 COMPILER V9.00   CD4052                                                                04/27/2015 19:27:07 PAGE 15  
+C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 15  
 
  859   2              {
  860   3                at24c02_rddat(COUNT1_NG_ADD,&countmp,4);
@@ -958,7 +958,7 @@ line level    source
  918   2              if(PKG == Package_1)
  919   2              {
  920   3                at24c02_rddat(COUNT1_OK_ADD,&countmp,4);
-C51 COMPILER V9.00   CD4052                                                                04/27/2015 19:27:07 PAGE 16  
+C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 16  
 
  921   3                countmp ++;
  922   3            at24c02_wrdat(COUNT1_OK_ADD,&countmp,4);    //累加 OK数量
@@ -1022,7 +1022,7 @@ line level    source
  980   1          OLED_ShowChar(28,11,Hex2Dat(((tmp>>16)&0x0f)),7,1);
  981   1      
  982   1              OLED_ShowChar(34,11,Hex2Dat(((tmp>>8)>>4)&0x0f),7,1);
-C51 COMPILER V9.00   CD4052                                                                04/27/2015 19:27:07 PAGE 17  
+C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 17  
 
  983   1              OLED_ShowChar(40,11,Hex2Dat(((tmp>>8)&0x0f)),7,1);
  984   1      
@@ -1086,7 +1086,7 @@ line level    source
 1042   3             StartCut(package);
 1043   3      #ifdef PRINT_INFO
 1044   3          send_string ("\n完成割码\n");
-C51 COMPILER V9.00   CD4052                                                                04/27/2015 19:27:07 PAGE 18  
+C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 18  
 
 1045   3      #endif
 1046   3                }
@@ -1150,7 +1150,7 @@ line level    source
 1104          //      printf_u8(PN.PadByte);
 1105          //      send_string("   ===>masking...\n");
 1106          //      send_string("PACK_ADD.BIT0 = \n");
-C51 COMPILER V9.00   CD4052                                                                04/27/2015 19:27:07 PAGE 19  
+C51 COMPILER V9.00   CD4052                                                                05/05/2015 10:51:29 PAGE 19  
 
 1107          //      printf_u8(PN_TMP.Px.Pad0);
 1108                  send_string("\n");

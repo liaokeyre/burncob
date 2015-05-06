@@ -48,7 +48,7 @@ void DsDecode(void)
    Decodecnt = 0;			//复位计数器
    ReIRcode = 0;
    DSENVSOC();
-   K1_OUT = 0;
+   K1_OUT_LOW();
   //关中断 关定时器 节省资源
 }
 void Timer0Init(void)		//40us@11.0592MHz	//用来解码
@@ -82,7 +82,7 @@ void Int0Init(void)
 
 void timerInit(void)
 {
-	Timer0Init();          //计数不中断
+	Timer0Init();          //计数中断
 	Timer1Init();		   //计数中断
 	Timer1_InterruptEnable();//开定时器1中断
 	Int0Init();

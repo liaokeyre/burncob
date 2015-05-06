@@ -147,6 +147,23 @@
           <Name>(98=-1,-1,-1,-1,0)(82=-1,-1,-1,-1,0)(83=-1,-1,-1,-1,0)(84=-1,-1,-1,-1,0)(85=-1,-1,-1,-1,0)(3003=-1,-1,-1,-1,0)(91=-1,-1,-1,-1,0)(92=-1,-1,-1,-1,0)(94=-1,-1,-1,-1,0)(5023=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>0</Type>
+          <LineNumber>52</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>MAIN.H</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+      </Breakpoint>
       <DebugFlag>
         <trace>0</trace>
         <periodic>1</periodic>
@@ -187,7 +204,7 @@
 
   <Group>
     <GroupName>main</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
@@ -198,8 +215,8 @@
       <Focus>0</Focus>
       <ColumnNumber>30</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>598</TopLine>
-      <CurrentLine>613</CurrentLine>
+      <TopLine>93</TopLine>
+      <CurrentLine>93</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\main\main.c</PathWithFileName>
       <FilenameWithoutPath>main.c</FilenameWithoutPath>
@@ -208,19 +225,19 @@
 
   <Group>
     <GroupName>eeprom</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
       <GroupNumber>3</GroupNumber>
       <FileNumber>2</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>5</ColumnNumber>
+      <ColumnNumber>88</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>162</TopLine>
-      <CurrentLine>180</CurrentLine>
+      <TopLine>168</TopLine>
+      <CurrentLine>168</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\eeprom\24c02.c</PathWithFileName>
       <FilenameWithoutPath>24c02.c</FilenameWithoutPath>
@@ -238,10 +255,10 @@
       <FileType>1</FileType>
       <tvExp>1</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>49</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>769</TopLine>
-      <CurrentLine>791</CurrentLine>
+      <TopLine>608</TopLine>
+      <CurrentLine>608</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\oled\oled.c</PathWithFileName>
       <FilenameWithoutPath>oled.c</FilenameWithoutPath>
@@ -278,12 +295,12 @@
       <GroupNumber>6</GroupNumber>
       <FileNumber>5</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>19</ColumnNumber>
+      <ColumnNumber>58</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>16</TopLine>
-      <CurrentLine>30</CurrentLine>
+      <TopLine>7</TopLine>
+      <CurrentLine>7</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\74hc595\_595.c</PathWithFileName>
       <FilenameWithoutPath>_595.c</FilenameWithoutPath>
@@ -322,10 +339,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>44</ColumnNumber>
+      <ColumnNumber>24</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>46</TopLine>
-      <CurrentLine>57</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>16</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\isr\isr.c</PathWithFileName>
       <FilenameWithoutPath>isr.c</FilenameWithoutPath>
@@ -334,19 +351,19 @@
 
   <Group>
     <GroupName>key</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
       <GroupNumber>9</GroupNumber>
       <FileNumber>8</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>12</ColumnNumber>
+      <ColumnNumber>80</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
-      <CurrentLine>2</CurrentLine>
+      <TopLine>65</TopLine>
+      <CurrentLine>74</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Key\Key.c</PathWithFileName>
       <FilenameWithoutPath>Key.c</FilenameWithoutPath>
@@ -357,58 +374,6 @@
     <PathWithFilename>D:\burncob.git\burncob\UART\UART.H</PathWithFilename>
     <TopLine>1</TopLine>
     <CurrentLine>9</CurrentLine>
-    <Constant>0</Constant>
-    <WindowPosition>
-      <length>0</length>
-      <flags>0</flags>
-      <showCmd>0</showCmd>
-      <MinPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MinPosition>
-      <MaxPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MaxPosition>
-      <NormalPosition>
-        <Top>0</Top>
-        <Left>0</Left>
-        <Right>0</Right>
-        <Bottom>0</Bottom>
-      </NormalPosition>
-    </WindowPosition>
-  </AlienFiles>
-
-  <AlienFiles>
-    <PathWithFilename>D:\burncob.git\burncob\EEPROM\24C02.H</PathWithFilename>
-    <TopLine>9</TopLine>
-    <CurrentLine>34</CurrentLine>
-    <Constant>0</Constant>
-    <WindowPosition>
-      <length>0</length>
-      <flags>0</flags>
-      <showCmd>0</showCmd>
-      <MinPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MinPosition>
-      <MaxPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MaxPosition>
-      <NormalPosition>
-        <Top>0</Top>
-        <Left>0</Left>
-        <Right>0</Right>
-        <Bottom>0</Bottom>
-      </NormalPosition>
-    </WindowPosition>
-  </AlienFiles>
-
-  <AlienFiles>
-    <PathWithFilename>D:\burncob.git\burncob\MAIN\MAIN.H</PathWithFilename>
-    <TopLine>13</TopLine>
-    <CurrentLine>38</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -461,32 +426,6 @@
     <PathWithFilename>D:\burncob.git\burncob\OLED\OLEDFONT.H</PathWithFilename>
     <TopLine>385</TopLine>
     <CurrentLine>394</CurrentLine>
-    <Constant>0</Constant>
-    <WindowPosition>
-      <length>0</length>
-      <flags>0</flags>
-      <showCmd>0</showCmd>
-      <MinPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MinPosition>
-      <MaxPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MaxPosition>
-      <NormalPosition>
-        <Top>0</Top>
-        <Left>0</Left>
-        <Right>0</Right>
-        <Bottom>0</Bottom>
-      </NormalPosition>
-    </WindowPosition>
-  </AlienFiles>
-
-  <AlienFiles>
-    <PathWithFilename>D:\burncob.git\burncob\KEY\KEY.H</PathWithFilename>
-    <TopLine>1</TopLine>
-    <CurrentLine>17</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -616,7 +555,85 @@
   <AlienFiles>
     <PathWithFilename>D:\burncob.git\burncob\74HC595\_595.H</PathWithFilename>
     <TopLine>1</TopLine>
-    <CurrentLine>5</CurrentLine>
+    <CurrentLine>6</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
+  <AlienFiles>
+    <PathWithFilename>D:\burncob.git\burncob\EEPROM\24C02.H</PathWithFilename>
+    <TopLine>9</TopLine>
+    <CurrentLine>34</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
+  <AlienFiles>
+    <PathWithFilename>D:\burncob.git\burncob\MAIN\MAIN.H</PathWithFilename>
+    <TopLine>29</TopLine>
+    <CurrentLine>29</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
+  <AlienFiles>
+    <PathWithFilename>D:\burncob.git\burncob\KEY\KEY.H</PathWithFilename>
+    <TopLine>31</TopLine>
+    <CurrentLine>31</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -1980,8 +1997,38 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>10</ActiveTab>
+      <ActiveTab>3</ActiveTab>
       <Documents>
+        <Doc>
+          <Name>.\74hc595\_595.c</Name>
+          <ColumnNumber>58</ColumnNumber>
+          <TopLine>7</TopLine>
+          <CurrentLine>7</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>.\isr\isr.c</Name>
+          <ColumnNumber>24</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>16</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>.\KEY\KEY.H</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>31</TopLine>
+          <CurrentLine>31</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>.\Key\Key.c</Name>
+          <ColumnNumber>80</ColumnNumber>
+          <TopLine>65</TopLine>
+          <CurrentLine>74</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>.\cd4052\cd4052.c</Name>
+          <ColumnNumber>36</ColumnNumber>
+          <TopLine>29</TopLine>
+          <CurrentLine>41</CurrentLine>
+        </Doc>
         <Doc>
           <Name>.\uart\Uart.c</Name>
           <ColumnNumber>5</ColumnNumber>
@@ -1991,14 +2038,14 @@
         <Doc>
           <Name>.\main\main.c</Name>
           <ColumnNumber>30</ColumnNumber>
-          <TopLine>598</TopLine>
-          <CurrentLine>613</CurrentLine>
+          <TopLine>93</TopLine>
+          <CurrentLine>93</CurrentLine>
         </Doc>
         <Doc>
           <Name>MAIN\MAIN.H</Name>
-          <ColumnNumber>16</ColumnNumber>
-          <TopLine>13</TopLine>
-          <CurrentLine>38</CurrentLine>
+          <ColumnNumber>41</ColumnNumber>
+          <TopLine>29</TopLine>
+          <CurrentLine>29</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\EEPROM\24C02.H</Name>
@@ -2008,9 +2055,9 @@
         </Doc>
         <Doc>
           <Name>.\74HC595\_595.H</Name>
-          <ColumnNumber>14</ColumnNumber>
+          <ColumnNumber>60</ColumnNumber>
           <TopLine>1</TopLine>
-          <CurrentLine>5</CurrentLine>
+          <CurrentLine>6</CurrentLine>
         </Doc>
         <Doc>
           <Name>MAIN\STC15XXXXXX.H</Name>
@@ -2020,9 +2067,9 @@
         </Doc>
         <Doc>
           <Name>.\eeprom\24c02.c</Name>
-          <ColumnNumber>5</ColumnNumber>
-          <TopLine>162</TopLine>
-          <CurrentLine>180</CurrentLine>
+          <ColumnNumber>88</ColumnNumber>
+          <TopLine>168</TopLine>
+          <CurrentLine>168</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\CD4052\CD4052.H</Name>
@@ -2032,9 +2079,9 @@
         </Doc>
         <Doc>
           <Name>.\oled\oled.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>769</TopLine>
-          <CurrentLine>791</CurrentLine>
+          <ColumnNumber>49</ColumnNumber>
+          <TopLine>608</TopLine>
+          <CurrentLine>608</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\ISR\ISR.H</Name>
@@ -2043,34 +2090,10 @@
           <CurrentLine>6</CurrentLine>
         </Doc>
         <Doc>
-          <Name>.\cd4052\cd4052.c</Name>
-          <ColumnNumber>36</ColumnNumber>
-          <TopLine>29</TopLine>
-          <CurrentLine>41</CurrentLine>
-        </Doc>
-        <Doc>
           <Name>MAIN\TYPEDEF.H</Name>
           <ColumnNumber>0</ColumnNumber>
           <TopLine>1</TopLine>
           <CurrentLine>10</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>.\KEY\KEY.H</Name>
-          <ColumnNumber>16</ColumnNumber>
-          <TopLine>1</TopLine>
-          <CurrentLine>17</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>.\Key\Key.c</Name>
-          <ColumnNumber>12</ColumnNumber>
-          <TopLine>1</TopLine>
-          <CurrentLine>2</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>.\isr\isr.c</Name>
-          <ColumnNumber>44</ColumnNumber>
-          <TopLine>46</TopLine>
-          <CurrentLine>57</CurrentLine>
         </Doc>
         <Doc>
           <Name>OLED\OLEDFONT.H</Name>
@@ -2089,12 +2112,6 @@
           <ColumnNumber>65</ColumnNumber>
           <TopLine>1</TopLine>
           <CurrentLine>9</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>.\74hc595\_595.c</Name>
-          <ColumnNumber>19</ColumnNumber>
-          <TopLine>16</TopLine>
-          <CurrentLine>30</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>
